@@ -1,4 +1,4 @@
-package com.yan.interview.util;
+package com.yan.common.util;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;

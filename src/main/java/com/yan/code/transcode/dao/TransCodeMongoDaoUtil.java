@@ -1,4 +1,4 @@
-package com.yan.interview.dao;
+package com.yan.code.transcode.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +17,11 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.yan.code.transcode.model.TransCode;
 import com.yan.common.mongodb.MongoDBConfig;
 import com.yan.common.util.SchameDocumentUtil;
-import com.yan.interview.model.Interview;
 
-public class InterviewMongoDaoUtil {
+public class TransCodeMongoDaoUtil {
 
 	private MongoDBConfig dataSource;
 	
@@ -32,34 +32,9 @@ public class InterviewMongoDaoUtil {
 	public void setDataSource(MongoDBConfig dataSource) {
 		this.dataSource = dataSource;
 	}
-	
-	public String insertInterview(Interview interview){
 
-		//To connect to a single MongoDB instance:
-		//You can explicitly specify the hostname and the port:
-		MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
-		MongoClient mongoClient = new MongoClient(new ServerAddress(dataSource.getIp(), dataSource.getPort()),
-		                                         Arrays.asList(credential));
-		//Access a Database
-		MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
-		
-		//Access a Collection
-		MongoCollection<Document> collection = database.getCollection("Interview");
-		
-		//Create a Document
-		Document doc = (Document)SchameDocumentUtil.schameToDocument(interview, Interview.class);;
-		
-		//Insert a Document
-		collection.insertOne(doc);
-		 
-		String id = null;
-		if(doc.get("_id") != null){
-			id = doc.get("_id").toString();
-		}
-		return id;
-	}
-	
-	public List<Interview> findInterviewDocumentsByUserNameOrPhoneOrEmail(String userName, String phone, String email){
+	public String insertTransCode(TransCode transCode){
+
 		//To connect to a single MongoDB instance:
 	    //You can explicitly specify the hostname and the port:
 		MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
@@ -69,29 +44,26 @@ public class InterviewMongoDaoUtil {
 		MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 		
 		//Access a Collection
-		MongoCollection<Document> collection = database.getCollection("Interview");
+		MongoCollection<Document> collection = database.getCollection("TransCode");
 		
-		List<Document> docs = collection.find(Filters.or(Filters.eq("userName", userName), Filters.eq("phone", phone), Filters.eq("email", email))).into(new ArrayList<Document>());
+		//Create a Document
+		Document doc = SchameDocumentUtil.schameToDocument(transCode, TransCode.class);
+
+		//Insert a Document
+		collection.insertOne(doc);
 		
-		List<Interview> interviews = null;
-		if(docs != null){
-			interviews = new ArrayList<Interview>();
-					
-			for(Document doc : docs){
-				Interview interview = new Interview();
-				//将document转换为interview
-				//System.out.println(doc.get("_id"));
-				interview = (Interview)SchameDocumentUtil.documentToSchame(doc, Interview.class);
-				
-				interviews.add(interview);
-			}
+		//System.out.println("id:" + doc.get("_id"));
+		String id = null;
+		if(doc.get("_id") != null){
+			id = doc.get("_id").toString();
 		}
-		
-		return interviews;
+		mongoClient.close();
+		return id;
 	}
 	
-	public List<Interview> findInterviewDocumentsByCondition(Map<String, Object> condition){
-		List<Interview> interviews = null;
+	//TODO 这个方法里面的查询条件后续编写了TransCode增删改查界面时候还需要调整，现在采用手动配置方式，还不需要
+	public List<TransCode> findTransCodeDocumentsByCondition(Map<String, Object> condition){
+		List<TransCode> transCodes = null;
 		
 		if(condition != null && condition.size() > 0) {
 			
@@ -104,7 +76,7 @@ public class InterviewMongoDaoUtil {
 			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 			
 			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("Interview");
+			MongoCollection<Document> collection = database.getCollection("TransCode");
 			
 			List<Bson> bsons = new ArrayList<Bson>(0);
 			
@@ -122,16 +94,11 @@ public class InterviewMongoDaoUtil {
 				if(value != null && !"".equals(value.toString().trim())){
 					if("id".equals(key)) {
 						bsons.add(Filters.eq("_id", new ObjectId(value.toString())));
-					}else if ("firstInterviewTimeStart".equals(key)) {
-						bsons.add(Filters.gte("firstInterviewTime", value.toString()));
-					}else if ("firstInterviewTimeEnd".equals(key)) {
-						bsons.add(Filters.lte("firstInterviewTime", value.toString()));
-					}else if ("genderCode".equals(key)
-							|| "phone".equals(key) 
-							|| "email".equals(key) 
-							|| "jobExperienceYear".equals(key)
-							|| "interviewPhase".equals(key)
-							|| "firstInterviewOfficer".equals(key)) {
+					}else if ("startDay".equals(key)) {
+						bsons.add(Filters.gte("day", value.toString()));
+					}else if ("endDay".equals(key)) {
+						bsons.add(Filters.lte("day", value.toString()));
+					}else if ("writerName".equals(key) || "projectCode".equals(key) || "type".equals(key)) {
 						bsons.add(Filters.eq(key, value.toString()));
 					}else if ("page".equals(key)) {
 						page = Integer.parseInt(value.toString());
@@ -169,23 +136,24 @@ public class InterviewMongoDaoUtil {
 			}
 			
 			if(docs != null){
-				interviews = new ArrayList<Interview>();
+				transCodes = new ArrayList<TransCode>();
 				
 				for(Document doc : docs){
-					Interview interview = new Interview();
+					TransCode transCode = new TransCode();
 					//将document转换为interview
 					//System.out.println(doc.get("_id"));
-					interview = (Interview)SchameDocumentUtil.documentToSchame(doc, Interview.class);
+					transCode = (TransCode)SchameDocumentUtil.documentToSchame(doc, TransCode.class);
 					
-					interviews.add(interview);
+					transCodes.add(transCode);
 				}
 			}
+			mongoClient.close();
 		}
 		
-		return interviews;
+		return transCodes;
 	}
 	
-	public Long countInterviewDocumentsByCondition(Map<String, Object> condition){
+	public Long countTransCodeVoDocumentsByCondition(Map<String, Object> condition){
 		long count = 0L;
 		
 		if(condition != null && condition.size() > 0) {
@@ -199,7 +167,7 @@ public class InterviewMongoDaoUtil {
 			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 			
 			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("Interview");
+			MongoCollection<Document> collection = database.getCollection("TransCode");
 			
 			List<Bson> bsons = new ArrayList<Bson>(0);
 			
@@ -212,16 +180,11 @@ public class InterviewMongoDaoUtil {
 				if(value != null && !"".equals(value.toString().trim())){
 					if("id".equals(key)) {
 						bsons.add(Filters.eq("_id", new ObjectId(value.toString())));
-					}else if ("firstInterviewTimeStart".equals(key)) {
-						bsons.add(Filters.gte("firstInterviewTime", value.toString()));
-					}else if ("firstInterviewTimeEnd".equals(key)) {
-						bsons.add(Filters.lte("firstInterviewTime", value.toString()));
-					}else if ("genderCode".equals(key)
-							|| "phone".equals(key) 
-							|| "email".equals(key) 
-							|| "jobExperienceYear".equals(key)
-							|| "interviewPhase".equals(key)
-							|| "firstInterviewOfficer".equals(key)) {
+					}else if ("startDay".equals(key)) {
+						bsons.add(Filters.gte("day", value.toString()));
+					}else if ("endDay".equals(key)) {
+						bsons.add(Filters.lte("day", value.toString()));
+					}else if ("writerName".equals(key) || "projectCode".equals(key) || "type".equals(key)) {
 						bsons.add(Filters.eq(key, value.toString()));
 					}else if ("page".equals(key) || "rows".equals(key)) {
 						//这两个参数是分页参数，在分页查询数据时会用到，但是在查询总条数的时候并不会用到，但是也不能拼接到查询语句中
@@ -248,14 +211,64 @@ public class InterviewMongoDaoUtil {
 			}else{
 				count = collection.count();
 			}
-			
+			mongoClient.close();
 		}
 		
 		return count;
 	}
 	
-	public Interview findInterviewById(String id) {
-		Interview interview = null;
+	public List<TransCode> findTransCodeDocumentsByCodeTypeAndValidStatus(String codeType, String validStatus){
+		List<TransCode> transCodes = null;
+		
+		if(codeType != null && !"".equals(codeType.trim())) {
+			
+			//To connect to a single MongoDB instance:
+			//You can explicitly specify the hostname and the port:
+			MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
+			MongoClient mongoClient = new MongoClient(new ServerAddress(dataSource.getIp(), dataSource.getPort()),
+			                                         Arrays.asList(credential));
+			//Access a Database
+			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
+			
+			//Access a Collection
+			MongoCollection<Document> collection = database.getCollection("TransCode");
+			
+			List<Bson> bsons = new ArrayList<Bson>(0);
+			
+			
+			bsons.add(Filters.eq("codeType", codeType));
+			if(validStatus != null && !"".equals(validStatus.trim())){
+				bsons.add(Filters.eq("validStatus", validStatus));
+			}
+			
+			//如果要在find中传入bson数组，那么bson数组必须不能为空
+			List<Document> docs = null;
+			if(bsons != null && bsons.size() > 0){
+				docs = collection.find(Filters.and(bsons)).sort(new Document("updateTime", -1)).into(new ArrayList<Document>());
+			}else{
+				docs = collection.find().sort(new Document("updateTime", -1)).into(new ArrayList<Document>());
+			}
+			
+			if(docs != null){
+				transCodes = new ArrayList<TransCode>();
+				
+				for(Document doc : docs){
+					TransCode transCode = new TransCode();
+					//将document转换为interview
+					//System.out.println(doc.get("_id"));
+					transCode = (TransCode)SchameDocumentUtil.documentToSchame(doc, TransCode.class);
+					
+					transCodes.add(transCode);
+				}
+			}
+			mongoClient.close();
+		}
+		
+		return transCodes;
+	}
+	
+	public TransCode findWorkReportById(String id) {
+		TransCode transCode = null;
 		if(id!= null && !"".equals(id.trim())) {
 			//To connect to a single MongoDB instance:
 			//You can explicitly specify the hostname and the port:
@@ -266,87 +279,19 @@ public class InterviewMongoDaoUtil {
 			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 			
 			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("Interview");
+			MongoCollection<Document> collection = database.getCollection("TransCode");
 			
 			List<Document> docs = collection.find(Filters.eq("_id", new ObjectId(id))).into(new ArrayList<Document>());
 			if(docs != null && docs.size() > 0) {
-				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
+				transCode = (TransCode)SchameDocumentUtil.documentToSchame(docs.get(0), TransCode.class);
 			}
+			mongoClient.close();
 		}
 		
-		return interview;
+		return transCode;
 	}
 	
-	public Interview findInterviewByUserName(String userName) {
-		Interview interview = null;
-		if(userName!= null && !"".equals(userName.trim())) {
-			//To connect to a single MongoDB instance:
-			//You can explicitly specify the hostname and the port:
-			MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
-			MongoClient mongoClient = new MongoClient(new ServerAddress(dataSource.getIp(), dataSource.getPort()),
-			                                         Arrays.asList(credential));
-			//Access a Database
-			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
-			
-			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("Interview");
-			
-			List<Document> docs = collection.find(Filters.eq("userName", userName)).into(new ArrayList<Document>());
-			if(docs != null && docs.size() > 0) {
-				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
-			}
-		}
-		
-		return interview;
-	}
-	
-	public Interview findInterviewByPhone(String phone) {
-		Interview interview = null;
-		if(phone!= null && !"".equals(phone.trim())) {
-			//To connect to a single MongoDB instance:
-			//You can explicitly specify the hostname and the port:
-			MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
-			MongoClient mongoClient = new MongoClient(new ServerAddress(dataSource.getIp(), dataSource.getPort()),
-			                                         Arrays.asList(credential));
-			//Access a Database
-			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
-			
-			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("Interview");
-			
-			List<Document> docs = collection.find(Filters.eq("phone", phone)).into(new ArrayList<Document>());
-			if(docs != null && docs.size() > 0) {
-				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
-			}
-		}
-		
-		return interview;
-	}
-	
-	public Interview findInterviewByEmail(String email) {
-		Interview interview = null;
-		if(email!= null && !"".equals(email.trim())) {
-			//To connect to a single MongoDB instance:
-			//You can explicitly specify the hostname and the port:
-			MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
-			MongoClient mongoClient = new MongoClient(new ServerAddress(dataSource.getIp(), dataSource.getPort()),
-			                                         Arrays.asList(credential));
-			//Access a Database
-			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
-			
-			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("Interview");
-			
-			List<Document> docs = collection.find(Filters.eq("email", email)).into(new ArrayList<Document>());
-			if(docs != null && docs.size() > 0) {
-				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
-			}
-		}
-		
-		return interview;
-	}
-	
-	public void updateInterview(Interview interview){
+	public void updateTransCode(TransCode transCode){
 		//To connect to a single MongoDB instance:
 	    //You can explicitly specify the hostname and the port:
 		MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
@@ -356,18 +301,18 @@ public class InterviewMongoDaoUtil {
 		MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 		
 		//Access a Collection
-		MongoCollection<Document> collection = database.getCollection("Interview");
+		MongoCollection<Document> collection = database.getCollection("TransCode");
 		
 		
 		//Create a Document
-		 Document doc = (Document)SchameDocumentUtil.schameToDocument(interview, Interview.class);
+		 Document doc = SchameDocumentUtil.schameToDocument(transCode, TransCode.class);
 		 
 		 //Update a Document
 		 collection.updateOne(Filters.eq("_id", doc.get("_id")), new Document("$set", doc));
-		 
+		 mongoClient.close();
 	}
 	
-	public void updateInterviewValidStatus(String id, String validStatus){
+	public void updateTransCodeValidStatus(String id, String validStatus){
 		//To connect to a single MongoDB instance:
 	    //You can explicitly specify the hostname and the port:
 		MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
@@ -377,7 +322,7 @@ public class InterviewMongoDaoUtil {
 		MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 		
 		//Access a Collection
-		MongoCollection<Document> collection = database.getCollection("Interview");
+		MongoCollection<Document> collection = database.getCollection("TransCode");
 		
 		
 		//Create a Document
@@ -385,6 +330,6 @@ public class InterviewMongoDaoUtil {
 		 
 		 //Update a Document
 		 collection.updateOne(Filters.eq("_id", new ObjectId(id)), new Document("$set", doc));
-		 mongoClient.close();
+		 mongoClient.close(); 
 	}
 }

@@ -1,7 +1,59 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name>Interview</display-name>
+  <welcome-file-list>
+      <welcome-file>/index.jsp</welcome-file>
+   </welcome-file-list>
+   
+    <context-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>WEB-INF/classes/applicationContext.xml</param-value>
+    </context-param>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <listener>
+         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+
+
+	<!-- 配置登陆过滤器 -->
+	<filter>
+	  <filter-name>login</filter-name>
+	  <filter-class>com.yan.access.filter.LoginFilter</filter-class>
+	  <init-param>
+	    <param-name>ignoreKey</param-name>
+	    <!-- 以/结尾，认为是一个文件夹或者路径前缀，所以要判断是否包含;不是以/结尾，认为是特定的一个url，所以要判断url是否相等 -->
+	    <param-value>
+	      /interview/main/js/md5.js,
+	      /interview/easyui/
+	    </param-value>
+	  </init-param>
+	</filter>
+    	
+	<!-- filter是有顺序的，拦截依据的顺序是filter-mapping的顺序。单点登录的filter应该在struts2的filter之后，否则在filter及servlet中使用ActionContext.getContext()就无法获取到上下文了 -->
+	<filter-mapping>
+	  <filter-name>login</filter-name>
+	  <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+    
+    <servlet>
+        <servlet-name>CodeSelectIntfServlet</servlet-name>
+        <servlet-class>com.yan.code.transcode.intf.CodeSelectIntfServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CodeSelectIntfServlet</servlet-name>
+        <url-pattern>/CodeSelectIntfServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
