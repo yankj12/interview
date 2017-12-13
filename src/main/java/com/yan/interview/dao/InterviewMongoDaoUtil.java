@@ -163,9 +163,9 @@ public class InterviewMongoDaoUtil {
 			//如果要在find中传入bson数组，那么bson数组必须不能为空
 			List<Document> docs = null;
 			if(bsons != null && bsons.size() > 0){
-				docs = collection.find(Filters.and(bsons)).limit(limit).skip(skip).sort(new Document("day", -1)).into(new ArrayList<Document>());
+				docs = collection.find(Filters.and(bsons)).limit(limit).skip(skip).sort(new Document("firstInterviewTime", -1)).into(new ArrayList<Document>());
 			}else{
-				docs = collection.find().limit(limit).skip(skip).sort(new Document("day", -1)).into(new ArrayList<Document>());
+				docs = collection.find().limit(limit).skip(skip).sort(new Document("firstInterviewTime", -1)).into(new ArrayList<Document>());
 			}
 			
 			if(docs != null){

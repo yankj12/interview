@@ -102,6 +102,8 @@ public class Interview implements Serializable{
 	 */
 	private String secondInterviewTime;
 
+	private String validStatus;
+	
 	private Date insertTime;
 	
 	private Date updateTime;
@@ -306,6 +308,14 @@ public class Interview implements Serializable{
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getValidStatus() {
+		return validStatus;
+	}
+
+	public void setValidStatus(String validStatus) {
+		this.validStatus = validStatus;
 	}
 	
 }
