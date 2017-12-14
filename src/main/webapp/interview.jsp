@@ -187,6 +187,9 @@
 			<tr>
 				<td><label>姓名</label></td>
 				<td>
+					<input type="hidden" id="loginUserCode_edit" name="loginUserCode" value="${userMsgInfo.userCode }"/>
+					<input type="hidden" id="loginUserName_edit" name="loginUserName" value="${userMsgInfo.userCName }"/>
+					
 					<input type="hidden" id="editType_edit" name="editType" value="new"/>
 					<input type="hidden" id="id_edit" name="id" value=""/>
 					<input type="hidden" id="validStatus_edit" name="validStatus" value=""/>
@@ -284,7 +287,7 @@
 			<tr>
 				<td><label>工作年限</label></td>
 				<td>
-					<input id="jobExperienceYear_edit" name="jobExperienceYear" class="easyui-textbox" value="" data-options="onChange:setWorkReportProjectName"/>
+					<input id="jobExperienceYear_edit" name="jobExperienceYear" class="easyui-numberspinner" value="1" data-options="increment:1"/>
 				</td>
 				<td><label>面试阶段</label></td>
 				<td>
@@ -342,7 +345,7 @@
 			<tr>
 				<td><label>电话约面试备注</label></td>
 				<td colspan="3">
-					<input id="firstPhoneCallRemark_edit" name="firstPhoneCallRemark" class="easyui-textbox" value="" style="width:100%"/>
+					<input id="firstPhoneCallRemark_edit" name="firstPhoneCallRemark" class="easyui-textbox" data-options="multiline:true" value="" style="width:100%;height:60px"/>
 				</td>
 			</tr>
 			<tr>
@@ -358,7 +361,7 @@
 			<tr>
 				<td><label>一面评价</label></td>
 				<td colspan="3">
-					<input id="workText_edit" name="workText" class="easyui-textbox" data-options="multiline:true" value="" style="width:100%;height:100px">
+					<input id="firstIntervirewRemark_edit" name="firstIntervirewRemark" class="easyui-textbox" data-options="multiline:true" value="" style="width:100%;height:100px">
 				</td>
 			</tr>
 			<tr>

@@ -1,13 +1,5 @@
 var url;
 
-//项目代码和项目名称对照的map
-var projectCodeToNameMap = {	'cif':'客户系统',
-								'cqp':'车险定价',
-								'ecif':'客户主数据'
-							};
-
-
-
 /**
  * 页面初始化后做些东西
  */
@@ -60,30 +52,36 @@ function newRecord(title){
 	//打开新的标签，在新的标签中进行添加操作
 	//addTab(title,'leave/editLeaveApplication?editType=new');
 	
-	$('#dlg').dialog('open').dialog('setTitle','编写工作日志');
+	$('#dlg').dialog('open').dialog('setTitle','编写面试人员信息');
 	$('#fm').form('clear');
 	//设置修改类型，否则action中保存方法不知道是什么修改类型
 	$('#editType_edit').val("new");
+
+	// 默认新增用户是有效状态
+	$('#validStatus_edit').val("1");
+	
 	//给日期赋默认值yyyyMMdd
 	var date = new Date();
-	var y = date.getFullYear();
-	var m = date.getMonth()+1;
-	var d = date.getDate();
-	var day = ''+y+(m<10?('0'+m):m)+(d<10?('0'+d):d);
-	$('#day_edit').textbox('setValue', day);
 	
-	//标题前缀，默认是日期yyyy-MM-dd
-	var titlePreFix = ''+y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
-	//标题后缀
-	var titleSuffix = '每日工作计划';
-	var title =  titlePreFix + titleSuffix;
-	$('#title_edit').textbox('setValue', title);
+	// 性别默认选择男
+	$('#genderCode_edit').combobox('setValue', 'M');
+	$("#genderName_edit").val('男');
 	
-	var projectCode = 'cqp';
-	$('#projectCode_edit').textbox('setValue', projectCode);
-	$('#projectName_edit').textbox('setValue', projectCodeToNameMap[projectCode]);
-	$('#writerName_edit').textbox('setValue', '严凯杰');
-	$('#type_edit').textbox('setValue', 'team');
+	// 给电话约面试时间赋值
+	$('#firstPhoneCallTime_edit').datetimebox('setValue', myDateFormatter(date));
+	
+	// 学历赋默认值统招本科
+	$('#educationBackground_edit').combobox('setValue', '统招本科');
+	
+	// 面试阶段赋默认值，选完简历
+	$('#interviewPhase_edit').combobox('setValue', '选完简历');
+	
+	// 工作年限赋默认值2
+	$('#jobExperienceYear_edit').textbox('setValue', 2);
+	
+	// 一面面试官赋默认值 当前登录用户
+	var loginUserName = $("#loginUserName_edit").val();
+	$('#firstInterviewOfficer_edit').textbox('setValue', loginUserName);
 	
 }
 

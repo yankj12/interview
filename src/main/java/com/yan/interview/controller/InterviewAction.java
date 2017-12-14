@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.yan.access.vo.UserMsgInfo;
 import com.yan.interview.dao.InterviewMongoDaoUtil;
 import com.yan.interview.model.Interview;
 import com.yan.interview.vo.InterviewVo;
@@ -47,6 +49,8 @@ public class InterviewAction extends ActionSupport{
 	
 	private Object object;
 
+	private UserMsgInfo userMsgInfo;
+	
 	private InterviewMongoDaoUtil interviewMongoDaoUtil;
 	
 	public long getTotal() {
@@ -89,6 +93,14 @@ public class InterviewAction extends ActionSupport{
 		this.object = object;
 	}
 
+	public UserMsgInfo getUserMsgInfo() {
+		return userMsgInfo;
+	}
+
+	public void setUserMsgInfo(UserMsgInfo userMsgInfo) {
+		this.userMsgInfo = userMsgInfo;
+	}
+
 	public InterviewMongoDaoUtil getInterviewMongoDaoUtil() {
 		return interviewMongoDaoUtil;
 	}
@@ -98,6 +110,16 @@ public class InterviewAction extends ActionSupport{
 	}
 
 	public String interview(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		
+		HttpSession httpSession = request.getSession();
+		String sessID = request.getSession().getId();
+		//从session中获取userCode
+		if(httpSession != null){
+			if(httpSession.getAttribute(sessID) != null){
+				userMsgInfo = (UserMsgInfo)httpSession.getAttribute(sessID);
+			}
+		}
 		
 		return "success";
 	}
@@ -263,6 +285,8 @@ public class InterviewAction extends ActionSupport{
 		
 		String secondInterviewTime = request.getParameter("secondInterviewTime");
 		
+		String validStatus = request.getParameter("validStatus");
+		
 		Interview interview = new Interview();
 		 
 		interview.setId(id);
@@ -291,6 +315,8 @@ public class InterviewAction extends ActionSupport{
 		interview.setSecondInterviewTime(secondInterviewTime);
 		
 		if(editType != null && "new".equals(editType.trim())) {
+			interview.setValidStatus("1");
+			
 			interview.setInsertTime(new Date());
 			interview.setUpdateTime(new Date());
     		
@@ -298,6 +324,12 @@ public class InterviewAction extends ActionSupport{
 			interview.setId(id);
 			object = interview;
 		}else if (editType != null && "edit".equals(editType.trim())) {
+			if(validStatus != null && !"".equals(validStatus.trim())){
+				interview.setValidStatus(validStatus);
+			}else{
+				interview.setValidStatus("1");
+			}
+			
 			interview.setUpdateTime(new Date());
     		
 			interviewMongoDaoUtil.updateInterview(interview);
