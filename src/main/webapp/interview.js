@@ -196,26 +196,51 @@ function destroyRecord(){
 function saveRecord(){
 	var editType = $('#editType_edit').val();
 	var id = $('#id_edit').val();
-	var day = $('#day_edit').textbox('getValue');
-	var projectCode = $('#projectCode_edit').textbox('getValue');
-	var projectName = $('#projectName_edit').textbox('getValue');
-	var writerName = $('#writerName_edit').textbox('getValue');
-	var title = $('#title_edit').textbox('getValue');
-	var type = $('#type_edit').textbox('getValue');
-	var workText = $('#workText_edit').textbox('getValue');
+
+	var userName = $('#userName_edit').textbox('getValue');
+	var userEName = $('#userEName_edit').textbox('getValue');
+	var genderCode = $('#genderCode_edit').combobox('getValue');
+	var genderName = $("#genderName_edit").val();
+	var birth = $('#birth_edit').textbox('getValue');
+	var phone = $('#phone_edit').textbox('getValue');
+	var email = $('#email_edit').textbox('getValue');
+	var university = $('#university_edit').textbox('getValue');
+	var major = $('#major_edit').textbox('getValue');
+	var educationBackground = $('#educationBackground_edit').combobox('getValue');
+	var graduateMonth = $('#graduateMonth_edit').textbox('getValue');
+	var jobExperienceYear = $('#jobExperienceYear_edit').textbox('getValue');
+	var interviewPhase = $('#interviewPhase_edit').combobox('getValue');
+	var firstPhoneCallTime = $('#firstPhoneCallTime_edit').datetimebox('getValue');
+	var firstPhoneCallRemark = $('#firstPhoneCallRemark_edit').textbox('getValue');
+	var firstInterviewTime = $('#firstInterviewTime_edit').datetimebox('getValue');
+	var firstInterviewOfficer = $('#firstInterviewOfficer_edit').textbox('getValue');
+	var firstIntervirewRemark = $('#firstIntervirewRemark_edit').textbox('getValue');
+	var secondInterviewTime = $('#secondInterviewTime_edit').datetimebox('getValue');
 	
 	
 	var requestVo = new Object();
 	requestVo.editType = editType;
-	
 	requestVo.id = id;
-	requestVo.day = day;
-	requestVo.title = title;
-	requestVo.type = type;
-	requestVo.projectCode = projectCode;
-	requestVo.projectName = projectName;
-	requestVo.writerName = writerName;
-	requestVo.workText = workText;
+	
+	requestVo.userName = userName;
+	requestVo.userEName = userEName;
+	requestVo.genderCode = genderCode;
+	requestVo.genderName = genderName;
+	requestVo.birth = birth;
+	requestVo.phone = phone;
+	requestVo.email = email;
+	requestVo.university = university;
+	requestVo.major = major;
+	requestVo.educationBackground = educationBackground;
+	requestVo.graduateMonth = graduateMonth;
+	requestVo.jobExperienceYear = jobExperienceYear;
+	requestVo.interviewPhase = interviewPhase;
+	requestVo.firstPhoneCallTime = firstPhoneCallTime;
+	requestVo.firstPhoneCallRemark = firstPhoneCallRemark;
+	requestVo.firstInterviewTime = firstInterviewTime;
+	requestVo.firstInterviewOfficer = firstInterviewOfficer;
+	requestVo.firstIntervirewRemark = firstIntervirewRemark;
+	requestVo.secondInterviewTime = secondInterviewTime;
 
 	$.post(contextRootPath + '/interview/saveInterview.do', requestVo, function(result){
 		if (result.success){
