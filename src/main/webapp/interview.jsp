@@ -163,7 +163,7 @@
 			<th field="userName" width="10">姓名</th>
 			<th field="phone" width="20">手机</th>
 			<th field="email" width="20">邮箱</th>
-			<th field="genderCode" width="5">性别</th>
+			<th field="genderCode" width="5" formatter="formatGenderCode">性别</th>
 			<th field="interviewPhase" width="10">面试阶段</th>
 			<th field="firstInterviewTime" width="20">一面时间</th>
 			<th field="firstInterviewOfficer" width="20">一面面试官</th>
@@ -224,7 +224,7 @@
 				</td>
 				<td><label>出生年月(yyyy/MM)</label></td>
 				<td>
-					<input id="birth_edit" name="birth" class="easyui-textbox" value="" data-options="onChange:setWorkReportProjectName"/>
+					<input id="birth_edit" name="birth" class="easyui-textbox" value="" data-options="onChange:formatBirth,onBlur:formatBirth"/>
 				</td>
 			</tr>
 
@@ -280,7 +280,7 @@
 				</td>
 				<td><label>毕业时间(yyyy/MM)</label></td>
 				<td>
-					<input id="graduateMonth_edit" name="graduateMonth" class="easyui-textbox" value=""/>
+					<input id="graduateMonth_edit" name="graduateMonth" class="easyui-textbox" value="" data-options="onChange:formatGraduateMonth,onBlur:formatGraduateMonth"/>
 				</td>
 			</tr>
 			

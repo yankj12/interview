@@ -96,7 +96,7 @@ function editRecord(title){
 		//异步从action中加载数据
 		$.ajax({
 	        type:"GET", 
-	        url:"http://localhost:8080/findUniqueWorkReport?id=" + id,
+	        url:contextRootPath + "/interview/findUniqueInterview.do?id=" + id,
 	        //url:"leave/saveLeaveApplication?editType=新增",
 	        dataType:"json", 
 	        //data:postData,
@@ -105,27 +105,56 @@ function editRecord(title){
 	        	if (result.success){
 					
 					//先打开界面
-					$('#dlg').dialog('open').dialog('setTitle','编写工作日志');
+					$('#dlg').dialog('open').dialog('setTitle','编写面试人员信息');
 					$('#fm').form('clear');
 
 					//为一些属性赋默认值
-	        		var workReport = result.object;
+	        		var interview = result.object;
 					
-					$("#id_edit").val(workReport.id);
+					$("#id_edit").val(interview.id);
 					
 	        		//设置修改类型，否则action中保存方法不知道是什么修改类型
 	        		$('#editType_edit').val("edit");
 	        		
 	        		//
-	        		$('#day_edit').textbox('setValue', workReport.day);
+	        		$('#userName_edit').textbox('setValue', interview.userName);
 	        		
-	        		$('#writerName_edit').textbox('setValue', workReport.writerName);
-					$('#title_edit').textbox('setValue', workReport.title);
-					$('#type_edit').textbox('setValue', workReport.type);
-	        		$('#projectCode_edit').textbox('setValue', workReport.projectCode);
-	        		$('#projectName_edit').textbox('setValue', workReport.projectName);
-	        		$('#workText_edit').textbox('setValue', workReport.workText);
-	        			        		
+	        		$('#userEName_edit').textbox('setValue', interview.userEName);
+	        		
+	        		$('#genderCode_edit').combobox('setValue', interview.genderCode);
+	        		$("#genderName_edit").val(interview.genderName);
+	        		
+	        		
+	        		$('#birth_edit').textbox('setValue', interview.birth);
+	        		
+	        		$('#phone_edit').textbox('setValue', interview.phone);
+	        		
+	        		$('#email_edit').textbox('setValue', interview.email);
+	        		
+	        		$('#university_edit').textbox('setValue', interview.university);
+	        		
+	        		$('#major_edit').textbox('setValue', interview.major);
+	        		
+	        		$('#educationBackground_edit').combobox('setValue', interview.educationBackground);
+	        		
+	        		$('#graduateMonth_edit').textbox('setValue', interview.graduateMonth);
+	        		
+	        		$('#jobExperienceYear_edit').textbox('setValue', interview.jobExperienceYear);
+	        		
+	        		$('#interviewPhase_edit').combobox('setValue', interview.interviewPhase);
+	        		
+	        		$('#firstPhoneCallTime_edit').datetimebox('setValue', formatDateTimeString(interview.firstPhoneCallTime));
+	        		
+	        		$('#firstPhoneCallRemark_edit').textbox('setValue', interview.firstPhoneCallRemark);
+	        		
+	        		$('#firstInterviewTime_edit').datetimebox('setValue', formatDateTimeString(interview.firstInterviewTime));
+	        		
+	        		$('#firstInterviewOfficer_edit').textbox('setValue', interview.firstInterviewOfficer);
+	        		
+	        		$('#firstIntervirewRemark_edit').textbox('setValue', interview.firstIntervirewRemark);
+	        		
+	        		$('#secondInterviewTime_edit').datetimebox('setValue', formatDateTimeString(interview.secondInterviewTime));
+	        		
 	        	}else{
 	        		$.messager.alert('提示',result.errorMsg);
 	        	}
@@ -148,7 +177,7 @@ function destroyRecord(){
 	if (row){
 		$.messager.confirm('Confirm','确定删除这条记录吗？',function(r){
 			if (r){
-				$.post('http://localhost:8080/deleteWorkReport',{id:row.id},function(result){
+				$.post(contextRootPath + '/interview/deleteInterview.do',{id:row.id},function(result){
 					if (result.success){
 						$('#dg').datagrid('reload');	// reload the user data
 					} else {
@@ -188,7 +217,7 @@ function saveRecord(){
 	requestVo.writerName = writerName;
 	requestVo.workText = workText;
 
-	$.post('http://localhost:8080/saveWorkReport', requestVo, function(result){
+	$.post(contextRootPath + '/interview/saveInterview.do', requestVo, function(result){
 		if (result.success){
 			//$.messager.alert('提示',result.errorMsg);
 			
@@ -210,6 +239,47 @@ function saveRecord(){
 
 }
 
+/**
+ * 格式化出生年月为 yyyy/MM
+ * @returns
+ */
+function formatBirth(){
+	var dateStr = $('#birth_edit').textbox('getValue');
+	var newStr = formatYearMonth(dateStr);
+	$('#birth_edit').textbox('setValue', newStr);
+}
+
+/**
+ * 格式化毕业年月为 yyyy/MM
+ * @returns
+ */
+function formatGraduateMonth(){
+	var dateStr = $('#graduateMonth_edit').textbox('getValue');
+	var newStr = formatYearMonth(dateStr);
+	$('#graduateMonth_edit').textbox('setValue', newStr);
+}
+
+/**
+ * 将日期格式化为yyyy/MM的格式
+ * @returns
+ */
+function formatYearMonth(dateStr){
+	
+	if(dateStr == null || dateStr== ''){
+		return '';
+	}
+	
+	var reg = /(\d+)/g;
+	var r = dateStr.match(reg);
+	if(r != null){
+		// r[0] 表示匹配到的全体
+		var y = parseInt(r[0],10);
+		var m = parseInt(r[1],10);
+		
+		var newStr = '' + y + '/' + (m<10?('0'+m):m);
+		return newStr;
+	}
+}
 
 function setWorkReportTitle(){
 	var day = $('#day_edit').textbox('getValue');
@@ -343,4 +413,105 @@ function addTab(title, url) {
 			closable : true
 		});
 	}
-}	
+}
+
+/**
+ * 格式化性别代码为中文
+ * @param val
+ * @param row
+ * @returns
+ */
+function formatGenderCode(val,row){
+	if(val == 'M'){
+		return '男';
+	}else if(val == 'F'){
+		return '女';
+	}
+}
+
+/**
+ * 转换日期格式为 yyyy-MM-dd HH:mm:ss 的统一格式
+ * @param timeStr
+ * @returns
+ */
+function formatDateTimeString(timeStr){
+	
+	if(timeStr == null || timeStr == ''){
+		return '';
+	}
+	
+	// 先判断下时间格式
+	// yyyy/MM/dd HH:mm
+	// yyyy/MM/dd HH:mm:ss
+	// yyyy-MM-dd HH:mm
+	// yyyy-MM-dd HH:mm:ss
+	
+	// yyyy/MM/dd HH:mm
+	var reg = /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s(\d{1,2}):(\d{1,2})$/;
+	var r = timeStr.match(reg);
+	if(r != null){
+		// r[0] 表示匹配到的全体
+		var y = parseInt(r[1],10);
+		var m = parseInt(r[2],10);
+		var d = parseInt(r[3],10);
+		
+		var h = parseInt(r[4],10);
+		var mi = parseInt(r[5],10);
+		var s = 0;
+		
+		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
+		return newStr;
+	}
+	
+	// yyyy/MM/dd HH:mm:ss
+	reg = /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+	r = timeStr.match(reg);
+	if(r != null){
+		// r[0] 表示匹配到的全体
+		var y = parseInt(r[1],10);
+		var m = parseInt(r[2],10);
+		var d = parseInt(r[3],10);
+		
+		var h = parseInt(r[4],10);
+		var mi = parseInt(r[5],10);
+		var s = parseInt(r[6],10);
+		
+		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
+		return newStr;
+	}
+	
+	// yyyy-MM-dd HH:mm
+	reg = /^(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2})$/;
+	r = timeStr.match(reg);
+	if(r != null){
+		// r[0] 表示匹配到的全体
+		var y = parseInt(r[1],10);
+		var m = parseInt(r[2],10);
+		var d = parseInt(r[3],10);
+		
+		var h = parseInt(r[4],10);
+		var mi = parseInt(r[5],10);
+		var s = 0;
+		
+		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
+		return newStr;
+	}
+	
+	// yyyy-MM-dd HH:mm:ss
+	reg = /^(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+	r = timeStr.match(reg);
+	if(r != null){
+		// r[0] 表示匹配到的全体
+		var y = parseInt(r[1],10);
+		var m = parseInt(r[2],10);
+		var d = parseInt(r[3],10);
+		
+		var h = parseInt(r[4],10);
+		var mi = parseInt(r[5],10);
+		var s = parseInt(r[6],10);
+		
+		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
+		return newStr;
+	}
+	
+}
