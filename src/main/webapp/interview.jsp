@@ -154,7 +154,7 @@
 <table id="dg" title="查询结果" class="easyui-datagrid" style="width:100%;height:auto;"
 		url="${ctx }/interview/findInterviews.do?validStatus=1"
 		toolbar="#toolbar"
-		rownumbers="true" pagination="true" fitColumns="true" singleSelect="true">
+		rownumbers="true" pagination="true" fitColumns="true">
 		<!-- table增加了pagination="true"属性，就增加了底部的分页工具栏 -->
 	<thead>
 		<tr>
