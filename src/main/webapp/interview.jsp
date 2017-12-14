@@ -175,9 +175,9 @@
 	</thead>
 </table>
 <div id="toolbar">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newRecord('编写工作日志')">编写工作日志</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRecord('修改工作日志')">修改工作日志</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRecord()">删除工作日志</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newRecord('编写面试人员信息')">编写面试人员信息</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRecord('修改面试人员信息')">修改面试人员信息</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRecord()">删除面试人员信息</a>
 </div>
 	<!-- 下面dlg是为了有新增用户界面 -->
 	<div id="dlg" class="easyui-dialog" style="width:800px;height:auto;padding:0px 0px"
