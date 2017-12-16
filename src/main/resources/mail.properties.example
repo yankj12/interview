@@ -1,0 +1,18 @@
+
+# use apache commons-email 
+# use smtp send email
+
+# such as : smtp.163.com
+smtpHostName=
+# such as : 25 or 465
+smtpPort=
+# true or false
+sslOnConnect=true
+
+# mailUserName and mailUserPwd is used for Authentication
+mailUserName=
+mailUserPwd=
+
+fromMail=
+copyTo=
+subject=
