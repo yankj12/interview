@@ -32,6 +32,20 @@ public class SendEmailService {
 			email.setSubject(emailConfig.getSubject());
 			email.setMsg(emailMsg);
 			email.addTo(toMail);
+			
+			// 抄送
+			String copyTo = emailConfig.getCopyTo();
+			if(copyTo != null &&!"".equals(copyTo.trim())) {
+				String[] ccAry = copyTo.split(",");
+				if(ccAry != null && ccAry.length > 0) {
+					for(int i=0;i<ccAry.length;i++) {
+						if(ccAry[i] != null && !"".equals(ccAry[i].trim()) && ccAry[i].contains("@")) {
+							email.addCc(ccAry[i]);
+						}
+					}
+				}
+			}
+			
 			email.send();
 			
 			result = true;
