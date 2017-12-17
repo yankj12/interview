@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.yan.access.vo.UserMsgInfo;
 import com.yan.interview.dao.InterviewMongoDaoUtil;
 import com.yan.interview.model.Interview;
+import com.yan.interview.service.facade.SendInterviewEmailService;
 import com.yan.interview.vo.InterviewVo;
 
 public class InterviewAction extends ActionSupport{
@@ -52,6 +53,11 @@ public class InterviewAction extends ActionSupport{
 	private UserMsgInfo userMsgInfo;
 	
 	private InterviewMongoDaoUtil interviewMongoDaoUtil;
+	
+	/** 
+	 * 发送面试邮件
+	 */
+	private SendInterviewEmailService sendInterviewEmailService;
 	
 	public long getTotal() {
 		return total;
@@ -107,6 +113,14 @@ public class InterviewAction extends ActionSupport{
 
 	public void setInterviewMongoDaoUtil(InterviewMongoDaoUtil interviewMongoDaoUtil) {
 		this.interviewMongoDaoUtil = interviewMongoDaoUtil;
+	}
+
+	public SendInterviewEmailService getSendInterviewEmailService() {
+		return sendInterviewEmailService;
+	}
+
+	public void setSendInterviewEmailService(SendInterviewEmailService sendInterviewEmailService) {
+		this.sendInterviewEmailService = sendInterviewEmailService;
 	}
 
 	public String interview(){
@@ -355,6 +369,52 @@ public class InterviewAction extends ActionSupport{
     		
 			//目前采用修改有效无效标志位的方式来标志删除
 			interviewMongoDaoUtil.updateInterviewValidStatus(id, "0");
+    	}else{
+    		success = false;
+    		errorMsg = "缺少参数或请求数据不全！";
+    	}
+    	
+    	return "json";
+    }
+    
+    public String sendInterviewEmail() {
+    	HttpServletRequest request = ServletActionContext.getRequest();
+		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
+		//String[] userNames = request.getParameterValues("userNames[]");
+		String ids = request.getParameter("ids");
+    	
+    	success = true;
+    	errorMsg = "";
+    	
+    	if(ids != null && !"".equals(ids.trim())){
+    		
+    		String[] idAry = ids.split(",");
+    		
+    		if(idAry != null && idAry.length > 0) {
+    			for(int i=0;i<idAry.length;i++) {
+    				String id = idAry[i];
+    				// 根据id查询出面试人员信息
+    				Interview interviewToSendEmail = interviewMongoDaoUtil.findInterviewById(id);
+    				
+    				// 调用发送邮件的方法
+    				boolean result = sendInterviewEmailService.sendSingleInterviewEmail(interviewToSendEmail);
+    				
+    				if(result) {
+    					// 更新面试人员信息中的 是否发送一面邮件字段  firstInterviewEmailSendFlag 0还未发送，1发送失败，2发送成功
+    					interviewMongoDaoUtil.updateInterviewFirstInterviewEmailSendFlag(id, "2");
+    					
+    					success = true;
+    		    		errorMsg += "[" + interviewToSendEmail.getUserName() + "]的面试邀请邮件发送成功！\n";
+    				}else {
+    					
+    					// 更新面试人员信息中的 是否发送一面邮件字段  firstInterviewEmailSendFlag 0还未发送，1发送失败，2发送成功
+    					interviewMongoDaoUtil.updateInterviewFirstInterviewEmailSendFlag(id, "1");
+    					
+    					success = false;
+    		    		errorMsg += "[" + interviewToSendEmail.getUserName() + "]的面试邀请邮件发送失败！\n";
+    				}
+    			}
+    		}
     	}else{
     		success = false;
     		errorMsg = "缺少参数或请求数据不全！";

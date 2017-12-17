@@ -1,0 +1,7 @@
+
+# informations about interview
+interviewAddress=北京市XX区XXX大厦
+interviewOfficerTitle=张先生
+interviewOfficerPhone=15000000000
+# 邮件正文后缀，比如发件人的联系方式及公司信息等
+emailSuffix=----------------------------------------------\nFrom:张三\nTele:15000000000\nMail:zhangsan@test.com

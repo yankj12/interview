@@ -270,6 +270,38 @@ function saveRecord(){
 
 }
 
+
+function sendInterviewEmail(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows != null && rows.length != null && rows.length > 0){
+		var ids = "";
+        for (var i = 0; i < rows.length; i++) {  
+            if (ids == '') {  
+            	ids = rows[i].id;  
+            } else {  
+            	ids += ',' + rows[i].id;  
+            }
+        }
+
+        $.post(contextRootPath + '/interview/sendInterviewEmail.do',{ids:ids},function(result){
+			if (result.success){
+				$.messager.alert('提示','面试邀请邮件发送成功！');
+				$('#dg').datagrid('reload');	// reload the user data
+			} else {
+				$.messager.show({	// show error message
+					title: 'Error',
+					msg: result.errorMsg
+				});
+			}
+		},'json');
+		return false;
+	}else{
+		//(提示框标题，提示信息)
+		$.messager.alert('提示','请至少选择一条记录');
+	}
+	
+}
+
 /**
  * 格式化出生年月为 yyyy/MM
  * @returns

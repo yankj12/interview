@@ -39,6 +39,13 @@
             <result name="success">/interview.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
+		
+		<action name="sendInterviewEmail" 
+            class="interviewAction" 
+            method="sendInterviewEmail">
+            <result name="success">/interview.jsp</result>
+            <result name="json" type="json"></result> 
+		</action>
    </package>
 	
 </struts>

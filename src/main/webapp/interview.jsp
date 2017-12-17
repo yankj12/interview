@@ -180,7 +180,7 @@
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRecord()">删除面试人员信息</a>
 	
 	<a href="#" class="easyui-linkbutton" plain="true" onclick="">爽约</a>
-	<a href="#" class="easyui-linkbutton" plain="true" onclick="">批量发送一面邀请邮件</a>
+	<a href="#" class="easyui-linkbutton" plain="true" onclick="sendInterviewEmail()">批量发送一面邀请邮件</a>
 	
 </div>
 	<!-- 下面dlg是为了有新增用户界面 -->
