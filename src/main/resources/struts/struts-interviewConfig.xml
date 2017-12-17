@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<package name="interviewConfig" extends="json-default" namespace="/interviewConfig">
+  
+		<action name="interviewConfig" 
+            class="interviewActionConfig" 
+            method="interviewConfig">
+            <result name="success">/interviewConfig.jsp</result>
+		</action>
+		<action name="findInterviewConfigs" 
+            class="interviewConfigAction" 
+            method="findInterviewConfigs">
+            <result name="success">/interviewConfig.jsp</result>
+            <result name="json" type="json"></result> 
+		</action>
+      
+		<action name="findUniqueInterviewConfig" 
+            class="interviewConfigAction" 
+            method="findUniqueInterviewConfig">
+            <result name="success">/interviewConfig.jsp</result>
+            <result name="json" type="json"></result> 
+		</action>
+      
+		<action name="saveInterviewConfig" 
+            class="interviewConfigAction" 
+            method="saveInterviewConfig">
+            <result name="success">/interviewConfig.jsp</result>
+            <result name="json" type="json"></result> 
+		</action>
+
+		<action name="deleteInterviewConfig" 
+            class="interviewConfigAction" 
+            method="deleteInterviewConfig">
+            <result name="success">/interviewConfig.jsp</result>
+            <result name="json" type="json"></result> 
+		</action>
+		
+   </package>
+	
+</struts>

@@ -19,7 +19,7 @@
 	    <property name="password" value="${password}" />
 	</bean> 
     
-    <bean id="emailConfig" class="com.yan.mail.common.EmailConfig">
+    <bean id="emailConfig" class="com.yan.interview.model.EmailConfig">
 	    <property name="smtpHostName" value="${smtpHostName}" />  
 	    <property name="smtpPort" value="${smtpPort}" />  
 	    <property name="sslOnConnect" value="${sslOnConnect}" />
