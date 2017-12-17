@@ -82,14 +82,13 @@ public class Interview implements Serializable{
 	 */
 	private String firstPhoneCallRemark;
 	
-	
 	/**
 	 * 一面邀请邮件是否发送
 	 * 0 还未发送
 	 * 1发送失败
 	 * 2发送成功
 	 */
-//	private String firstInterviewEmailSendFlag;
+	private String firstInterviewEmailSendFlag;
 	
 	/**
 	 * 一面时间
@@ -325,6 +324,14 @@ public class Interview implements Serializable{
 
 	public void setValidStatus(String validStatus) {
 		this.validStatus = validStatus;
+	}
+
+	public String getFirstInterviewEmailSendFlag() {
+		return firstInterviewEmailSendFlag;
+	}
+
+	public void setFirstInterviewEmailSendFlag(String firstInterviewEmailSendFlag) {
+		this.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;
 	}
 	
 }

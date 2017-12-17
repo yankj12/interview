@@ -56,6 +56,7 @@ public class InterviewMongoDaoUtil {
 		if(doc.get("_id") != null){
 			id = doc.get("_id").toString();
 		}
+		mongoClient.close();
 		return id;
 	}
 	
@@ -86,7 +87,7 @@ public class InterviewMongoDaoUtil {
 				interviews.add(interview);
 			}
 		}
-		
+		mongoClient.close();
 		return interviews;
 	}
 	
@@ -131,7 +132,8 @@ public class InterviewMongoDaoUtil {
 							|| "email".equals(key) 
 							|| "jobExperienceYear".equals(key)
 							|| "interviewPhase".equals(key)
-							|| "firstInterviewOfficer".equals(key)) {
+							|| "firstInterviewOfficer".equals(key)
+							|| "firstInterviewEmailSendFlag".equals(key)) {
 						bsons.add(Filters.eq(key, value.toString()));
 					}else if ("page".equals(key)) {
 						page = Integer.parseInt(value.toString());
@@ -180,8 +182,8 @@ public class InterviewMongoDaoUtil {
 					interviews.add(interview);
 				}
 			}
+			mongoClient.close();
 		}
-		
 		return interviews;
 	}
 	
@@ -221,7 +223,8 @@ public class InterviewMongoDaoUtil {
 							|| "email".equals(key) 
 							|| "jobExperienceYear".equals(key)
 							|| "interviewPhase".equals(key)
-							|| "firstInterviewOfficer".equals(key)) {
+							|| "firstInterviewOfficer".equals(key)
+							|| "firstInterviewEmailSendFlag".equals(key)) {
 						bsons.add(Filters.eq(key, value.toString()));
 					}else if ("page".equals(key) || "rows".equals(key)) {
 						//这两个参数是分页参数，在分页查询数据时会用到，但是在查询总条数的时候并不会用到，但是也不能拼接到查询语句中
@@ -248,7 +251,7 @@ public class InterviewMongoDaoUtil {
 			}else{
 				count = collection.count();
 			}
-			
+			mongoClient.close();
 		}
 		
 		return count;
@@ -272,6 +275,7 @@ public class InterviewMongoDaoUtil {
 			if(docs != null && docs.size() > 0) {
 				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
 			}
+			mongoClient.close();
 		}
 		
 		return interview;
@@ -295,6 +299,7 @@ public class InterviewMongoDaoUtil {
 			if(docs != null && docs.size() > 0) {
 				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
 			}
+			mongoClient.close();
 		}
 		
 		return interview;
@@ -318,6 +323,7 @@ public class InterviewMongoDaoUtil {
 			if(docs != null && docs.size() > 0) {
 				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
 			}
+			mongoClient.close();
 		}
 		
 		return interview;
@@ -341,6 +347,7 @@ public class InterviewMongoDaoUtil {
 			if(docs != null && docs.size() > 0) {
 				interview = (Interview)SchameDocumentUtil.documentToSchame(docs.get(0), Interview.class);
 			}
+			mongoClient.close();
 		}
 		
 		return interview;
@@ -364,7 +371,7 @@ public class InterviewMongoDaoUtil {
 		 
 		 //Update a Document
 		 collection.updateOne(Filters.eq("_id", doc.get("_id")), new Document("$set", doc));
-		 
+		 mongoClient.close();
 	}
 	
 	public void updateInterviewValidStatus(String id, String validStatus){

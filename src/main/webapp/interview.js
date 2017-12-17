@@ -83,6 +83,9 @@ function newRecord(title){
 	var loginUserName = $("#loginUserName_edit").val();
 	$('#firstInterviewOfficer_edit').textbox('setValue', loginUserName);
 	
+	// 给“一面邀请邮件是否发送”字段赋默认值“还未发送”
+	$('#firstInterviewEmailSendFlag_edit').combobox('setValue', '0');
+	
 }
 
 
@@ -146,6 +149,8 @@ function editRecord(title){
 	        		$('#firstPhoneCallTime_edit').datetimebox('setValue', formatDateTimeString(interview.firstPhoneCallTime));
 	        		
 	        		$('#firstPhoneCallRemark_edit').textbox('setValue', interview.firstPhoneCallRemark);
+	        		
+	        		$('#firstInterviewEmailSendFlag_edit').combobox('setValue', interview.firstInterviewEmailSendFlag);
 	        		
 	        		$('#firstInterviewTime_edit').datetimebox('setValue', formatDateTimeString(interview.firstInterviewTime));
 	        		
@@ -218,6 +223,7 @@ function saveRecord(){
 	var interviewPhase = $('#interviewPhase_edit').combobox('getValue');
 	var firstPhoneCallTime = $('#firstPhoneCallTime_edit').datetimebox('getValue');
 	var firstPhoneCallRemark = $('#firstPhoneCallRemark_edit').textbox('getValue');
+	var firstInterviewEmailSendFlag = $('#firstInterviewEmailSendFlag_edit').combobox('getValue');
 	var firstInterviewTime = $('#firstInterviewTime_edit').datetimebox('getValue');
 	var firstInterviewOfficer = $('#firstInterviewOfficer_edit').textbox('getValue');
 	var firstIntervirewRemark = $('#firstIntervirewRemark_edit').textbox('getValue');
@@ -243,6 +249,7 @@ function saveRecord(){
 	requestVo.interviewPhase = interviewPhase;
 	requestVo.firstPhoneCallTime = firstPhoneCallTime;
 	requestVo.firstPhoneCallRemark = firstPhoneCallRemark;
+	requestVo.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;
 	requestVo.firstInterviewTime = firstInterviewTime;
 	requestVo.firstInterviewOfficer = firstInterviewOfficer;
 	requestVo.firstIntervirewRemark = firstIntervirewRemark;
@@ -489,6 +496,22 @@ function formatGenderCode(val,row){
 		return '男';
 	}else if(val == 'F'){
 		return '女';
+	}
+}
+
+/**
+ * 格式化是否发送一面面试邀请邮件代码为中文
+ * @param val
+ * @param row
+ * @returns
+ */
+function formatFirstInterviewEmailSendFlag(val,row){
+	if(val == '0'){
+		return '还未发送';
+	}else if(val == '1'){
+		return '发送失败';
+	}else if(val == '2'){
+		return '发送成功';
 	}
 }
 

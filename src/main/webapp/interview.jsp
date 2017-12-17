@@ -135,6 +135,45 @@
 				</td>
 			</tr>
 			
+			<tr>
+				<td>一面邀请邮件:</td>
+				<td>
+					<input name="firstInterviewEmailSendFlag" class="easyui-combobox" 
+						data-options="
+							valueField: 'value',
+							textField: 'label',
+							data: [{
+								label: '还未发送',
+								value: '0'
+							},{
+								label: '发送失败',
+								value: '1'
+							},{
+								label: '发送成功',
+								value: '2'
+							},{
+								label: '--',
+								value: '',
+								'selected':true
+							}]"/>
+				</td>
+				<td></td>
+				<td>
+				</td>
+				<td></td>
+				<td>
+				</td>
+				<td></td>
+				<td>
+				</td>
+				<td></td>
+				<td>
+				</td>
+				<td></td>
+				<td>
+				</td>
+			</tr>
+			
             <tr>
                 <td></td>
                 <td></td>
@@ -165,6 +204,7 @@
 			<th field="email" width="20">邮箱</th>
 			<th field="genderCode" width="5" formatter="formatGenderCode">性别</th>
 			<th field="interviewPhase" width="10">面试阶段</th>
+			<th field="firstInterviewEmailSendFlag" width="20" formatter="formatFirstInterviewEmailSendFlag">一面邀请邮件</th>
 			<th field="firstInterviewTime" width="20">一面时间</th>
 			<th field="firstInterviewOfficer" width="20">一面面试官</th>
 			<th field="university" width="20">毕业院校</th>
@@ -342,8 +382,26 @@
 				<td>
 					<input id="firstPhoneCallTime_edit" name="firstPhoneCallTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
 				</td>
-				<td><label></label></td>
+				<td><label>一面邀请邮件</label></td>
 				<td>
+					<input id="firstInterviewEmailSendFlag_edit" name="firstInterviewEmailSendFlag" class="easyui-combobox" 
+						data-options="
+							valueField: 'value',
+							textField: 'label',
+							data: [{
+								label: '还未发送',
+								value: '0',
+								'selected':true
+							},{
+								label: '发送失败',
+								value: '1'
+							},{
+								label: '发送成功',
+								value: '2'
+							},{
+								label: '--',
+								value: ''
+							}]"/>
 				</td>
 			</tr>
 			<tr>

@@ -81,6 +81,14 @@ public class InterviewVo implements Serializable{
 	private String firstPhoneCallRemark;
 	
 	/**
+	 * 一面邀请邮件是否发送
+	 * 0 还未发送
+	 * 1发送失败
+	 * 2发送成功
+	 */
+	private String firstInterviewEmailSendFlag;
+	
+	/**
 	 * 一面时间
 	 */
 	private String firstInterviewTime;
@@ -274,6 +282,14 @@ public class InterviewVo implements Serializable{
 
 	public void setSecondInterviewTime(String secondInterviewTime) {
 		this.secondInterviewTime = secondInterviewTime;
+	}
+
+	public String getFirstInterviewEmailSendFlag() {
+		return firstInterviewEmailSendFlag;
+	}
+
+	public void setFirstInterviewEmailSendFlag(String firstInterviewEmailSendFlag) {
+		this.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;
 	}
 	
 }
