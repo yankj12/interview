@@ -10,33 +10,33 @@
 		<action name="emailConfig" 
             class="interviewActionConfig" 
             method="emailConfig">
-            <result name="success">/emailConfig.jsp</result>
+            <result name="success">/pages/emailConfig/emailConfig.jsp</result>
 		</action>
 		<action name="findEmailConfigs" 
             class="emailConfigAction" 
             method="findEmailConfigs">
-            <result name="success">/emailConfig.jsp</result>
+            <result name="success">/pages/emailConfig/emailConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
       
 		<action name="findUniqueEmailConfig" 
             class="emailConfigAction" 
             method="findUniqueEmailConfig">
-            <result name="success">/emailConfig.jsp</result>
+            <result name="success">/pages/emailConfig/emailConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
       
 		<action name="saveEmailConfig" 
             class="emailConfigAction" 
             method="saveEmailConfig">
-            <result name="success">/emailConfig.jsp</result>
+            <result name="success">/pages/emailConfig/emailConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
 
 		<action name="deleteEmailConfig" 
             class="emailConfigAction" 
             method="deleteEmailConfig">
-            <result name="success">/emailConfig.jsp</result>
+            <result name="success">/pages/emailConfig/emailConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
 		

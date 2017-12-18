@@ -1,7 +1,5 @@
 package com.yan.interview.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -186,6 +184,9 @@ public class InterviewConfigAction extends ActionSupport{
 		String interviewOfficerPhone = request.getParameter("interviewOfficerPhone");
 		map.put("interviewOfficerPhone", interviewOfficerPhone);	
 		
+		String remark = request.getParameter("remark");
+		map.put("remark", remark);	
+		
     	//根据条件查询总条数
     	total = 0;
     	//查询结果
@@ -260,6 +261,8 @@ public class InterviewConfigAction extends ActionSupport{
     	
 		String validStatus = request.getParameter("validStatus");
 		
+		String remark = request.getParameter("remark");
+		
 		InterviewConfig interviewConfig = new InterviewConfig();
 		 
 		interviewConfig.setId(id);
@@ -271,6 +274,7 @@ public class InterviewConfigAction extends ActionSupport{
 		interviewConfig.setInterviewOfficerTitle(interviewOfficerTitle);
 		interviewConfig.setInterviewOfficerPhone(interviewOfficerPhone);
 		interviewConfig.setEmailSuffix(emailSuffix);
+		interviewConfig.setRemark(remark);
 		
 		if(editType != null && "new".equals(editType.trim())) {
 			interviewConfig.setValidStatus("1");

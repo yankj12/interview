@@ -36,6 +36,8 @@ public class EmailConfig {
 	// 有效状态
 	private String validStatus;
 	
+	private String remark;
+	
 	private Date insertTime;
 	
 	private Date updateTime;
@@ -150,6 +152,14 @@ public class EmailConfig {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

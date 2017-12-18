@@ -77,7 +77,7 @@ function editRecord(title){
 		//异步从action中加载数据
 		$.ajax({
 	        type:"GET", 
-	        url:contextRootPath + "/interviewConfig/findUniqueInterviewConfig.do?id=" + id,
+	        url:contextRootPath + "/emailConfig/findUniqueEmailConfig.do?id=" + id,
 	        //url:"leave/saveLeaveApplication?editType=新增",
 	        dataType:"json", 
 	        //data:postData,
@@ -90,33 +90,31 @@ function editRecord(title){
 					$('#fm').form('clear');
 
 					//为一些属性赋默认值
-	        		var interviewConfig = result.object;
+	        		var emailConfig = result.object;
 					
 					$("#id_edit").val(interview.id);
 					
 	        		//设置修改类型，否则action中保存方法不知道是什么修改类型
 	        		$('#editType_edit').val("edit");
 	        		
-	        		$('#validStatus_edit').val(interviewConfig.validStatus);
-	        		
+	        		$('#validStatus_edit').val(emailConfig.validStatus);
 	        		//
-	        		$('#name_edit').textbox('setValue', interviewConfig.name);
+	        		$('#name_edit').textbox('setValue', emailConfig.name);
 	        		
-	        		$('#userCode_edit').textbox('setValue', interviewConfig.userCode);
+	        		$('#userCode_edit').textbox('setValue', emailConfig.userCode);
 	        		
-	        		$('#subject_edit').textbox('setValue', interviewConfig.subject);
+	        		$('#smtpHostName_edit').textbox('setValue', emailConfig.smtpHostName);
 	        		
-	        		$("#copyTo_edit").textbox('setValue', interviewConfig.copyTo);
+	        		$("#smtpPort_edit").textbox('setValue', emailConfig.smtpPort);
 	        		
-	        		$('#interviewAddress_edit').textbox('setValue', interviewConfig.interviewAddress);
+	        		$('#sslOnConnect_edit').combobox('setValue', emailConfig.sslOnConnect);
 	        		
-	        		$('#interviewOfficerTitle_edit').textbox('setValue', interviewConfig.interviewOfficerTitle);
+	        		$('#mailUserName_edit').textbox('setValue', emailConfig.mailUserName);
 	        		
-	        		$('#interviewOfficerPhone_edit').textbox('setValue', interviewConfig.interviewOfficerPhone);
+	        		$('#mailUserPwd_edit').textbox('setValue', emailConfig.mailUserPwd);
 	        		
-	        		$('#emailSuffix_edit').textbox('setValue', interviewConfig.emailSuffix);
+	        		$('#remark_edit').textbox('setValue', emailConfig.remark);
 	        		
-	        		$('#remark_edit').textbox('setValue', interviewConfig.remark);
 	        	}else{
 	        		$.messager.alert('提示',result.errorMsg);
 	        	}
@@ -145,7 +143,7 @@ function destroyRecord(){
 	if (row){
 		$.messager.confirm('Confirm','确定删除这条记录吗？',function(r){
 			if (r){
-				$.post(contextRootPath + '/interviewConfig/deleteInterviewConfig.do',{id:row.id},function(result){
+				$.post(contextRootPath + '/emailConfig/deleteEmailConfig.do',{id:row.id},function(result){
 					if (result.success){
 						$('#dg').datagrid('reload');	// reload the user data
 					} else {
@@ -168,12 +166,11 @@ function saveRecord(){
 	var validStatus = $('#validStatus_edit').val();
 	var name = $('#name_edit').textbox('getValue');
 	var userCode = $('#userCode_edit').textbox('getValue');
-	var subject = $('#subject_edit').textbox('getValue');
-	var copyTo = $("#copyTo_edit").textbox('getValue');
-	var interviewAddress = $('#interviewAddress_edit').textbox('getValue');
-	var interviewOfficerTitle = $('#interviewOfficerTitle_edit').textbox('getValue');
-	var interviewOfficerPhone = $('#interviewOfficerPhone_edit').textbox('getValue');
-	var emailSuffix = $('#emailSuffix_edit').textbox('getValue');
+	var smtpHostName = $('#smtpHostName_edit').textbox('getValue');
+	var smtpPort = $("#smtpPort_edit").textbox('getValue');
+	var sslOnConnect = $('#sslOnConnect_edit').combobox('getValue');
+	var mailUserName = $('#mailUserName_edit').textbox('getValue');
+	var mailUserPwd = $('#mailUserPwd_edit').textbox('getValue');
 	var remark = $('#remark_edit').textbox('getValue');
 	
 	var requestVo = new Object();
@@ -182,16 +179,15 @@ function saveRecord(){
 	
 	requestVo.name = name;
 	requestVo.userCode = userCode;
-	requestVo.subject = subject;
-	requestVo.copyTo = copyTo;
-	requestVo.interviewAddress = interviewAddress;
-	requestVo.interviewOfficerTitle = interviewOfficerTitle;
-	requestVo.interviewOfficerPhone = interviewOfficerPhone;
-	requestVo.emailSuffix = emailSuffix;
+	requestVo.smtpHostName = smtpHostName;
+	requestVo.smtpPort = smtpPort;
+	requestVo.sslOnConnect = sslOnConnect;
+	requestVo.mailUserName = mailUserName;
+	requestVo.mailUserPwd = mailUserPwd;
 	requestVo.remark = remark;
 	requestVo.validStatus = validStatus;
 
-	$.post(contextRootPath + '/interviewConfig/saveInterviewConfig.do', requestVo, function(result){
+	$.post(contextRootPath + '/emailConfig/saveEmailConfig.do', requestVo, function(result){
 		if (result.success){
 			//$.messager.alert('提示',result.errorMsg);
 			

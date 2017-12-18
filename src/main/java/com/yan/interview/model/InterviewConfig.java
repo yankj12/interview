@@ -33,6 +33,8 @@ public class InterviewConfig {
 	// 有效状态
 	private String validStatus;
 	
+	private String remark;
+	
 	private Date insertTime;
 	
 	private Date updateTime;
@@ -131,6 +133,14 @@ public class InterviewConfig {
 
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

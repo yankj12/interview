@@ -10,33 +10,33 @@
 		<action name="interviewConfig" 
             class="interviewActionConfig" 
             method="interviewConfig">
-            <result name="success">/interviewConfig.jsp</result>
+            <result name="success">/pages/interviewConfig/interviewConfig.jsp</result>
 		</action>
 		<action name="findInterviewConfigs" 
             class="interviewConfigAction" 
             method="findInterviewConfigs">
-            <result name="success">/interviewConfig.jsp</result>
+            <result name="success">/pages/interviewConfig/interviewConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
       
 		<action name="findUniqueInterviewConfig" 
             class="interviewConfigAction" 
             method="findUniqueInterviewConfig">
-            <result name="success">/interviewConfig.jsp</result>
+            <result name="success">/pages/interviewConfig/interviewConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
       
 		<action name="saveInterviewConfig" 
             class="interviewConfigAction" 
             method="saveInterviewConfig">
-            <result name="success">/interviewConfig.jsp</result>
+            <result name="success">/pages/interviewConfig/interviewConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
 
 		<action name="deleteInterviewConfig" 
             class="interviewConfigAction" 
             method="deleteInterviewConfig">
-            <result name="success">/interviewConfig.jsp</result>
+            <result name="success">/pages/interviewConfig/interviewConfig.jsp</result>
             <result name="json" type="json"></result> 
 		</action>
 		

@@ -9,5 +9,7 @@
 	<include file="struts/struts-login.xml" />
 	<include file="struts/struts-menu.xml" />
 	<include file="struts/struts-interview.xml" />
+	<include file="struts/struts-interviewConfig.xml" />
+	<include file="struts/struts-emailConfig.xml" />
 	
 </struts>

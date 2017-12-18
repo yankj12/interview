@@ -59,6 +59,18 @@
 		</property>
     </bean>
     
+    <bean id="interviewConfigAction" class="com.yan.interview.controller.InterviewConfigAction">
+    	<property name="interviewConfigMongoDaoUtil">
+			<ref local="interviewConfigMongoDaoUtil" />
+		</property>
+    </bean>
+    
+    <bean id="emailConfigAction" class="com.yan.interview.controller.EmailConfigAction">
+    	<property name="emailConfigMongoDaoUtil">
+			<ref local="emailConfigMongoDaoUtil" />
+		</property>
+    </bean>
+    
     <!-- service -->
     <bean id="userMongoDaoUtil" class="com.yan.access.dao.UserMongoDaoUtil">
     	<property name="dataSource">
@@ -79,6 +91,18 @@
     </bean>
     
     <bean id="interviewMongoDaoUtil" class="com.yan.interview.dao.InterviewMongoDaoUtil">
+    	<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+    </bean>
+    
+    <bean id="interviewConfigMongoDaoUtil" class="com.yan.interview.dao.InterviewConfigMongoDaoUtil">
+    	<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+    </bean>
+    
+    <bean id="emailConfigMongoDaoUtil" class="com.yan.interview.dao.EmailConfigMongoDaoUtil">
     	<property name="dataSource">
 			<ref local="dataSource" />
 		</property>
