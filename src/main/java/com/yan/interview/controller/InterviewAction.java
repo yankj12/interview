@@ -214,6 +214,9 @@ public class InterviewAction extends ActionSupport{
 		String interviewPhase = request.getParameter("interviewPhase");
 		map.put("interviewPhase", interviewPhase);
 		
+		String interviewEndFlag = request.getParameter("interviewEndFlag");
+		map.put("interviewEndFlag", interviewEndFlag);
+		
     	//根据条件查询总条数
     	total = 0;
     	//查询结果
@@ -307,6 +310,8 @@ public class InterviewAction extends ActionSupport{
 		
 		String validStatus = request.getParameter("validStatus");
 		
+		String interviewEndFlag = request.getParameter("interviewEndFlag");
+		
 		Interview interview = new Interview();
 		 
 		interview.setId(id);
@@ -334,6 +339,7 @@ public class InterviewAction extends ActionSupport{
 		interview.setFirstInterviewOfficer(firstInterviewOfficer);
 		interview.setFirstIntervirewRemark(firstIntervirewRemark);
 		interview.setSecondInterviewTime(secondInterviewTime);
+		interview.setInterviewEndFlag(interviewEndFlag);
 		
 		if(editType != null && "new".equals(editType.trim())) {
 			interview.setValidStatus("1");
@@ -421,6 +427,39 @@ public class InterviewAction extends ActionSupport{
     		    		errorMsg += "[" + interviewToSendEmail.getUserName() + "]的面试邀请邮件发送失败！\n";
     				}
     			}
+    		}
+    	}else{
+    		success = false;
+    		errorMsg = "缺少参数或请求数据不全！";
+    	}
+    	
+    	return "json";
+    }
+    
+    
+    public String endInterviews() {
+    	HttpServletRequest request = ServletActionContext.getRequest();
+		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
+		//String[] userNames = request.getParameterValues("userNames[]");
+		String ids = request.getParameter("ids");
+//		String field = request.getParameter("field");
+//		String fieldValue = request.getParameter("fieldValue");
+		
+    	success = true;
+    	errorMsg = "";
+    	
+    	if(ids != null && !"".equals(ids.trim())){
+    		
+    		String[] idAry = ids.split(",");
+    		
+    		if(idAry != null && idAry.length > 0) {
+    			for(int i=0;i<idAry.length;i++) {
+    				String id = idAry[i];
+    				interviewMongoDaoUtil.updateInterviewSingleFieldById(id, "interviewEndFlag", "1");
+    			}
+    			
+    			success = true;
+    			errorMsg = "更新成功！";
     		}
     	}else{
     		success = false;

@@ -86,6 +86,8 @@ function newRecord(title){
 	// 给“一面邀请邮件是否发送”字段赋默认值“还未发送”
 	$('#firstInterviewEmailSendFlag_edit').combobox('setValue', '0');
 	
+	$('#interviewEndFlag_edit').combobox('setValue', '0');
+	
 }
 
 
@@ -160,6 +162,8 @@ function editRecord(title){
 	        		
 	        		$('#secondInterviewTime_edit').datetimebox('setValue', formatDateTimeString(interview.secondInterviewTime));
 	        		
+	        		$('#interviewEndFlag_edit').combobox('setValue', interview.interviewEndFlag);
+	        		
 	        	}else{
 	        		$.messager.alert('提示',result.errorMsg);
 	        	}
@@ -228,7 +232,7 @@ function saveRecord(){
 	var firstInterviewOfficer = $('#firstInterviewOfficer_edit').textbox('getValue');
 	var firstIntervirewRemark = $('#firstIntervirewRemark_edit').textbox('getValue');
 	var secondInterviewTime = $('#secondInterviewTime_edit').datetimebox('getValue');
-	
+	var interviewEndFlag = $('#interviewEndFlag_edit').combobox('getValue');
 	
 	var requestVo = new Object();
 	requestVo.editType = editType;
@@ -254,7 +258,8 @@ function saveRecord(){
 	requestVo.firstInterviewOfficer = firstInterviewOfficer;
 	requestVo.firstIntervirewRemark = firstIntervirewRemark;
 	requestVo.secondInterviewTime = secondInterviewTime;
-
+	requestVo.interviewEndFlag = interviewEndFlag;
+	
 	$.post(contextRootPath + '/interview/saveInterview.do', requestVo, function(result){
 		if (result.success){
 			//$.messager.alert('提示',result.errorMsg);
@@ -307,6 +312,50 @@ function sendInterviewEmail(){
 		$.messager.alert('提示','请至少选择一条记录');
 	}
 	
+}
+
+
+function endInterviews(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows != null && rows.length != null && rows.length > 0){
+		var ids = "";
+		
+		// 未结束的面试数量
+		var unEndedInterviewCount = 0;
+		
+        for (var i = 0; i < rows.length; i++) {  
+            if (ids == '') {  
+            	ids = rows[i].id;  
+            } else {  
+            	ids += ',' + rows[i].id;  
+            }
+            
+            if(rows[i].interviewEndFlag == null || rows[i].interviewEndFlag != '1'){
+            	unEndedInterviewCount++;
+            }
+        }
+
+        if(unEndedInterviewCount == 0){
+        	$.messager.alert('提示','至少选择一条未结束的面试记录！');
+        	return false;
+        }
+        
+        $.post(contextRootPath + '/interview/endInterviews.do',{ids:ids},function(result){
+			if (result.success){
+				$.messager.alert('提示','成功将选中面试置为结束状态！');
+				$('#dg').datagrid('reload');	// reload the user data
+			} else {
+				$.messager.show({	// show error message
+					title: 'Error',
+					msg: result.errorMsg
+				});
+			}
+		},'json');
+		return false;
+	}else{
+		//(提示框标题，提示信息)
+		$.messager.alert('提示','请至少选择一条记录');
+	}
 }
 
 /**
@@ -496,6 +545,20 @@ function formatGenderCode(val,row){
 		return '男';
 	}else if(val == 'F'){
 		return '女';
+	}
+}
+
+/**
+ * 格式化面试结束标志位中文
+ * @param val
+ * @param row
+ * @returns
+ */
+function formatInterviewEndFlag(val,row){
+	if(val == '1'){
+		return '已结束';
+	}else if(val == '0'){
+		return '未结束';
 	}
 }
 

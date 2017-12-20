@@ -157,8 +157,23 @@
 								'selected':true
 							}]"/>
 				</td>
-				<td></td>
+				<td>面试是否结束:</td>
 				<td>
+					<input name="interviewEndFlag" class="easyui-combobox" 
+						data-options="
+							valueField: 'value',
+							textField: 'label',
+							data: [{
+								label: '未结束',
+								value: '0'
+							},{
+								label: '已结束',
+								value: '1'
+							},{
+								label: '--',
+								value: '',
+								'selected':true
+							}]"/>
 				</td>
 				<td></td>
 				<td>
@@ -203,8 +218,9 @@
 			<th field="phone" width="20">手机</th>
 			<th field="email" width="20">邮箱</th>
 			<th field="genderCode" width="5" formatter="formatGenderCode">性别</th>
-			<th field="interviewPhase" width="10">面试阶段</th>
-			<th field="firstInterviewEmailSendFlag" width="20" formatter="formatFirstInterviewEmailSendFlag">一面邀请邮件</th>
+			<th field="interviewPhase" width="20">面试阶段</th>
+			<th field="interviewEndFlag" width="10" formatter="formatInterviewEndFlag">面试是否结束</th>
+			<th field="firstInterviewEmailSendFlag" width="10" formatter="formatFirstInterviewEmailSendFlag">一面邀请邮件</th>
 			<th field="firstInterviewTime" width="20">一面时间</th>
 			<th field="firstInterviewOfficer" width="20">一面面试官</th>
 			<th field="university" width="20">毕业院校</th>
@@ -221,6 +237,7 @@
 	
 	<a href="#" class="easyui-linkbutton" plain="true" onclick="">爽约</a>
 	<a href="#" class="easyui-linkbutton" plain="true" onclick="sendInterviewEmail()">批量发送一面邀请邮件</a>
+	<a href="#" class="easyui-linkbutton" plain="true" onclick="endInterviews()">置为面试结束</a>
 	
 </div>
 	<!-- 下面dlg是为了有新增用户界面 -->
@@ -431,8 +448,19 @@
 				<td>
 					<input id="secondInterviewTime_edit" name="secondInterviewTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
 				</td>
-				<td><label></label></td>
+				<td><label>面试是否结束</label></td>
 				<td>
+					<input id="interviewEndFlag_edit" name="interviewEndFlag" class="easyui-combobox" 
+						data-options="
+							valueField: 'value',
+							textField: 'label',
+							data: [{
+								label: '未结束',
+								value: '0'
+							},{
+								label: '已结束',
+								value: '1'
+							}]"/>
 				</td>
 			</tr>
 			

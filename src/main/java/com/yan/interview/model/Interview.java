@@ -110,6 +110,11 @@ public class Interview implements Serializable{
 	 */
 	private String secondInterviewTime;
 
+	/**
+	 * 面试是否结束字段（0否，1是）
+	 */
+	private String interviewEndFlag;
+	
 	private String validStatus;
 	
 	private Date insertTime;
@@ -332,6 +337,14 @@ public class Interview implements Serializable{
 
 	public void setFirstInterviewEmailSendFlag(String firstInterviewEmailSendFlag) {
 		this.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;
+	}
+
+	public String getInterviewEndFlag() {
+		return interviewEndFlag;
+	}
+
+	public void setInterviewEndFlag(String interviewEndFlag) {
+		this.interviewEndFlag = interviewEndFlag;
 	}
 	
 }

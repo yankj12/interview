@@ -416,4 +416,30 @@ public class InterviewMongoDaoUtil {
 		 mongoClient.close();
 	}
 	
+	/**
+	 * 根据id更新单独的一个字段
+	 * @param id
+	 * @param field
+	 * @param fieldValue
+	 */
+	public void updateInterviewSingleFieldById(String id, String field, String fieldValue){
+		//To connect to a single MongoDB instance:
+	    //You can explicitly specify the hostname and the port:
+		MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
+		MongoClient mongoClient = new MongoClient(new ServerAddress(dataSource.getIp(), dataSource.getPort()),
+		                                         Arrays.asList(credential));
+		//Access a Database
+		MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
+		
+		//Access a Collection
+		MongoCollection<Document> collection = database.getCollection("Interview");
+		
+		
+		//Create a Document
+		 Document doc = new Document(field, fieldValue);
+		 
+		 //Update a Document
+		 collection.updateOne(Filters.eq("_id", new ObjectId(id)), new Document("$set", doc));
+		 mongoClient.close();
+	}
 }
