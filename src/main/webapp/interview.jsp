@@ -358,8 +358,7 @@
 							textField: 'label',
 							data: [{
 								label: '选完简历',
-								value: '选完简历',
-								'selected':true
+								value: '选完简历'
 							},{
 								label: '电话约一面',
 								value: '电话约一面'
@@ -390,7 +389,8 @@
 							},{
 								label: '--',
 								value: ''
-							}]"/>
+							}],
+							onChange:updateInterviewEndFlag"/>
 				</td>
 			</tr>
 			

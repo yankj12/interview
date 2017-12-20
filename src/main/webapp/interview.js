@@ -6,7 +6,7 @@ var url;
 $(document).ready(function(){
 	console.log('init');
 	
-}); 
+});
 
 
 //通过让数据表格url为调用js方法，这样可以让不管是分页插件还是查询条件点击下一页，都可以将查询条件和分页信息同时传到后台action
@@ -397,6 +397,18 @@ function formatYearMonth(dateStr){
 		
 		var newStr = '' + y + '/' + (m<10?('0'+m):m);
 		return newStr;
+	}
+}
+
+
+function updateInterviewEndFlag(newValue , oldValue){
+	
+	if(newValue == '电话筛除' || newValue == '爽约' || newValue == '一面不通过' || newValue == '复试不通过' || newValue == '未入职' || newValue == '已入职'){
+		// 面试结束的情况
+		$('#interviewEndFlag_edit').combobox('setValue', '1');
+	}else{
+		// 面试未结束的情况
+		$('#interviewEndFlag_edit').combobox('setValue', '0');
 	}
 }
 
