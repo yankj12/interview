@@ -235,7 +235,7 @@
 	<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRecord('修改面试人员信息')">修改面试人员信息</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRecord()">删除面试人员信息</a>
 	
-	<a href="#" class="easyui-linkbutton" plain="true" onclick="">爽约</a>
+	<a href="#" class="easyui-linkbutton" plain="true" onclick="breakInterviewAppointment()">爽约</a>
 	<a href="#" class="easyui-linkbutton" plain="true" onclick="sendInterviewEmail()">批量发送一面邀请邮件</a>
 	<a href="#" class="easyui-linkbutton" plain="true" onclick="endInterviews()">置为面试结束</a>
 	

@@ -436,6 +436,42 @@ public class InterviewAction extends ActionSupport{
     	return "json";
     }
     
+    public String breakInterviewAppointment() {
+    	HttpServletRequest request = ServletActionContext.getRequest();
+		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
+		//String[] userNames = request.getParameterValues("userNames[]");
+		String ids = request.getParameter("ids");
+//		String field = request.getParameter("field");
+//		String fieldValue = request.getParameter("fieldValue");
+		
+    	success = true;
+    	errorMsg = "";
+    	
+    	if(ids != null && !"".equals(ids.trim())){
+    		
+    		String[] idAry = ids.split(",");
+    		
+    		if(idAry != null && idAry.length > 0) {
+    			
+    			Map<String, Object> map = new HashMap<>();
+    			map.put("interviewPhase", "爽约");
+    			map.put("interviewEndFlag", "1");
+    			
+    			for(int i=0;i<idAry.length;i++) {
+    				String id = idAry[i];
+    				interviewMongoDaoUtil.updateInterviewMultiFieldsById(id, map);
+    			}
+    			
+    			success = true;
+    			errorMsg = "更新成功！";
+    		}
+    	}else{
+    		success = false;
+    		errorMsg = "缺少参数或请求数据不全！";
+    	}
+    	
+    	return "json";
+    }
     
     public String endInterviews() {
     	HttpServletRequest request = ServletActionContext.getRequest();

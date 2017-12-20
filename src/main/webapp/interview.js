@@ -358,6 +358,49 @@ function endInterviews(){
 	}
 }
 
+function breakInterviewAppointment(){
+	var rows = $('#dg').datagrid('getSelections');
+	if (rows != null && rows.length != null && rows.length > 0){
+		var ids = "";
+		
+		// 没有爽约的面试数量
+		var unBreakAppointmentCount = 0;
+		
+        for (var i = 0; i < rows.length; i++) {  
+            if (ids == '') {  
+            	ids = rows[i].id;  
+            } else {  
+            	ids += ',' + rows[i].id;  
+            }
+            
+            if(rows[i].interviewPhase == null || rows[i].interviewPhase != '爽约'){
+            	unBreakAppointmentCount++;
+            }
+        }
+
+        if(unBreakAppointmentCount == 0){
+        	$.messager.alert('提示','您选择的记录都是爽约状态，不需要再次更改状态！');
+        	return false;
+        }
+        
+        $.post(contextRootPath + '/interview/breakInterviewAppointment.do',{ids:ids},function(result){
+			if (result.success){
+				$.messager.alert('提示','成功更新选中面试记录的状态！');
+				$('#dg').datagrid('reload');	// reload the user data
+			} else {
+				$.messager.show({	// show error message
+					title: 'Error',
+					msg: result.errorMsg
+				});
+			}
+		},'json');
+		return false;
+	}else{
+		//(提示框标题，提示信息)
+		$.messager.alert('提示','请至少选择一条记录');
+	}
+}
+
 /**
  * 格式化出生年月为 yyyy/MM
  * @returns

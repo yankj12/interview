@@ -54,6 +54,12 @@
             <result name="json" type="json"></result> 
 		</action>
 		
+		<action name="breakInterviewAppointment" 
+            class="interviewAction" 
+            method="breakInterviewAppointment">
+            <result name="success">/interview.jsp</result>
+            <result name="json" type="json"></result> 
+		</action>
    </package>
 	
 </struts>
