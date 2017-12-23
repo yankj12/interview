@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.yan.common.mongodb.MongoDBConfig;
 import com.yan.interview.dao.InterviewMongoDaoUtil;
 import com.yan.interview.model.Interview;
 import com.yan.interview.util.InterviewColumnNameMapping;
@@ -32,7 +33,7 @@ public class ReadInterviewXlsx {
 			XSSFWorkbook workbook = new XSSFWorkbook(finlViewDataIn);
 			XSSFSheet aSheet = workbook.getSheetAt(0);// 获得一个sheet
 			
-			int tableHeadRowNum = 3;
+			int tableHeadRowNum = 2;
 			int lastRowNum = aSheet.getLastRowNum();
 			
 			Map<Integer, String> tableHeadColIndexAndColNameMap = new HashMap<Integer, String>();
@@ -99,6 +100,16 @@ public class ReadInterviewXlsx {
 				//System.out.println(interview.getUserName());
 				
 				InterviewMongoDaoUtil interviewMongoDaoUtil = new InterviewMongoDaoUtil();
+				
+				MongoDBConfig dataSource = new MongoDBConfig();
+				dataSource.setIp("127.0.0.1");
+				dataSource.setPort(27017);
+				dataSource.setUser("");
+				dataSource.setPassword("");
+				dataSource.setDbUserDefined("");
+				dataSource.setDatabase("");
+				
+				interviewMongoDaoUtil.setDataSource(dataSource);
 				
 				//根据姓名、手机号码、邮箱（或者的关系）查找是否有对应记录
 				String userName = interview.getUserName();
