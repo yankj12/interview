@@ -28,7 +28,7 @@ public class MenuAction extends ActionSupport{
 	 * 应用代码
 	 * 适用于，代码转换等模块
 	 */
-	public static final String APP_CODE = "manage";
+	public static final String APP_CODE = "interview";
 	
 	/**
 	 * 成功失败标志位
