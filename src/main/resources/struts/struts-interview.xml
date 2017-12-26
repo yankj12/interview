@@ -6,7 +6,14 @@
 <struts>
 
 	<package name="interview" extends="json-default" namespace="/interview">
-  
+		<global-results>
+			<result name="json" type="json">
+            	<param name="excludeProperties">
+					.*Util, .*DaoUtil, .*Service, .*Config, userMsgInfo
+				</param>
+            </result> 
+		</global-results>
+		
 		<action name="interview" 
             class="interviewAction" 
             method="interview">
@@ -16,49 +23,42 @@
             class="interviewAction" 
             method="findInterviews">
             <result name="success">/interview.jsp</result>
-            <result name="json" type="json"></result> 
 		</action>
       
 		<action name="findUniqueInterview" 
             class="interviewAction" 
             method="findUniqueInterview">
             <result name="success">/interview.jsp</result>
-            <result name="json" type="json"></result> 
 		</action>
       
 		<action name="saveInterview" 
             class="interviewAction" 
             method="saveInterview">
             <result name="success">/interview.jsp</result>
-            <result name="json" type="json"></result> 
 		</action>
 
 		<action name="deleteInterview" 
             class="interviewAction" 
             method="deleteInterview">
             <result name="success">/interview.jsp</result>
-            <result name="json" type="json"></result> 
 		</action>
 		
 		<action name="sendInterviewEmail" 
             class="interviewAction" 
             method="sendInterviewEmail">
             <result name="success">/interview.jsp</result>
-            <result name="json" type="json"></result> 
 		</action>
 		
 		<action name="endInterviews" 
             class="interviewAction" 
             method="endInterviews">
             <result name="success">/interview.jsp</result>
-            <result name="json" type="json"></result> 
 		</action>
 		
 		<action name="breakInterviewAppointment" 
             class="interviewAction" 
             method="breakInterviewAppointment">
             <result name="success">/interview.jsp</result>
-            <result name="json" type="json"></result> 
 		</action>
    </package>
 	
