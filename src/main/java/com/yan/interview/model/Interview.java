@@ -151,11 +151,6 @@ public class Interview implements Serializable{
 
 	public void setGenderCode(String genderCode) {
 		this.genderCode = genderCode;
-		if("M".equals(genderCode)){
-			this.genderName = "男";
-		}else if("F".equals(genderCode)){
-			this.genderName = "女";
-		}
 	}
 
 	public String getGenderName() {
@@ -164,11 +159,6 @@ public class Interview implements Serializable{
 
 	public void setGenderName(String genderName) {
 		this.genderName = genderName;
-		if("男".equals(genderName)){
-			this.genderCode = "M";
-		}else if("女".equals(genderName)){
-			this.genderCode = "F";
-		}
 	}
 
 	public String getPhone() {

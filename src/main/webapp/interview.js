@@ -65,7 +65,7 @@ function newRecord(title){
 	
 	// 性别默认选择男
 	$('#genderCode_edit').combobox('setValue', 'M');
-	$("#genderName_edit").val('男');
+	//$("#genderName_edit").val('男');    // 已经不需要给genderName赋值了
 	
 	// 给电话约面试时间赋值
 	$('#firstPhoneCallTime_edit').datetimebox('setValue', myDateFormatter(date));
@@ -127,7 +127,7 @@ function editRecord(title){
 	        		$('#userEName_edit').textbox('setValue', interview.userEName);
 	        		
 	        		$('#genderCode_edit').combobox('setValue', interview.genderCode);
-	        		$("#genderName_edit").val(interview.genderName);
+	        		//$("#genderName_edit").val(interview.genderName);
 	        		
 	        		
 	        		$('#birth_edit').textbox('setValue', interview.birth);
@@ -241,7 +241,12 @@ function saveRecord(){
 	requestVo.userName = userName;
 	requestVo.userEName = userEName;
 	requestVo.genderCode = genderCode;
-	requestVo.genderName = genderName;
+	if(genderCode == 'M'){
+		requestVo.genderName = '男';
+	}else if(genderCode == 'F'){
+		requestVo.genderName = '女';
+	}
+	
 	requestVo.birth = birth;
 	requestVo.phone = phone;
 	requestVo.email = email;

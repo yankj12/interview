@@ -281,7 +281,7 @@
 								value: '',
 								'selected':true
 							}]"/>
-					<input type="hidden" id="genderName_edit" name="genderName" value=""/>
+					<!-- <input type="hidden" id="genderName_edit" name="genderName" value=""/> -->
 				</td>
 				<td><label>出生年月(yyyy/MM)</label></td>
 				<td>
