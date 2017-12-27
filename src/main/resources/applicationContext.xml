@@ -48,6 +48,7 @@
     	<property name="menuMongoDaoUtil">
 			<ref local="menuMongoDaoUtil" />
 		</property>
+		<property name="syscode" value="${syscode}" />
     </bean>
     
     <bean id="interviewAction" class="com.yan.interview.controller.InterviewAction">
