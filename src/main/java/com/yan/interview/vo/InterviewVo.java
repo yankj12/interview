@@ -94,6 +94,13 @@ public class InterviewVo implements Serializable{
 	private String firstInterviewTime;
 	
 	/**
+	 * 一面面试时间段
+	 * yyyy-MM-dd AM
+	 * yyyy-MM-dd PM
+	 */
+	private String firstInterviewTimePeriod;
+	
+	/**
 	 * 一面面试官
 	 */
 	private String firstInterviewOfficer;
@@ -290,6 +297,14 @@ public class InterviewVo implements Serializable{
 
 	public void setFirstInterviewEmailSendFlag(String firstInterviewEmailSendFlag) {
 		this.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;
+	}
+
+	public String getFirstInterviewTimePeriod() {
+		return firstInterviewTimePeriod;
+	}
+
+	public void setFirstInterviewTimePeriod(String firstInterviewTimePeriod) {
+		this.firstInterviewTimePeriod = firstInterviewTimePeriod;
 	}
 	
 }

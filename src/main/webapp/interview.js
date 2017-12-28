@@ -229,6 +229,8 @@ function saveRecord(){
 	var firstPhoneCallRemark = $('#firstPhoneCallRemark_edit').textbox('getValue');
 	var firstInterviewEmailSendFlag = $('#firstInterviewEmailSendFlag_edit').combobox('getValue');
 	var firstInterviewTime = $('#firstInterviewTime_edit').datetimebox('getValue');
+	var firstInterviewTimePeriod = transDateTimeToPerioid(firstInterviewTime);
+	
 	var firstInterviewOfficer = $('#firstInterviewOfficer_edit').textbox('getValue');
 	var firstIntervirewRemark = $('#firstIntervirewRemark_edit').textbox('getValue');
 	var secondInterviewTime = $('#secondInterviewTime_edit').datetimebox('getValue');
@@ -260,6 +262,7 @@ function saveRecord(){
 	requestVo.firstPhoneCallRemark = firstPhoneCallRemark;
 	requestVo.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;
 	requestVo.firstInterviewTime = firstInterviewTime;
+	requestVo.firstInterviewTimePeriod = firstInterviewTimePeriod;
 	requestVo.firstInterviewOfficer = firstInterviewOfficer;
 	requestVo.firstIntervirewRemark = firstIntervirewRemark;
 	requestVo.secondInterviewTime = secondInterviewTime;
@@ -724,3 +727,25 @@ function formatDateTimeString(timeStr){
 	}
 	
 }
+
+/**
+ * 将日期字符串转换为 yyyy-MM-dd AM  yyyy-MM-dd PM  格式
+ * @param s
+ * @returns
+ */
+function transDateTimeToPerioid(s){
+	if (!s) return '';
+	
+	var y = parseInt(s.substring(0,4),10);
+	var m = parseInt(s.substring(5,7),10);
+	var d = parseInt(s.substring(8,10),10);
+	
+	var h = parseInt(s.substring(11,13),10);
+	
+	if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+		return '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<=12?'AM':'PM');
+	} else {
+		return '';
+	}
+}
+

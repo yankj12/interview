@@ -175,8 +175,9 @@
 								'selected':true
 							}]"/>
 				</td>
-				<td></td>
+				<td>一面面试时间段:</td>
 				<td>
+					<input name="firstInterviewTimePeriod" class="easyui-textbox">
 				</td>
 				<td></td>
 				<td>

@@ -169,6 +169,9 @@ public class InterviewAction extends ActionSupport{
 		String firstInterviewTimeEnd = request.getParameter("firstInterviewTimeEnd");
 		map.put("firstInterviewTimeEnd", firstInterviewTimeEnd);
 		
+		String firstInterviewTimePeriod = request.getParameter("firstInterviewTimePeriod");
+		map.put("firstInterviewTimePeriod", firstInterviewTimePeriod);
+		
 		//姓名
 		String userName = request.getParameter("userName");
 		map.put("userName", userName);
@@ -302,6 +305,8 @@ public class InterviewAction extends ActionSupport{
 		
 		String firstInterviewTime = request.getParameter("firstInterviewTime");
 		
+		String firstInterviewTimePeriod = request.getParameter("firstInterviewTimePeriod");
+		
 		String firstInterviewOfficer = request.getParameter("firstInterviewOfficer");
 		
 		String firstIntervirewRemark = request.getParameter("firstIntervirewRemark");
@@ -336,6 +341,7 @@ public class InterviewAction extends ActionSupport{
 		interview.setFirstPhoneCallRemark(firstPhoneCallRemark);
 		interview.setFirstInterviewEmailSendFlag(firstInterviewEmailSendFlag);
 		interview.setFirstInterviewTime(firstInterviewTime);
+		interview.setFirstInterviewTimePeriod(firstInterviewTimePeriod);
 		interview.setFirstInterviewOfficer(firstInterviewOfficer);
 		interview.setFirstIntervirewRemark(firstIntervirewRemark);
 		interview.setSecondInterviewTime(secondInterviewTime);
