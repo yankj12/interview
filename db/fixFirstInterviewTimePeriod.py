@@ -11,7 +11,7 @@ from pymongo import MongoClient
 #from bson.objectid import ObjectId
 from myutil.Properties import Properties
 from myutil.DateTransUtil import DateTransUtil
-
+import urllib
 import re
 
 # 读取properties的配置文件
@@ -26,6 +26,8 @@ server = dictProperties['ip']
 port = dictProperties['port']
 db_name = dictProperties['dbUserDefined']
 
+user = urllib.quote_plus(user)
+pwd = urllib.quote_plus(pwd)
 uri = 'mongodb://' + user + ':' + pwd + '@' + server + ':' + port + '/'+ db_name
 client = MongoClient(uri)
 
