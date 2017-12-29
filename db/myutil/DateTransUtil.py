@@ -70,7 +70,7 @@ class DateTransUtil(object):
 
         period = 'AM' if hour <= 12 else 'PM'
 
-        month_str = str(month) if month > 10 else '0' + str(month)
-        day_str = str(day) if day > 10 else '0' + str(day)
+        month_str = str(month) if month >= 10 else '0' + str(month)
+        day_str = str(day) if day >= 10 else '0' + str(day)
 
         return '' + str(year) + '-' + month_str + '-' + day_str + ' ' + period
