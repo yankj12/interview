@@ -17,6 +17,7 @@ import com.yan.access.vo.UserMsgInfo;
 import com.yan.interview.dao.InterviewMongoDaoUtil;
 import com.yan.interview.model.Interview;
 import com.yan.interview.service.facade.SendInterviewEmailService;
+import com.yan.interview.vo.GroupCountAggregateVo;
 import com.yan.interview.vo.InterviewVo;
 
 public class InterviewAction extends ActionSupport{
@@ -509,5 +510,102 @@ public class InterviewAction extends ActionSupport{
     	}
     	
     	return "json";
+    }
+    
+    public String interviewsGroupByfirstInterviewTimePeriod(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		
+		HttpSession httpSession = request.getSession();
+		String sessID = request.getSession().getId();
+		//从session中获取userCode
+		if(httpSession != null){
+			if(httpSession.getAttribute(sessID) != null){
+				userMsgInfo = (UserMsgInfo)httpSession.getAttribute(sessID);
+			}
+		}
+		
+		return "success";
+	}
+    
+    public String showInterviewsGroupByfirstInterviewTimePeriod() {
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+		
+    	HttpServletRequest request = ServletActionContext.getRequest();
+		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
+		
+		//有效状态
+		String validStatus = request.getParameter("validStatus");
+		map.put("validStatus", validStatus);
+		
+		//一面起始日期
+		String firstInterviewTimeStart = request.getParameter("firstInterviewTimeStart");
+		map.put("firstInterviewTimeStart", firstInterviewTimeStart);
+		
+		//一面结束日期
+		String firstInterviewTimeEnd = request.getParameter("firstInterviewTimeEnd");
+		map.put("firstInterviewTimeEnd", firstInterviewTimeEnd);
+		
+		String firstInterviewTimePeriod = request.getParameter("firstInterviewTimePeriod");
+		map.put("firstInterviewTimePeriod", firstInterviewTimePeriod);
+		
+		//姓名
+		String userName = request.getParameter("userName");
+		map.put("userName", userName);
+		
+		//手机
+		String phone = request.getParameter("phone");
+		map.put("phone", phone);
+		
+		//邮箱
+		String email = request.getParameter("email");
+		map.put("email", email);
+		
+		//性别
+		String genderCode = request.getParameter("genderCode");
+		map.put("genderCode", genderCode);		
+		
+		//工作年数
+		String jobExperienceYear = request.getParameter("jobExperienceYear");
+		map.put("jobExperienceYear", jobExperienceYear);		
+
+		//一面面试官
+		String firstInterviewOfficer = request.getParameter("firstInterviewOfficer");
+		map.put("firstInterviewOfficer", firstInterviewOfficer);	
+		
+		//毕业院校
+		String university = request.getParameter("university");
+		map.put("university", university);	
+		
+		//专业
+		String major = request.getParameter("major");
+		map.put("major", major);	
+		
+		//一面评价
+		String firstIntervirewRemark = request.getParameter("firstIntervirewRemark");
+		map.put("firstIntervirewRemark", firstIntervirewRemark);
+		
+		// 一面邀请邮件是否发送
+		String firstInterviewEmailSendFlag = request.getParameter("firstInterviewEmailSendFlag");
+		map.put("firstInterviewEmailSendFlag", firstInterviewEmailSendFlag);
+		
+		//面试阶段
+		String interviewPhase = request.getParameter("interviewPhase");
+		map.put("interviewPhase", interviewPhase);
+		
+		String interviewEndFlag = request.getParameter("interviewEndFlag");
+		map.put("interviewEndFlag", interviewEndFlag);
+		
+    	//查询结果
+    	List<GroupCountAggregateVo> groups = interviewMongoDaoUtil.groupCountInterviewsByFirstInterviewTimePeriod(map);
+		//返回给前台的rows不能是null，否则前台js会报rows is null异常
+		
+		rows = groups;
+    	total = groups.size();
+		
+    	//下面这两个变量在这个方法中并不是必须的
+		success = true;
+		errorMsg = null;
+		return "json";
     }
 }

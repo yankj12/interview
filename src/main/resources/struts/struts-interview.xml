@@ -60,6 +60,19 @@
             method="breakInterviewAppointment">
             <result name="success">/interview.jsp</result>
 		</action>
+		
+		<action name="interviewsGroupByfirstInterviewTimePeriod" 
+            class="interviewAction" 
+            method="interviewsGroupByfirstInterviewTimePeriod">
+            <result name="success">/pages/interview/interviewsGroupByfirstInterviewTimePeriod.jsp</result>
+		</action>
+		
+		<action name="showInterviewsGroupByfirstInterviewTimePeriod" 
+            class="interviewAction" 
+            method="showInterviewsGroupByfirstInterviewTimePeriod">
+            <result name="success">/pages/interview/interviewsGroupByfirstInterviewTimePeriod.jsp</result>
+		</action>
+		
    </package>
 	
 </struts>
