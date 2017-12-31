@@ -1,1 +1,4 @@
 syscode=interview
+cdn=/interview
+#自适应http和https协议
+#cdn=//www.test.com
