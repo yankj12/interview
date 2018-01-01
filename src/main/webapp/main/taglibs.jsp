@@ -15,8 +15,6 @@
 %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
-<!-- set cdn here -->
-<!-- property cdn: ${ctx} or "//www.yankj12.info/Public/js" -->
 <c:set var="cdn" value="<%=cdn %>"/>
 
 <script type="text/javascript">

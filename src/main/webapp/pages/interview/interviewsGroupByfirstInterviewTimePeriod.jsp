@@ -8,6 +8,7 @@
 
 <script src="${ctx }/main/js/mycommon.js" type="text/javascript"></script>
 <script src="${ctx }/pages/interview/js/interviewsGroupByfirstInterviewTimePeriod.js" type="text/javascript"></script>
+<script src="${cdn}/echarts/echarts.min.js" type="text/javascript"></script>
 
 	<!-- 下拉列表可能需要的样式 -->
 	<style type="text/css">
@@ -206,18 +207,27 @@
         </table>
     </form>
 </div>
-<table id="dg" title="查询结果" class="easyui-datagrid" style="width:100%;height:auto;"
-		url="${ctx }/interview/showInterviewsGroupByfirstInterviewTimePeriod.do?validStatus=1"
-		rownumbers="true" pagination="false" fitColumns="true">
-		<!-- table增加了pagination="true"属性，就增加了底部的分页工具栏 -->
-	<thead>
-		<tr>
-			<th field="id" width="40">一面时间</th>
-			<th field="count" width="60">面试人员个数</th>
-			
-		</tr>
-	</thead>
-</table>
+
+<div class="easyui-tabs" style="width:100%;height:auto;">
+	<div title="查询结果" style="padding:5px">
+		<table id="dg" class="easyui-datagrid" style="width:100%;height:auto;"
+				url="${ctx }/interview/showInterviewsGroupByfirstInterviewTimePeriod.do?validStatus=1"
+				rownumbers="true" pagination="false" fitColumns="true">
+				<!-- table增加了pagination="true"属性，就增加了底部的分页工具栏 -->
+			<thead>
+				<tr>
+					<th field="id" width="40">一面时间</th>
+					<th field="count" width="60">面试人员个数</th>
+					
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div title="图表" style="padding:5px">
+		<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    	<div id="echartsMain" style="width: 1200px;height:600px;"></div>
+	</div>
+</div>
 
 	<style type="text/css">
 		#fm{

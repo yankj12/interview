@@ -6,6 +6,16 @@ var url;
 $(document).ready(function(){
 	console.log('init');
 	
+	// 当查询完数据之后绘制图表，图表的数据来源于datagrid
+	$('#dg').datagrid({  
+        onLoadSuccess:function(data){  
+            //要判断或者执行的代码
+        	//console.log(data);
+        	drawEcharts(data);
+        }  
+    });
+	
+	
 });
 
 
@@ -226,3 +236,114 @@ function transDateTimeToPerioid(s){
 	}
 }
 
+/**
+ * 绘制一面时间分布的图表
+ * @returns
+ */
+function drawEcharts(data){
+	console.log('drawEcharts');
+	
+	//组装数据
+	//console.log(data)
+	var xAxisData = [];
+	var amData = [];
+	var pmData = [];
+	
+	var amMap = {};
+	var pmMap = {};
+	
+	if(data != null && data.rows != null && data.rows.length > 0){
+		var rows = data.rows;
+		for(var i=0;i<rows.length;i++){
+			//2017-09-20 AM
+			var id = rows[i].id;
+			var count = rows[i].count;
+			
+			var date = id.substring(0,10);
+			var flag = id.substring(11,13);
+			
+			// 避免插入重复数据
+			if($.inArray(date, xAxisData) == -1){
+				xAxisData.push(date);
+			}
+			
+			if(flag != null){
+				if(flag == 'AM' || flag == 'am'){
+					amMap[date] = count;
+				}else if(flag == 'PM' || flag == 'pm'){
+					pmMap[date] = count;
+				}
+			}
+		}
+	}
+	
+	if(xAxisData != null && xAxisData.length > 0){
+		for(var i=0;i<xAxisData.length;i++){
+			var date = xAxisData[i];
+			//am
+			var amCount = amMap[date];
+			if(amCount == null){
+				amCount = 0;
+			}
+			amData.push(amCount);
+			//pm
+			var pmCount = pmMap[date];
+			if(pmCount == null){
+				pmCount = 0;
+			}
+			pmData.push(pmCount);
+			
+		}
+	}
+	
+	// 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('echartsMain'));
+
+    // 指定图表的配置项和数据
+    var option = {
+		title: {
+            text: '一面时间分布堆叠柱状图'
+        },
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	        }
+	    },
+	    legend: {
+	        data:['AM','PM']
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            data : xAxisData
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : [
+	        {
+	            name:'AM',
+	            type:'bar',
+	            data:amData
+	        },
+	        {
+	            name:'PM',
+	            type:'bar',
+	            data:pmData
+	        }
+	    ]
+	};
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+}
