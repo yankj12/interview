@@ -1,7 +1,6 @@
 package com.yan.interview.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -18,12 +19,13 @@ import com.yan.interview.dao.InterviewMongoDaoUtil;
 import com.yan.interview.model.Interview;
 import com.yan.interview.service.facade.SendInterviewEmailService;
 import com.yan.interview.vo.GroupCountAggregateVo;
-import com.yan.interview.vo.InterviewVo;
 
 public class InterviewAction extends ActionSupport{
 
 	private static final long serialVersionUID = 1L;
 
+	private static final Logger logger = LogManager.getLogger(InterviewAction.class);
+	
 	/**
 	 * 查询出来的总条数
 	 * 分页插件需要
@@ -402,7 +404,8 @@ public class InterviewAction extends ActionSupport{
 		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
 		//String[] userNames = request.getParameterValues("userNames[]");
 		String ids = request.getParameter("ids");
-    	
+		logger.debug("Action sendInterviewEmail,ids:" + ids);
+		
     	success = true;
     	errorMsg = "";
     	
@@ -440,6 +443,7 @@ public class InterviewAction extends ActionSupport{
     		errorMsg = "缺少参数或请求数据不全！";
     	}
     	
+    	logger.debug("Action sendInterviewEmail end");
     	return "json";
     }
     

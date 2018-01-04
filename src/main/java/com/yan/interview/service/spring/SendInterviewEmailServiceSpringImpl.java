@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.yan.common.util.DateUtil;
 import com.yan.interview.model.Interview;
 import com.yan.interview.model.InterviewConfig;
@@ -13,6 +16,8 @@ import com.yan.interview.service.facade.SendInterviewEmailService;
 import com.yan.mail.service.SendEmailService;
 
 public class SendInterviewEmailServiceSpringImpl implements SendInterviewEmailService{
+
+	private static final Logger logger = LogManager.getLogger("sendEmail");
 
 	private InterviewConfig interviewConfig;
 	
@@ -47,6 +52,7 @@ public class SendInterviewEmailServiceSpringImpl implements SendInterviewEmailSe
 			String firstInterviewTime = interview.getFirstInterviewTime();
 			// 通过正则表达式将
 			Date interviewTime = DateUtil.formatDateStr(firstInterviewTime);
+			logger.debug("Service, format first interview time success");
 			
 			String toMail = interview.getEmail();
 			
@@ -58,14 +64,16 @@ public class SendInterviewEmailServiceSpringImpl implements SendInterviewEmailSe
 			String emailSuffix = interviewConfig.getEmailSuffix();
 			
 			String emailMsg = this.formatEmailMsg(name, interviewTime, address, interviewOfficerTitle, interviewOfficerPhone, emailSuffix);
+			logger.debug("Service, formatEmailMsg success");
 			
 			sendEmailService.sendEmail(emailMsg, toMail);
 			
-			System.out.println("邮件发送成功");
+			logger.debug("Service, send email success");
 			result = true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.error(e);
 		}
 		
 		return result;
