@@ -31,7 +31,7 @@ public class SendEmailService {
 			email.setSmtpPort(emailConfig.getSmtpPort());
 			// 在java代码中发送邮件，有些邮箱提供商（比如163邮箱），在使用smtp发送邮件的时候，密码使用的是授权码，而非真的密码，需要注意
 			email.setAuthenticator(new DefaultAuthenticator(emailConfig.getMailUserName(), emailConfig.getMailUserPwd()));
-			email.setSSLOnConnect(true);
+			email.setSSLOnConnect(emailConfig.isSslOnConnect());
 			email.setFrom(emailConfig.getFromMail());
 			email.setSubject(emailConfig.getSubject());
 			email.setMsg(emailMsg);
