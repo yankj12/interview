@@ -32,12 +32,29 @@
             <tr>
 				<td>一面起始日期:</td>
 				<td>
-					<input name="firstInterviewTimeStart" class="easyui-textbox">
+					<input name="firstInterviewTimeStart" class="easyui-textbox"/>
 				</td>
 				<td>一面结束日期:</td>
 				<td>
-					<input name="firstInterviewTimeEnd" class="easyui-textbox">
+					<input name="firstInterviewTimeEnd" class="easyui-textbox"/>
 				</td>
+				<td>电话约面试起始日期:</td>
+				<td>
+					<input name="firstPhoneCallTimeStart" class="easyui-textbox"/>
+				</td>
+				<td>电话约面试结束日期:</td>
+				<td>
+					<input name="firstPhoneCallTimeEnd" class="easyui-textbox"/>
+				</td>
+				<td></td>
+				<td>
+				</td>
+				<td></td>
+				<td>
+				</td>
+			</tr>
+			
+			<tr>
 				<td>姓名:</td>
 				<td>
 					<input name="userName" class="easyui-textbox">
@@ -67,6 +84,12 @@
 								value: '',
 								'selected':true
 							}]"/>
+				</td>
+				<td></td>
+				<td>
+				</td>
+				<td></td>
+				<td>
 				</td>
 			</tr>
 			

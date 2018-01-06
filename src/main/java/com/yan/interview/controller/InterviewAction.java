@@ -172,6 +172,14 @@ public class InterviewAction extends ActionSupport{
 		String firstInterviewTimeEnd = request.getParameter("firstInterviewTimeEnd");
 		map.put("firstInterviewTimeEnd", firstInterviewTimeEnd);
 		
+		//电话约面试起始日期
+		String firstPhoneCallTimeStart = request.getParameter("firstPhoneCallTimeStart");
+		map.put("firstPhoneCallTimeStart", firstPhoneCallTimeStart);
+		
+		//电话约面试结束日期
+		String firstPhoneCallTimeEnd = request.getParameter("firstPhoneCallTimeEnd");
+		map.put("firstPhoneCallTimeEnd", firstPhoneCallTimeEnd);
+		
 		String firstInterviewTimePeriod = request.getParameter("firstInterviewTimePeriod");
 		map.put("firstInterviewTimePeriod", firstInterviewTimePeriod);
 		
@@ -550,6 +558,14 @@ public class InterviewAction extends ActionSupport{
 		String firstInterviewTimeEnd = request.getParameter("firstInterviewTimeEnd");
 		map.put("firstInterviewTimeEnd", firstInterviewTimeEnd);
 		
+		//电话约面试起始日期
+		String firstPhoneCallTimeStart = request.getParameter("firstPhoneCallTimeStart");
+		map.put("firstPhoneCallTimeStart", firstPhoneCallTimeStart);
+		
+		//电话约面试结束日期
+		String firstPhoneCallTimeEnd = request.getParameter("firstPhoneCallTimeEnd");
+		map.put("firstPhoneCallTimeEnd", firstPhoneCallTimeEnd);
+				
 		String firstInterviewTimePeriod = request.getParameter("firstInterviewTimePeriod");
 		map.put("firstInterviewTimePeriod", firstInterviewTimePeriod);
 		

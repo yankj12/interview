@@ -132,6 +132,10 @@ public class InterviewMongoDaoUtil {
 						bsons.add(Filters.gte("firstInterviewTime", value.toString()));
 					}else if ("firstInterviewTimeEnd".equals(key)) {
 						bsons.add(Filters.lte("firstInterviewTime", value.toString()));
+					}else if ("firstPhoneCallTimeStart".equals(key)) {
+						bsons.add(Filters.gte("firstPhoneCallTime", value.toString()));
+					}else if ("firstPhoneCallTimeEnd".equals(key)) {
+						bsons.add(Filters.lte("firstPhoneCallTime", value.toString()));
 					}else if ("genderCode".equals(key)
 							|| "phone".equals(key) 
 							|| "email".equals(key) 
@@ -223,6 +227,10 @@ public class InterviewMongoDaoUtil {
 						bsons.add(Filters.gte("firstInterviewTime", value.toString()));
 					}else if ("firstInterviewTimeEnd".equals(key)) {
 						bsons.add(Filters.lte("firstInterviewTime", value.toString()));
+					}else if ("firstPhoneCallTimeStart".equals(key)) {
+						bsons.add(Filters.gte("firstPhoneCallTime", value.toString()));
+					}else if ("firstPhoneCallTimeEnd".equals(key)) {
+						bsons.add(Filters.lte("firstPhoneCallTime", value.toString()));
 					}else if ("genderCode".equals(key)
 							|| "phone".equals(key) 
 							|| "email".equals(key) 
@@ -509,6 +517,10 @@ public class InterviewMongoDaoUtil {
 						bsons.add(Filters.gte("firstInterviewTime", value.toString()));
 					}else if ("firstInterviewTimeEnd".equals(key)) {
 						bsons.add(Filters.lte("firstInterviewTime", value.toString()));
+					}else if ("firstPhoneCallTimeStart".equals(key)) {
+						bsons.add(Filters.gte("firstPhoneCallTime", value.toString()));
+					}else if ("firstPhoneCallTimeEnd".equals(key)) {
+						bsons.add(Filters.lte("firstPhoneCallTime", value.toString()));
 					}else if ("genderCode".equals(key)
 							|| "phone".equals(key) 
 							|| "email".equals(key) 
