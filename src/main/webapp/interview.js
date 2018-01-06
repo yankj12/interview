@@ -294,27 +294,32 @@ function saveRecord(){
 function sendInterviewEmail(){
 	var rows = $('#dg').datagrid('getSelections');
 	if (rows != null && rows.length != null && rows.length > 0){
-		var ids = "";
-        for (var i = 0; i < rows.length; i++) {  
-            if (ids == '') {  
-            	ids = rows[i].id;  
-            } else {  
-            	ids += ',' + rows[i].id;  
-            }
-        }
-
-        $.post(contextRootPath + '/interview/sendInterviewEmail.do',{ids:ids},function(result){
-			if (result.success){
-				$.messager.alert('提示','面试邀请邮件发送成功！');
-				$('#dg').datagrid('reload');	// reload the user data
-			} else {
-				$.messager.show({	// show error message
-					title: 'Error',
-					msg: result.errorMsg
-				});
-			}
-		},'json');
-		return false;
+		
+		$.messager.confirm('请确认！','确认要向这几位面试者发送一面面试邀请邮件吗？',function(r){
+		    if (r){
+				var ids = "";
+				for (var i = 0; i < rows.length; i++) {  
+					if (ids == '') {  
+						ids = rows[i].id;  
+					} else {  
+						ids += ',' + rows[i].id;  
+					}
+				}
+				
+				$.post(contextRootPath + '/interview/sendInterviewEmail.do',{ids:ids},function(result){
+					if (result.success){
+						$.messager.alert('提示','面试邀请邮件发送成功！');
+						$('#dg').datagrid('reload');	// reload the user data
+					} else {
+						$.messager.show({	// show error message
+							title: 'Error',
+							msg: result.errorMsg
+						});
+					}
+				},'json');
+		    }
+		});
+		
 	}else{
 		//(提示框标题，提示信息)
 		$.messager.alert('提示','请至少选择一条记录');
