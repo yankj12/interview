@@ -331,6 +331,7 @@ function sendInterviewEmail(){
 function endInterviews(){
 	var rows = $('#dg').datagrid('getSelections');
 	if (rows != null && rows.length != null && rows.length > 0){
+		
 		var ids = "";
 		
 		// 未结束的面试数量
@@ -353,18 +354,22 @@ function endInterviews(){
         	return false;
         }
         
-        $.post(contextRootPath + '/interview/endInterviews.do',{ids:ids},function(result){
-			if (result.success){
-				$.messager.alert('提示','成功将选中面试置为结束状态！');
-				$('#dg').datagrid('reload');	// reload the user data
-			} else {
-				$.messager.show({	// show error message
-					title: 'Error',
-					msg: result.errorMsg
-				});
-			}
-		},'json');
-		return false;
+        $.messager.confirm('请确认！','确认要将这几条面试信息置为已结束吗？',function(r){
+		    if (r){
+		    	$.post(contextRootPath + '/interview/endInterviews.do',{ids:ids},function(result){
+		    		if (result.success){
+		    			$.messager.alert('提示','成功将选中面试置为结束状态！');
+		    			$('#dg').datagrid('reload');	// reload the user data
+		    		} else {
+		    			$.messager.show({	// show error message
+		    				title: 'Error',
+		    				msg: result.errorMsg
+		    			});
+		    		}
+		    	},'json');
+		    }
+		});
+        
 	}else{
 		//(提示框标题，提示信息)
 		$.messager.alert('提示','请至少选择一条记录');
