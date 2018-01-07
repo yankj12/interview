@@ -122,6 +122,11 @@ public class Interview implements Serializable{
 	 */
 	private String interviewEndFlag;
 	
+	/**
+	 * 面试邮件内容
+	 */
+	private String interviewMailText;
+	
 	private String validStatus;
 	
 	private Date insertTime;
@@ -350,6 +355,14 @@ public class Interview implements Serializable{
 
 	public void setFirstInterviewTimePeriod(String firstInterviewTimePeriod) {
 		this.firstInterviewTimePeriod = firstInterviewTimePeriod;
+	}
+
+	public String getInterviewMailText() {
+		return interviewMailText;
+	}
+
+	public void setInterviewMailText(String interviewMailText) {
+		this.interviewMailText = interviewMailText;
 	}
 	
 }

@@ -164,6 +164,8 @@ function editRecord(title){
 	        		
 	        		$('#interviewEndFlag_edit').combobox('setValue', interview.interviewEndFlag);
 	        		
+	        		$('#interviewMailText_edit').textbox('setValue', interview.interviewMailText);
+	        		
 	        	}else{
 	        		$.messager.alert('提示',result.errorMsg);
 	        	}
@@ -235,6 +237,7 @@ function saveRecord(){
 	var firstIntervirewRemark = $('#firstIntervirewRemark_edit').textbox('getValue');
 	var secondInterviewTime = $('#secondInterviewTime_edit').datetimebox('getValue');
 	var interviewEndFlag = $('#interviewEndFlag_edit').combobox('getValue');
+	var interviewMailText = $('#interviewMailText_edit').textbox('getValue');
 	
 	var requestVo = new Object();
 	requestVo.editType = editType;
@@ -267,6 +270,7 @@ function saveRecord(){
 	requestVo.firstIntervirewRemark = firstIntervirewRemark;
 	requestVo.secondInterviewTime = secondInterviewTime;
 	requestVo.interviewEndFlag = interviewEndFlag;
+	requestVo.interviewMailText = interviewMailText;
 	
 	$.post(contextRootPath + '/interview/saveInterview.do', requestVo, function(result){
 		if (result.success){

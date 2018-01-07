@@ -267,229 +267,242 @@
 	<!-- 下面dlg是为了有新增用户界面 -->
 	<div id="dlg" class="easyui-dialog" style="width:800px;height:auto;padding:0px 0px"
 			closed="true" buttons="#dlg-buttons">
-		<form id="fm" method="post" novalidate>
-		<table cellpadding="5" style="width:100%;">
-			<tr>
-				<td><label>姓名</label></td>
-				<td>
-					<input type="hidden" id="loginUserCode_edit" name="loginUserCode" value="${userMsgInfo.userCode }"/>
-					<input type="hidden" id="loginUserName_edit" name="loginUserName" value="${userMsgInfo.userCName }"/>
+		<div class="easyui-tabs" style="width:100%;height:600px;" fit="true">
+			<div title="面试信息" style="padding:5px">
+				<form id="fm" method="post" novalidate>
+				<table cellpadding="5" style="width:100%;">
+					<tr>
+						<td><label>姓名</label></td>
+						<td>
+							<input type="hidden" id="loginUserCode_edit" name="loginUserCode" value="${userMsgInfo.userCode }"/>
+							<input type="hidden" id="loginUserName_edit" name="loginUserName" value="${userMsgInfo.userCName }"/>
+							
+							<input type="hidden" id="editType_edit" name="editType" value="new"/>
+							<input type="hidden" id="id_edit" name="id" value=""/>
+							<input type="hidden" id="validStatus_edit" name="validStatus" value=""/>
+							<input id="userName_edit" name="userName" class="easyui-textbox" value=""/>
+						</td>
+						<td><label>英文名/拼音</label></td>
+						<td>
+							<input id="userEName_edit" name="userEName" class="easyui-textbox" value=""/>
+						</td>
+						
+					</tr>
+		
+					<tr>
+						<td><label>性别</label></td>
+						<td>
+							<input id="genderCode_edit" name="genderCode" class="easyui-combobox" 
+								data-options="
+									valueField: 'value',
+									textField: 'label',
+									data: [{
+										label: '男',
+										value: 'M'
+									},{
+										label: '女',
+										value: 'F'
+									},{
+										label: '--',
+										value: '',
+										'selected':true
+									}]"/>
+							<!-- <input type="hidden" id="genderName_edit" name="genderName" value=""/> -->
+						</td>
+						<td><label>出生年月(yyyy/MM)</label></td>
+						<td>
+							<input id="birth_edit" name="birth" class="easyui-textbox" value="" data-options="onChange:formatBirth,onBlur:formatBirth"/>
+						</td>
+					</tr>
+		
+					<tr>
+						<td><label>电话</label></td>
+						<td>
+							<input id="phone_edit" name="phone" class="easyui-textbox" value=""/>
+						</td>
+						<td><label>邮箱</label></td>
+						<td>
+							<input id="email_edit" name="email" class="easyui-textbox" value=""/>
+						</td>
+						
+					</tr>
 					
-					<input type="hidden" id="editType_edit" name="editType" value="new"/>
-					<input type="hidden" id="id_edit" name="id" value=""/>
-					<input type="hidden" id="validStatus_edit" name="validStatus" value=""/>
-					<input id="userName_edit" name="userName" class="easyui-textbox" value=""/>
-				</td>
-				<td><label>英文名/拼音</label></td>
-				<td>
-					<input id="userEName_edit" name="userEName" class="easyui-textbox" value=""/>
-				</td>
-				
-			</tr>
-
-			<tr>
-				<td><label>性别</label></td>
-				<td>
-					<input id="genderCode_edit" name="genderCode" class="easyui-combobox" 
-						data-options="
-							valueField: 'value',
-							textField: 'label',
-							data: [{
-								label: '男',
-								value: 'M'
-							},{
-								label: '女',
-								value: 'F'
-							},{
-								label: '--',
-								value: '',
-								'selected':true
-							}]"/>
-					<!-- <input type="hidden" id="genderName_edit" name="genderName" value=""/> -->
-				</td>
-				<td><label>出生年月(yyyy/MM)</label></td>
-				<td>
-					<input id="birth_edit" name="birth" class="easyui-textbox" value="" data-options="onChange:formatBirth,onBlur:formatBirth"/>
-				</td>
-			</tr>
-
-			<tr>
-				<td><label>电话</label></td>
-				<td>
-					<input id="phone_edit" name="phone" class="easyui-textbox" value=""/>
-				</td>
-				<td><label>邮箱</label></td>
-				<td>
-					<input id="email_edit" name="email" class="easyui-textbox" value=""/>
-				</td>
-				
-			</tr>
-			
-			<tr>
-				<td><label>毕业院校</label></td>
-				<td>
-					<input id="university_edit" name="university" class="easyui-textbox" value="">
-				</td>
-				<td><label>专业</label></td>
-				<td>
-					<input id="major_edit" name="major" class="easyui-textbox" value=""/>
-				</td>
-			</tr>
-			<tr>
-				<td><label>学历</label></td>
-				<td>
-					<input id="educationBackground_edit" name="educationBackground" class="easyui-combobox" 
-						data-options="
-							valueField: 'value',
-							textField: 'label',
-							data: [{
-								label: '大专',
-								value: '大专'
-							},{
-								label: '三本',
-								value: '三本'
-							},{
-								label: '非统招本科',
-								value: '非统招本科'
-							},{
-								label: '统招本科',
-								value: '统招本科',
-								'selected':true
-							},{
-								label: '硕士及以上',
-								value: '硕士及以上'
-							},{
-								label: '--',
-								value: ''
-							}]"/>
-				</td>
-				<td><label>毕业时间(yyyy/MM)</label></td>
-				<td>
-					<input id="graduateMonth_edit" name="graduateMonth" class="easyui-textbox" value="" data-options="onChange:formatGraduateMonth,onBlur:formatGraduateMonth"/>
-				</td>
-			</tr>
-			
-			<tr>
-				<td><label>工作年限</label></td>
-				<td>
-					<input id="jobExperienceYear_edit" name="jobExperienceYear" class="easyui-numberspinner" value="1" data-options="increment:1"/>
-				</td>
-				<td><label>面试阶段</label></td>
-				<td>
-					<input id="interviewPhase_edit" name="interviewPhase" class="easyui-combobox" 
-						data-options="
-							valueField: 'value',
-							textField: 'label',
-							data: [{
-								label: '选完简历',
-								value: '选完简历'
-							},{
-								label: '电话约一面',
-								value: '电话约一面'
-							},{
-								label: '电话筛除',
-								value: '电话筛除'
-							},{
-								label: '爽约',
-								value: '爽约'
-							},{
-								label: '一面不通过',
-								value: '一面不通过'
-							},{
-								label: '约复试',
-								value: '约复试'
-							},{
-								label: '复试不通过',
-								value: '复试不通过'
-							},{
-								label: '复试通过',
-								value: '复试通过'
-							},{
-								label: '未入职',
-								value: '未入职'
-							},{
-								label: '已入职',
-								value: '已入职'
-							},{
-								label: '--',
-								value: ''
-							}],
-							onChange:updateInterviewEndFlag"/>
-				</td>
-			</tr>
-			
-			<tr>
-				<td><label>电话约面试时间</label></td>
-				<td>
-					<input id="firstPhoneCallTime_edit" name="firstPhoneCallTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
-				</td>
-				<td><label>一面邀请邮件</label></td>
-				<td>
-					<input id="firstInterviewEmailSendFlag_edit" name="firstInterviewEmailSendFlag" class="easyui-combobox" 
-						data-options="
-							valueField: 'value',
-							textField: 'label',
-							data: [{
-								label: '还未发送',
-								value: '0',
-								'selected':true
-							},{
-								label: '发送失败',
-								value: '1'
-							},{
-								label: '发送成功',
-								value: '2'
-							},{
-								label: '--',
-								value: ''
-							}]"/>
-				</td>
-			</tr>
-			<tr>
-				<td><label>电话约面试备注</label></td>
-				<td colspan="3">
-					<input id="firstPhoneCallRemark_edit" name="firstPhoneCallRemark" class="easyui-textbox" data-options="multiline:true" value="" style="width:100%;height:60px"/>
-				</td>
-			</tr>
-			<tr>
-				<td><label>一面时间</label></td>
-				<td>
-					<input id="firstInterviewTime_edit" name="firstInterviewTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
-				</td>
-				<td><label>一面面试官</label></td>
-				<td>
-					<input id="firstInterviewOfficer_edit" name="firstInterviewOfficer" class="easyui-textbox" value=""/>
-				</td>
-			</tr>
-			<tr>
-				<td><label>一面评价</label></td>
-				<td colspan="3">
-					<input id="firstIntervirewRemark_edit" name="firstIntervirewRemark" class="easyui-textbox" data-options="multiline:true" value="" style="width:100%;height:100px">
-				</td>
-			</tr>
-			<tr>
-				<td><label>复试时间</label></td>
-				<td>
-					<input id="secondInterviewTime_edit" name="secondInterviewTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
-				</td>
-				<td><label>面试是否结束</label></td>
-				<td>
-					<input id="interviewEndFlag_edit" name="interviewEndFlag" class="easyui-combobox" 
-						data-options="
-							valueField: 'value',
-							textField: 'label',
-							data: [{
-								label: '未结束',
-								value: '0'
-							},{
-								label: '已结束',
-								value: '1'
-							}]"/>
-				</td>
-			</tr>
-			
-		</table>	
-		</form>
+					<tr>
+						<td><label>毕业院校</label></td>
+						<td>
+							<input id="university_edit" name="university" class="easyui-textbox" value="">
+						</td>
+						<td><label>专业</label></td>
+						<td>
+							<input id="major_edit" name="major" class="easyui-textbox" value=""/>
+						</td>
+					</tr>
+					<tr>
+						<td><label>学历</label></td>
+						<td>
+							<input id="educationBackground_edit" name="educationBackground" class="easyui-combobox" 
+								data-options="
+									valueField: 'value',
+									textField: 'label',
+									data: [{
+										label: '大专',
+										value: '大专'
+									},{
+										label: '三本',
+										value: '三本'
+									},{
+										label: '非统招本科',
+										value: '非统招本科'
+									},{
+										label: '统招本科',
+										value: '统招本科',
+										'selected':true
+									},{
+										label: '硕士及以上',
+										value: '硕士及以上'
+									},{
+										label: '--',
+										value: ''
+									}]"/>
+						</td>
+						<td><label>毕业时间(yyyy/MM)</label></td>
+						<td>
+							<input id="graduateMonth_edit" name="graduateMonth" class="easyui-textbox" value="" data-options="onChange:formatGraduateMonth,onBlur:formatGraduateMonth"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td><label>工作年限</label></td>
+						<td>
+							<input id="jobExperienceYear_edit" name="jobExperienceYear" class="easyui-numberspinner" value="1" data-options="increment:1"/>
+						</td>
+						<td><label>面试阶段</label></td>
+						<td>
+							<input id="interviewPhase_edit" name="interviewPhase" class="easyui-combobox" 
+								data-options="
+									valueField: 'value',
+									textField: 'label',
+									data: [{
+										label: '选完简历',
+										value: '选完简历'
+									},{
+										label: '电话约一面',
+										value: '电话约一面'
+									},{
+										label: '电话筛除',
+										value: '电话筛除'
+									},{
+										label: '爽约',
+										value: '爽约'
+									},{
+										label: '一面不通过',
+										value: '一面不通过'
+									},{
+										label: '约复试',
+										value: '约复试'
+									},{
+										label: '复试不通过',
+										value: '复试不通过'
+									},{
+										label: '复试通过',
+										value: '复试通过'
+									},{
+										label: '未入职',
+										value: '未入职'
+									},{
+										label: '已入职',
+										value: '已入职'
+									},{
+										label: '--',
+										value: ''
+									}],
+									onChange:updateInterviewEndFlag"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td><label>电话约面试时间</label></td>
+						<td>
+							<input id="firstPhoneCallTime_edit" name="firstPhoneCallTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
+						</td>
+						<td><label>一面邀请邮件</label></td>
+						<td>
+							<input id="firstInterviewEmailSendFlag_edit" name="firstInterviewEmailSendFlag" class="easyui-combobox" 
+								data-options="
+									valueField: 'value',
+									textField: 'label',
+									data: [{
+										label: '还未发送',
+										value: '0',
+										'selected':true
+									},{
+										label: '发送失败',
+										value: '1'
+									},{
+										label: '发送成功',
+										value: '2'
+									},{
+										label: '--',
+										value: ''
+									}]"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label>电话约面试备注</label></td>
+						<td colspan="3">
+							<input id="firstPhoneCallRemark_edit" name="firstPhoneCallRemark" class="easyui-textbox" data-options="multiline:true" value="" style="width:100%;height:60px"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label>一面时间</label></td>
+						<td>
+							<input id="firstInterviewTime_edit" name="firstInterviewTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
+						</td>
+						<td><label>一面面试官</label></td>
+						<td>
+							<input id="firstInterviewOfficer_edit" name="firstInterviewOfficer" class="easyui-textbox" value=""/>
+						</td>
+					</tr>
+					<tr>
+						<td><label>一面评价</label></td>
+						<td colspan="3">
+							<input id="firstIntervirewRemark_edit" name="firstIntervirewRemark" class="easyui-textbox" data-options="multiline:true" value="" style="width:100%;height:100px">
+						</td>
+					</tr>
+					<tr>
+						<td><label>复试时间</label></td>
+						<td>
+							<input id="secondInterviewTime_edit" name="secondInterviewTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
+						</td>
+						<td><label>面试是否结束</label></td>
+						<td>
+							<input id="interviewEndFlag_edit" name="interviewEndFlag" class="easyui-combobox" 
+								data-options="
+									valueField: 'value',
+									textField: 'label',
+									data: [{
+										label: '未结束',
+										value: '0'
+									},{
+										label: '已结束',
+										value: '1'
+									}]"/>
+						</td>
+					</tr>
+					
+				</table>	
+				</form>
+			</div>
+			<div title="面试邮件内容" style="padding:5px">
+				<table cellpadding="5" style="width:100%;">
+					<tr>
+						<td colspan="4">
+							<input id="interviewMailText_edit" name="interviewMailText" class="easyui-textbox" data-options="multiline:true" value="" style="width:99%;height:500px">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</div>
 	<!-- 下面dlg-buttons是为了让新增用户页面有保存和取消按钮 -->
 	<div id="dlg-buttons">

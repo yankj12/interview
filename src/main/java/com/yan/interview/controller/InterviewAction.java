@@ -258,7 +258,6 @@ public class InterviewAction extends ActionSupport{
     	success = true;
     	errorMsg = null;
     	
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	Interview interview = null;
     	if(id != null && !"".equals(id.trim())) {
     		interview = interviewMongoDaoUtil.findInterviewById(id);
@@ -269,7 +268,6 @@ public class InterviewAction extends ActionSupport{
     }
     
     public String saveInterview() {
-    	Map<String, Object> map = new HashMap<String, Object>();
 		
     	HttpServletRequest request = ServletActionContext.getRequest();
 		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
@@ -328,6 +326,8 @@ public class InterviewAction extends ActionSupport{
 		
 		String interviewEndFlag = request.getParameter("interviewEndFlag");
 		
+		String interviewMailText = request.getParameter("interviewMailText");
+		
 		Interview interview = new Interview();
 		 
 		interview.setId(id);
@@ -357,6 +357,7 @@ public class InterviewAction extends ActionSupport{
 		interview.setFirstIntervirewRemark(firstIntervirewRemark);
 		interview.setSecondInterviewTime(secondInterviewTime);
 		interview.setInterviewEndFlag(interviewEndFlag);
+		interview.setInterviewMailText(interviewMailText);
 		
 		if(editType != null && "new".equals(editType.trim())) {
 			interview.setValidStatus("1");
