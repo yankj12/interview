@@ -33,19 +33,19 @@
            <tr>
 				<td>一面起始日期:</td>
 				<td>
-					<input name="firstInterviewTimeStart" class="easyui-textbox"/>
+					<input name="firstInterviewTimeStart" class="easyui-textbox" data-options="onChange:formatDateTimeStringOnChange"/>
 				</td>
 				<td>一面结束日期:</td>
 				<td>
-					<input name="firstInterviewTimeEnd" class="easyui-textbox"/>
+					<input name="firstInterviewTimeEnd" class="easyui-textbox" data-options="onChange:formatDateTimeStringOnChange"/>
 				</td>
 				<td>电话约面试起始日期:</td>
 				<td>
-					<input name="firstPhoneCallTimeStart" class="easyui-textbox"/>
+					<input name="firstPhoneCallTimeStart" class="easyui-textbox" data-options="onChange:formatDateTimeStringOnChange"/>
 				</td>
 				<td>电话约面试结束日期:</td>
 				<td>
-					<input name="firstPhoneCallTimeEnd" class="easyui-textbox"/>
+					<input name="firstPhoneCallTimeEnd" class="easyui-textbox" data-options="onChange:formatDateTimeStringOnChange"/>
 				</td>
 				<td></td>
 				<td>
@@ -201,7 +201,7 @@
 				</td>
 				<td>一面面试时间段:</td>
 				<td>
-					<input name="firstInterviewTimePeriod" class="easyui-textbox">
+					<input name="firstInterviewTimePeriod" class="easyui-textbox" data-options="onChange:formatDateTimeToPerioidOnChange"/>
 				</td>
 				<td></td>
 				<td>

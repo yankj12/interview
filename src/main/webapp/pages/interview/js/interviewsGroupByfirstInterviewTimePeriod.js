@@ -128,6 +128,12 @@ function formatFirstInterviewEmailSendFlag(val,row){
 	}
 }
 
+function formatDateTimeStringOnChange(){
+	var timeStr = $(this).textbox('getValue');
+	var newTimeStr = formatDateTimeString(timeStr);
+	$(this).textbox('setValue', newTimeStr);
+}
+
 /**
  * 转换日期格式为 yyyy-MM-dd HH:mm:ss 的统一格式
  * @param timeStr
@@ -145,74 +151,95 @@ function formatDateTimeString(timeStr){
 	// yyyy-MM-dd HH:mm
 	// yyyy-MM-dd HH:mm:ss
 	
-	// yyyy/MM/dd HH:mm
-	var reg = /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s(\d{1,2}):(\d{1,2})$/;
+	var reg = /(\d+)/g;
 	var r = timeStr.match(reg);
-	if(r != null){
+	if(r != null && r.length > 0){
 		// r[0] 表示匹配到的全体
-		var y = parseInt(r[1],10);
-		var m = parseInt(r[2],10);
-		var d = parseInt(r[3],10);
 		
-		var h = parseInt(r[4],10);
-		var mi = parseInt(r[5],10);
+		var y = 1971;
+		var m = 1;
+		var d = 1;
+		var h = 0;
+		var mi = 0;
 		var s = 0;
 		
+		if(r.length > 0){
+			y = parseInt(r[0],10);
+		}
+		
+		if(r.length > 1){
+			m = parseInt(r[1],10);
+		}
+		
+		if(r.length > 2){
+			d = parseInt(r[2],10);
+		}
+		
+		if(r.length > 3){
+			h = parseInt(r[3],10);
+		}
+		
+		if(r.length > 4){
+			mi = parseInt(r[4],10);
+		}
+		
+		if(r.length > 5){
+			s = parseInt(r[5],10);
+		}
+		
 		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
 		return newStr;
+	}else{
+		return '';
 	}
+}
+
+function formatDateTimeToPerioidOnChange(){
+	var timeStr = $(this).textbox('getValue');
+	var newTimeStr = '';
 	
-	// yyyy/MM/dd HH:mm:ss
-	reg = /^(\d{4})\/(\d{1,2})\/(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})$/;
-	r = timeStr.match(reg);
-	if(r != null){
+	// 先格式化yyyy-MM-dd
+	var reg = /(\d+)/g;
+	var r = timeStr.match(reg);
+	if(r != null && r.length > 0){
 		// r[0] 表示匹配到的全体
-		var y = parseInt(r[1],10);
-		var m = parseInt(r[2],10);
-		var d = parseInt(r[3],10);
 		
-		var h = parseInt(r[4],10);
-		var mi = parseInt(r[5],10);
-		var s = parseInt(r[6],10);
+		var y = 1971;
+		var m = 1;
+		var d = 1;
 		
-		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
-		return newStr;
+		if(r.length > 0){
+			y = parseInt(r[0],10);
+		}
+		
+		if(r.length > 1){
+			m = parseInt(r[1],10);
+		}
+		
+		if(r.length > 2){
+			d = parseInt(r[2],10);
+		}
+		
+		newTimeStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d);
 	}
 	
-	// yyyy-MM-dd HH:mm
-	reg = /^(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2})$/;
-	r = timeStr.match(reg);
-	if(r != null){
-		// r[0] 表示匹配到的全体
-		var y = parseInt(r[1],10);
-		var m = parseInt(r[2],10);
-		var d = parseInt(r[3],10);
-		
-		var h = parseInt(r[4],10);
-		var mi = parseInt(r[5],10);
-		var s = 0;
-		
-		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
-		return newStr;
+	//再格式化AM和PM
+	// 情况1，直接填写了小时
+	if(r != null && r.length > 3){
+		var h = parseInt(r[3],10);
+		var periodFlag = h<=12?'AM':'PM';
+		newTimeStr = newTimeStr + ' ' + periodFlag; 
+	}else{
+		// 情况2，没有填写小时，填写的是am或者pm
+		var reg2 = /(am|pm|AM|PM)/;
+		var r2 = timeStr.match(reg2);
+		if(r2 != null && r2.length > 1){
+			var periodFlag = r2[1].toUpperCase();
+			newTimeStr = newTimeStr + ' ' + periodFlag; 
+		}
 	}
 	
-	// yyyy-MM-dd HH:mm:ss
-	reg = /^(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})$/;
-	r = timeStr.match(reg);
-	if(r != null){
-		// r[0] 表示匹配到的全体
-		var y = parseInt(r[1],10);
-		var m = parseInt(r[2],10);
-		var d = parseInt(r[3],10);
-		
-		var h = parseInt(r[4],10);
-		var mi = parseInt(r[5],10);
-		var s = parseInt(r[6],10);
-		
-		var newStr = '' + y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d) + ' ' + (h<10?('0'+h):h) + ':' + (mi<10?('0'+mi):mi) + ':' + (s<10?('0'+s):s);
-		return newStr;
-	}
-	
+	$(this).textbox('setValue', newTimeStr);
 }
 
 /**
