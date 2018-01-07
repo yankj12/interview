@@ -13,6 +13,12 @@ function saveMenu(){
 		title = '修改菜单';
 	}
 	
+	// 校验菜单url需要以/开头
+	var menuUrl = $('#menu_url_edit').textbox('getValue');
+	if(!checkMenuUrlCommon(menuUrl)){
+		return false;
+	}
+	
 	//通过异步的方式与后台进行交互
     $.ajax({
         type:"POST", 
@@ -139,3 +145,27 @@ function closeTab(title){
 		jq('#home').tabs('close', title);
 	}
 }
+
+function checkMenuUrlOnChange(){
+	var menuUrl = $(this).textbox('getValue');
+	return checkMenuUrlCommon(menuUrl);
+}
+
+function checkMenuUrlCommon(menuUrl){
+	
+	// 菜单有两种，一级菜单，是不需要填写url的，二级菜单才需要填写url
+	// 菜单url需要以/开头
+	if(menuUrl != null && menuUrl != ''){
+		if(menuUrl.charAt(0) == '/'){
+			return true;
+		}else{
+			$.messager.alert('提示', '菜单url需要以/开头！');
+			return false;
+		}
+	}else{
+		// 菜单url为空的时候，有可能是一级菜单，是允许为空的
+		return true;
+	}
+}
+
+
