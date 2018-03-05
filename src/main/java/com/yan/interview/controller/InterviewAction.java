@@ -1,6 +1,5 @@
 package com.yan.interview.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -358,6 +357,20 @@ public class InterviewAction extends ActionSupport{
 		interview.setSecondInterviewTime(secondInterviewTime);
 		interview.setInterviewEndFlag(interviewEndFlag);
 		interview.setInterviewMailText(interviewMailText);
+		
+		// 避免短时间内因为网络相应慢，多次点击进而多次保存的问题
+		if(editType != null && "new".equals(editType.trim())) {
+			Map<String, Object> condition = new HashMap<String, Object>();
+			condition.put("phone", phone);
+			condition.put("userName", userName);
+			condition.put("email", email);
+			List<Interview> interviews = interviewMongoDaoUtil.findInterviewDocumentsByCondition(condition);
+			if(interviews != null && interviews.size() > 0){
+				id = interviews.get(0).getId();
+				interview.setId(id);
+				editType = "edit";
+			}
+		}
 		
 		if(editType != null && "new".equals(editType.trim())) {
 			interview.setValidStatus("1");
