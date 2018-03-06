@@ -642,4 +642,58 @@ public class InterviewAction extends ActionSupport{
 		errorMsg = null;
 		return "json";
     }
+    
+    public String checkInterviewUnique(){
+    	
+    	HttpServletRequest request = ServletActionContext.getRequest();
+		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
+		//String[] userNames = request.getParameterValues("userNames[]");
+    	//姓名
+    	Map<String, Object> map = new HashMap<String, Object>();
+		String userName = request.getParameter("userName");
+		map.put("userName", userName);
+		
+		//手机
+		String phone = request.getParameter("phone");
+		map.put("phone", phone);
+		
+		//邮箱
+		String email = request.getParameter("email");
+		map.put("email", email);
+    	
+		// 电话、邮箱、姓名不存在重复用户，success为true，否则为false
+		success = true;
+    	errorMsg = null;
+    	
+    	Interview interview = null;
+    	// 判断名称是否唯一
+    	if(userName != null && !"".equals(userName.trim())){
+    		interview = interviewMongoDaoUtil.findInterviewByUserName(userName);
+    		if(interview != null){
+    			object = interview;
+    			success = false;
+    			errorMsg = "名称已存在";
+    		}
+    	}
+    	// 判断电话是否唯一
+    	if(phone != null && !"".equals(phone.trim())){
+    		interview = interviewMongoDaoUtil.findInterviewByPhone(phone);
+    		if(interview != null){
+    			object = interview;
+	    		success = false;
+		    	errorMsg = "电话已存在";
+	    	}
+    	}
+    	// 判断邮箱是否唯一
+    	if(email != null && !"".equals(email.trim())){
+    		interview = interviewMongoDaoUtil.findInterviewByEmail(email);
+    		if(interview != null){
+	    		object = interview;
+	    		success = false;
+		    	errorMsg = "邮箱已存在";
+    		}
+    	}
+    	
+    	return "json";
+    }
 }

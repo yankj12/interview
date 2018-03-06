@@ -477,6 +477,64 @@ function updateInterviewEndFlag(newValue , oldValue){
 	}
 }
 
+
+function checkUserName(){
+	var userName = $('#userName_edit').textbox('getValue');
+	
+	if(userName != null && userName != ''){
+		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{userName:userName},function(result){
+			if (result.success){
+				// 是唯一的
+				$('#label_after_userName').html('');
+			} else {
+				// 已经被使用
+				imgUrl = contextRootPath + '/easyui/themes/usericons/warning.png';
+				$('#label_after_userName').html('<img src="' + imgUrl + '" width="16" height="16" alt="已存在" title="已存在"/>');
+			}
+		},'json');
+	}else{
+		$('#label_after_userName').html('');
+	}
+}
+
+function checkPhone(){
+	var phone = $('#phone_edit').textbox('getValue');
+	
+	if(phone != null && phone != ''){
+		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{phone:phone},function(result){
+			if (result.success){
+				// 是唯一的
+				$('#label_after_phone').html('');
+			} else {
+				// 已经被使用
+				imgUrl = contextRootPath + '/easyui/themes/usericons/warning.png';
+				$('#label_after_phone').html('<img src="' + imgUrl + '" width="16" height="16" alt="已存在" title="已存在"/>');
+			}
+		},'json');
+	}else{
+		$('#label_after_phone').html('');
+	}
+}
+
+function checkEmail(){
+	var email = $('#email_edit').textbox('getValue');
+	
+	if(email != null && email != ''){
+		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{email:email},function(result){
+			if (result.success){
+				// 是唯一的
+				$('#label_after_email').html('');
+			} else {
+				// 已经被使用
+				imgUrl = contextRootPath + '/easyui/themes/usericons/warning.png';
+				$('#label_after_email').html('<img src="' + imgUrl + '" width="16" height="16" alt="已存在" title="已存在"/>');
+			}
+		},'json');
+	}else{
+		$('#label_after_email').html('');
+	}
+}
+
 function setWorkReportTitle(){
 	var day = $('#day_edit').textbox('getValue');
 	if(day.length >= 8){

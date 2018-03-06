@@ -280,7 +280,8 @@
 							<input type="hidden" id="editType_edit" name="editType" value="new"/>
 							<input type="hidden" id="id_edit" name="id" value=""/>
 							<input type="hidden" id="validStatus_edit" name="validStatus" value=""/>
-							<input id="userName_edit" name="userName" class="easyui-textbox" value=""/>
+							<input id="userName_edit" name="userName" class="easyui-textbox" value="" data-options="onChange:checkUserName"/>
+							<label  id="label_after_userName"></label>
 						</td>
 						<td><label>英文名/拼音</label></td>
 						<td>
@@ -318,11 +319,13 @@
 					<tr>
 						<td><label>电话</label></td>
 						<td>
-							<input id="phone_edit" name="phone" class="easyui-textbox" value=""/>
+							<input id="phone_edit" name="phone" class="easyui-textbox" value="" data-options="onChange:checkPhone"/>
+							<label  id="label_after_phone"></label>
 						</td>
 						<td><label>邮箱</label></td>
 						<td>
-							<input id="email_edit" name="email" class="easyui-textbox" value=""/>
+							<input id="email_edit" name="email" class="easyui-textbox" value="" data-options="onChange:checkEmail"/>
+							<label  id="label_after_email"></label>
 						</td>
 						
 					</tr>

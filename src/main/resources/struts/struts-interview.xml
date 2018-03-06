@@ -73,6 +73,11 @@
             <result name="success">/pages/interview/interviewsGroupByfirstInterviewTimePeriod.jsp</result>
 		</action>
 		
+		<action name="checkInterviewUnique" 
+            class="interviewAction" 
+            method="checkInterviewUnique">
+            <result name="success">/interview.jsp</result>
+		</action>
    </package>
 	
 </struts>
