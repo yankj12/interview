@@ -483,10 +483,11 @@ function updateInterviewEndFlag(newValue , oldValue){
 
 
 function checkUserName(){
+	var id = $('#id_edit').val();
 	var userName = $('#userName_edit').textbox('getValue');
 	
 	if(userName != null && userName != ''){
-		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{userName:userName},function(result){
+		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{id:id, userName:userName},function(result){
 			if (result.success){
 				// 是唯一的
 				$('#label_after_userName').html('');
@@ -502,10 +503,11 @@ function checkUserName(){
 }
 
 function checkPhone(){
+	var id = $('#id_edit').val();
 	var phone = $('#phone_edit').textbox('getValue');
 	
 	if(phone != null && phone != ''){
-		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{phone:phone},function(result){
+		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{id:id, phone:phone},function(result){
 			if (result.success){
 				// 是唯一的
 				$('#label_after_phone').html('');
@@ -521,10 +523,11 @@ function checkPhone(){
 }
 
 function checkEmail(){
+	var id = $('#id_edit').val();
 	var email = $('#email_edit').textbox('getValue');
 	
 	if(email != null && email != ''){
-		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{email:email},function(result){
+		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{id:id, email:email},function(result){
 			if (result.success){
 				// 是唯一的
 				$('#label_after_email').html('');

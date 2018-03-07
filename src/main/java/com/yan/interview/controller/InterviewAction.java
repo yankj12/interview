@@ -651,18 +651,19 @@ public class InterviewAction extends ActionSupport{
     	HttpServletRequest request = ServletActionContext.getRequest();
 		//当前台传过来的变量userNames是一个数组的时候，通过request.getParameterValues("userNames[]");这种方式才能获取到这个数组
 		//String[] userNames = request.getParameterValues("userNames[]");
+    	
+    	// id
+    	// 用于校验唯一性的时候排除本身
+    	String id = request.getParameter("id");
+    	
     	//姓名
-    	Map<String, Object> map = new HashMap<String, Object>();
 		String userName = request.getParameter("userName");
-		map.put("userName", userName);
 		
 		//手机
 		String phone = request.getParameter("phone");
-		map.put("phone", phone);
 		
 		//邮箱
 		String email = request.getParameter("email");
-		map.put("email", email);
     	
 		// 电话、邮箱、姓名不存在重复用户，success为true，否则为false
 		success = true;
@@ -673,27 +674,78 @@ public class InterviewAction extends ActionSupport{
     	if(userName != null && !"".equals(userName.trim())){
     		interview = interviewMongoDaoUtil.findInterviewByUserName(userName);
     		if(interview != null){
-    			object = interview;
-    			success = false;
-    			errorMsg = "名称已存在";
+    			if(id != null && !"".equals(id.trim())){
+    				// 传了id并且id和查出来的面试信息的id相同，这种情况不算已存在。校验唯一性要排除本身
+    				// 严谨的做法是在查询语句中排除id所在的记录
+    				if(interview.getId() != null && interview.getId().trim().equals(id.trim())){
+    					//是本身
+    					object = null;
+        				success = true;
+        				errorMsg = null;
+    				}else{
+    					// 不是本身，说明存在
+        				object = interview;
+        				success = false;
+        				errorMsg = "名称已存在";
+    				}
+    			}else{
+    				// 没有传id
+    				object = interview;
+    				success = false;
+    				errorMsg = "名称已存在";
+    			}
     		}
     	}
     	// 判断电话是否唯一
     	if(phone != null && !"".equals(phone.trim())){
     		interview = interviewMongoDaoUtil.findInterviewByPhone(phone);
     		if(interview != null){
-    			object = interview;
-	    		success = false;
-		    	errorMsg = "电话已存在";
+    			if(id != null && !"".equals(id.trim())){
+    				// 传了id并且id和查出来的面试信息的id相同，这种情况不算已存在。校验唯一性要排除本身
+    				// 严谨的做法是在查询语句中排除id所在的记录
+    				if(interview.getId() != null && interview.getId().trim().equals(id.trim())){
+    					//是本身
+    					object = null;
+        				success = true;
+        				errorMsg = null;
+    				}else{
+    					// 不是本身，说明存在
+        				object = interview;
+        				success = false;
+        				errorMsg = "电话已存在";
+    				}
+    			}else{
+    				// 没有传id
+    				object = interview;
+    				success = false;
+    				errorMsg = "电话已存在";
+    			}
 	    	}
     	}
     	// 判断邮箱是否唯一
     	if(email != null && !"".equals(email.trim())){
     		interview = interviewMongoDaoUtil.findInterviewByEmail(email);
     		if(interview != null){
-	    		object = interview;
-	    		success = false;
-		    	errorMsg = "邮箱已存在";
+    			if(id != null && !"".equals(id.trim())){
+    				// 传了id并且id和查出来的面试信息的id相同，这种情况不算已存在。校验唯一性要排除本身
+    				// 严谨的做法是在查询语句中排除id所在的记录
+    				if(interview.getId() != null && interview.getId().trim().equals(id.trim())){
+    					//是本身
+    					object = null;
+        				success = true;
+        				errorMsg = null;
+    				}else{
+    					// 不是本身，说明存在
+        				object = interview;
+        				success = false;
+        				errorMsg = "邮箱已存在";
+    				}
+    			}else{
+    				// 没有传id
+    				object = interview;
+    				success = false;
+    				errorMsg = "邮箱已存在";
+    			}
     		}
     	}
     	
