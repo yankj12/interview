@@ -303,6 +303,8 @@ public class InterviewAction extends ActionSupport{
 		
 		String firstJobBeginMonth = request.getParameter("firstJobBeginMonth");
 		
+		String expectedSalary = request.getParameter("expectedSalary");
+		
 		String interviewPhase = request.getParameter("interviewPhase");
 		
 		String firstPhoneCallTime = request.getParameter("firstPhoneCallTime");
@@ -347,6 +349,7 @@ public class InterviewAction extends ActionSupport{
 		interview.setFirstJob(firstJob);
 		interview.setFirstJobBeginMonth(firstJobBeginMonth);
 		interview.setInterviewPhase(interviewPhase);
+		interview.setExpectedSalary(expectedSalary);
 		interview.setFirstPhoneCallTime(firstPhoneCallTime);
 		interview.setFirstPhoneCallRemark(firstPhoneCallRemark);
 		interview.setFirstInterviewEmailSendFlag(firstInterviewEmailSendFlag);

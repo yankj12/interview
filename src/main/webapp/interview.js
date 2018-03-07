@@ -146,6 +146,8 @@ function editRecord(title){
 	        		
 	        		$('#jobExperienceYear_edit').textbox('setValue', interview.jobExperienceYear);
 	        		
+	        		$('#expectedSalary_edit').textbox('setValue', interview.expectedSalary);
+	        		
 	        		$('#interviewPhase_edit').combobox('setValue', interview.interviewPhase);
 	        		
 	        		$('#firstPhoneCallTime_edit').datetimebox('setValue', formatDateTimeString(interview.firstPhoneCallTime));
@@ -226,6 +228,7 @@ function saveRecord(){
 	var educationBackground = $('#educationBackground_edit').combobox('getValue');
 	var graduateMonth = $('#graduateMonth_edit').textbox('getValue');
 	var jobExperienceYear = $('#jobExperienceYear_edit').textbox('getValue');
+	var expectedSalary = $('#expectedSalary_edit').textbox('getValue');
 	var interviewPhase = $('#interviewPhase_edit').combobox('getValue');
 	var firstPhoneCallTime = $('#firstPhoneCallTime_edit').datetimebox('getValue');
 	var firstPhoneCallRemark = $('#firstPhoneCallRemark_edit').textbox('getValue');
@@ -261,6 +264,7 @@ function saveRecord(){
 	requestVo.graduateMonth = graduateMonth;
 	requestVo.jobExperienceYear = jobExperienceYear;
 	requestVo.interviewPhase = interviewPhase;
+	requestVo.expectedSalary = expectedSalary;
 	requestVo.firstPhoneCallTime = firstPhoneCallTime;
 	requestVo.firstPhoneCallRemark = firstPhoneCallRemark;
 	requestVo.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;

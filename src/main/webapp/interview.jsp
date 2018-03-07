@@ -379,6 +379,13 @@
 						<td>
 							<input id="jobExperienceYear_edit" name="jobExperienceYear" class="easyui-numberspinner" value="1" data-options="increment:1"/>
 						</td>
+						<td><label>期望薪资</label></td>
+						<td>
+							<input id="expectedSalary_edit" name="expectedSalary" class="easyui-textbox" value=""/>
+						</td>
+						
+					</tr>
+					<tr>
 						<td><label>面试阶段</label></td>
 						<td>
 							<input id="interviewPhase_edit" name="interviewPhase" class="easyui-combobox" 
@@ -421,6 +428,8 @@
 									}],
 									onChange:updateInterviewEndFlag"/>
 						</td>
+						<td><label></label></td>
+						<td></td>
 					</tr>
 					
 					<tr>

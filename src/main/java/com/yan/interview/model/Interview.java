@@ -67,6 +67,11 @@ public class Interview implements Serializable{
 	private String firstJobBeginMonth;
 	
 	/**
+	 * 期望薪资
+	 */
+	private String expectedSalary;
+	
+	/**
 	 * 阶段
 	 * 选完简历、约一面，一面不通过，约复试，复试不通过，复试通过，未入职，已入职
 	 */
@@ -363,6 +368,14 @@ public class Interview implements Serializable{
 
 	public void setInterviewMailText(String interviewMailText) {
 		this.interviewMailText = interviewMailText;
+	}
+
+	public String getExpectedSalary() {
+		return expectedSalary;
+	}
+
+	public void setExpectedSalary(String expectedSalary) {
+		this.expectedSalary = expectedSalary;
 	}
 	
 }
