@@ -24,6 +24,12 @@
 	    <property name="password" value="${mongodb.password}" />
 	</bean> 
     
+    <bean id="ssoServerConfig" class="com.yan.access.schema.SsoServerConfig">
+	    <property name="protocol" value="${ssoServer.protocol}" />
+	    <property name="ip" value="${ssoServer.ip}" />  
+	    <property name="port" value="${ssoServer.port}" />  
+	</bean>
+    
     <bean id="emailConfig" class="com.yan.mail.common.EmailConfig">
 	    <property name="smtpHostName" value="${smtpHostName}" />  
 	    <property name="smtpPort" value="${smtpPort}" />  

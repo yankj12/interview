@@ -1,4 +1,7 @@
-syscode=interview
-cdn=/interview
-#自适应http和https协议
-#cdn=//www.test.com
+syscode=workreport
+cdn=//www.test.com/Public/js
+
+# sso-server config
+ssoServer.protocol=http
+ssoServer.ip=localhost
+ssoServer.port=8080
