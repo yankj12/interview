@@ -112,5 +112,8 @@
     </bean>
     
     <bean id="userAccessService" class="com.yan.access.service.impl.UserAccessServiceImpl">
+    	<property name="ssoServerConfig">
+			<ref local="ssoServerConfig" />
+		</property>
     </bean>
 </beans>
