@@ -1,5 +1,7 @@
 package com.yan.interview.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -367,6 +369,12 @@ public class InterviewAction extends ActionSupport{
 			condition.put("phone", phone);
 			condition.put("userName", userName);
 			condition.put("email", email);
+			// insertTime
+			// 保存时，名称、电话、邮箱重复，10分钟内有新增加的记录时，则不新增记录，进行更新操作
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.MINUTE, -10);
+			Date insertTime = calendar.getTime();
+			condition.put("insertTimeStart", insertTime);
 			List<Interview> interviews = interviewMongoDaoUtil.findInterviewDocumentsByCondition(condition);
 			if(interviews != null && interviews.size() > 0){
 				id = interviews.get(0).getId();
