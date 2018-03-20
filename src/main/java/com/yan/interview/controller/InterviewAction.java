@@ -366,6 +366,8 @@ public class InterviewAction extends ActionSupport{
 		// 避免短时间内因为网络相应慢，多次点击进而多次保存的问题
 		if(editType != null && "new".equals(editType.trim())) {
 			Map<String, Object> condition = new HashMap<String, Object>();
+			// 因为现在是软删除，所以判断重复的时候，只查询有效的数据
+			condition.put("validStatus", "1");
 			condition.put("phone", phone);
 			condition.put("userName", userName);
 			condition.put("email", email);
