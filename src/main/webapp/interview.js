@@ -88,6 +88,10 @@ function newRecord(title){
 	
 	$('#interviewEndFlag_edit').combobox('setValue', '0');
 	
+	// 每次新增的时候，先把姓名、电话、邮箱后面的图标清空，否则默认显示的是重复的图标
+	$('#label_after_userName').html('');
+	$('#label_after_phone').html('');
+	$('#label_after_email').html('');
 }
 
 
