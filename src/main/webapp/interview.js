@@ -92,6 +92,9 @@ function newRecord(title){
 	$('#label_after_userName').html('');
 	$('#label_after_phone').html('');
 	$('#label_after_email').html('');
+	
+	// 每次新增的时候，将简历邮件内容初始化，否则会展示上一次编辑的其他人的内容
+	$('#interviewMailText_edit').textbox('setValue', '');
 }
 
 
