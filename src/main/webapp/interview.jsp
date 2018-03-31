@@ -336,11 +336,11 @@
 					<tr>
 						<td><label>毕业院校</label></td>
 						<td>
-							<input id="university_edit" name="university" class="easyui-textbox" value="">
+							<input id="university_edit" name="university" class="easyui-textbox" value="" data-options="onChange:onChangeUniversity">
 						</td>
 						<td><label>专业</label></td>
 						<td>
-							<input id="major_edit" name="major" class="easyui-textbox" value=""/>
+							<input id="major_edit" name="major" class="easyui-textbox" value="" data-options="onChange:onChangeMajor"/>
 						</td>
 					</tr>
 					<tr>

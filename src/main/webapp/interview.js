@@ -493,7 +493,11 @@ function checkUserName(){
 	var id = $('#id_edit').val();
 	var userName = $('#userName_edit').textbox('getValue');
 	
-	if(userName != null && userName != ''){
+	if(userName != null && $.trim(userName) != ''){
+		// 进行trim操作
+		userName = $.trim(userName);
+		$('#userName_edit').textbox('setValue', userName);
+		
 		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{id:id, userName:userName},function(result){
 			if (result.success){
 				// 是唯一的
@@ -513,7 +517,11 @@ function checkPhone(){
 	var id = $('#id_edit').val();
 	var phone = $('#phone_edit').textbox('getValue');
 	
-	if(phone != null && phone != ''){
+	if(phone != null && $.trim(phone) != ''){
+		// 进行trim操作
+		phone = $.trim(phone);
+		$('#phone_edit').textbox('setValue', phone);
+		
 		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{id:id, phone:phone},function(result){
 			if (result.success){
 				// 是唯一的
@@ -533,7 +541,11 @@ function checkEmail(){
 	var id = $('#id_edit').val();
 	var email = $('#email_edit').textbox('getValue');
 	
-	if(email != null && email != ''){
+	if(email != null && $.trim(email) != ''){
+		// 进行trim操作
+		email = $.trim(email);
+		$('#email_edit').textbox('setValue', email);
+		
 		$.post(contextRootPath + '/interview/checkInterviewUnique.do',{id:id, email:email},function(result){
 			if (result.success){
 				// 是唯一的
@@ -546,6 +558,31 @@ function checkEmail(){
 		},'json');
 	}else{
 		$('#label_after_email').html('');
+	}
+}
+
+/**
+ * 毕业院校字段onchange时触发的方法
+ * @returns
+ */
+function onChangeUniversity(){
+	var university = $('#university_edit').textbox('getValue');
+	if(university != null && university != ''){
+		university = $.trim(university);
+		$('#university_edit').textbox('setValue', university);
+	}
+	
+}
+
+/**
+ * 专业字段onchange时触发的方法
+ * @returns
+ */
+function onChangeMajor(){
+	var major = $('#major_edit').textbox('getValue');
+	if(major != null && major != ''){
+		major = $.trim(major);
+		$('#major_edit').textbox('setValue', major);
 	}
 }
 
