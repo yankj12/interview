@@ -211,6 +211,9 @@ public class InterviewAction extends ActionSupport{
 		String firstInterviewOfficer = request.getParameter("firstInterviewOfficer");
 		map.put("firstInterviewOfficer", firstInterviewOfficer);	
 		
+		String firstInterviewAddress = request.getParameter("firstInterviewAddress");
+		map.put("firstInterviewAddress", firstInterviewAddress);	
+		
 		//毕业院校
 		String university = request.getParameter("university");
 		map.put("university", university);	
@@ -326,6 +329,8 @@ public class InterviewAction extends ActionSupport{
 		
 		String firstInterviewOfficer = request.getParameter("firstInterviewOfficer");
 		
+		String firstInterviewAddress = request.getParameter("firstInterviewAddress");
+		
 		String firstIntervirewRemark = request.getParameter("firstIntervirewRemark");
 		
 		String secondInterviewTime = request.getParameter("secondInterviewTime");
@@ -364,6 +369,8 @@ public class InterviewAction extends ActionSupport{
 		interview.setFirstInterviewTime(firstInterviewTime);
 		interview.setFirstInterviewTimePeriod(firstInterviewTimePeriod);
 		interview.setFirstInterviewOfficer(firstInterviewOfficer);
+		interview.setFirstInterviewAddress(firstInterviewAddress);
+		
 		interview.setFirstIntervirewRemark(firstIntervirewRemark);
 		interview.setSecondInterviewTime(secondInterviewTime);
 		interview.setInterviewEndFlag(interviewEndFlag);
@@ -628,6 +635,9 @@ public class InterviewAction extends ActionSupport{
 		//一面面试官
 		String firstInterviewOfficer = request.getParameter("firstInterviewOfficer");
 		map.put("firstInterviewOfficer", firstInterviewOfficer);	
+		
+		String firstInterviewAddress = request.getParameter("firstInterviewAddress");
+		map.put("firstInterviewAddress", firstInterviewAddress);	
 		
 		//毕业院校
 		String university = request.getParameter("university");

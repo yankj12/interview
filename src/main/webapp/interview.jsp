@@ -50,8 +50,9 @@
 				<td>
 					<input name="firstPhoneCallOfficer" class="easyui-textbox"/>
 				</td>
-				<td></td>
+				<td>一面地点</td>
 				<td>
+					<input name="firstInterviewAddress" class="easyui-textbox"/>
 				</td>
 			</tr>
 			
@@ -482,6 +483,12 @@
 						<td><label>一面面试官</label></td>
 						<td>
 							<input id="firstInterviewOfficer_edit" name="firstInterviewOfficer" class="easyui-textbox" value=""/>
+						</td>
+					</tr>
+					<tr>
+						<td><label>一面地点</label></td>
+						<td colspan="3">
+							<input id="firstInterviewAddress_edit" name="firstInterviewAddress" class="easyui-textbox" style="width:100%;"/>
 						</td>
 					</tr>
 					<tr>

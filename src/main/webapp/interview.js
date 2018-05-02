@@ -169,6 +169,8 @@ function editRecord(title){
 	        		
 	        		$('#firstInterviewOfficer_edit').textbox('setValue', interview.firstInterviewOfficer);
 	        		
+	        		$('#firstInterviewAddress_edit').textbox('setValue', interview.firstInterviewAddress);
+	        		
 	        		$('#firstIntervirewRemark_edit').textbox('setValue', interview.firstIntervirewRemark);
 	        		
 	        		$('#secondInterviewTime_edit').datetimebox('setValue', formatDateTimeString(interview.secondInterviewTime));
@@ -247,6 +249,7 @@ function saveRecord(){
 	var firstInterviewTimePeriod = transDateTimeToPerioid(firstInterviewTime);
 	
 	var firstInterviewOfficer = $('#firstInterviewOfficer_edit').textbox('getValue');
+	var firstInterviewAddress = $('#firstInterviewAddress_edit').textbox('getValue');
 	var firstIntervirewRemark = $('#firstIntervirewRemark_edit').textbox('getValue');
 	var secondInterviewTime = $('#secondInterviewTime_edit').datetimebox('getValue');
 	var interviewEndFlag = $('#interviewEndFlag_edit').combobox('getValue');
@@ -282,6 +285,7 @@ function saveRecord(){
 	requestVo.firstInterviewTime = firstInterviewTime;
 	requestVo.firstInterviewTimePeriod = firstInterviewTimePeriod;
 	requestVo.firstInterviewOfficer = firstInterviewOfficer;
+	requestVo.firstInterviewAddress = firstInterviewAddress;
 	requestVo.firstIntervirewRemark = firstIntervirewRemark;
 	requestVo.secondInterviewTime = secondInterviewTime;
 	requestVo.interviewEndFlag = interviewEndFlag;

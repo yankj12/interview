@@ -51,9 +51,9 @@
 				<td>
 					<input name="firstPhoneCallOfficer" class="easyui-textbox"/>
 				</td>
-				</td>
-				<td></td>
+				<td>一面地点</td>
 				<td>
+					<input name="firstInterviewAddress" class="easyui-textbox"/>
 				</td>
 			</tr>
 			

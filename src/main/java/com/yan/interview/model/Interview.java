@@ -118,6 +118,10 @@ public class Interview implements Serializable{
 	private String firstInterviewOfficer;
 	
 	/**
+	 * 一面面试地址
+	 */
+	private String firstInterviewAddress;
+	/**
 	 * 一面评价
 	 */
 	private String firstIntervirewRemark;
@@ -389,6 +393,14 @@ public class Interview implements Serializable{
 
 	public void setFirstPhoneCallOfficer(String firstPhoneCallOfficer) {
 		this.firstPhoneCallOfficer = firstPhoneCallOfficer;
+	}
+
+	public String getFirstInterviewAddress() {
+		return firstInterviewAddress;
+	}
+
+	public void setFirstInterviewAddress(String firstInterviewAddress) {
+		this.firstInterviewAddress = firstInterviewAddress;
 	}
 	
 }
