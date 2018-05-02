@@ -181,6 +181,9 @@ public class InterviewAction extends ActionSupport{
 		String firstPhoneCallTimeEnd = request.getParameter("firstPhoneCallTimeEnd");
 		map.put("firstPhoneCallTimeEnd", firstPhoneCallTimeEnd);
 		
+		String firstPhoneCallOfficer = request.getParameter("firstPhoneCallOfficer");
+		map.put("firstPhoneCallOfficer", firstPhoneCallOfficer);
+		
 		String firstInterviewTimePeriod = request.getParameter("firstInterviewTimePeriod");
 		map.put("firstInterviewTimePeriod", firstInterviewTimePeriod);
 		
@@ -313,6 +316,8 @@ public class InterviewAction extends ActionSupport{
 		
 		String firstPhoneCallRemark = request.getParameter("firstPhoneCallRemark");
 		
+		String firstPhoneCallOfficer = request.getParameter("firstPhoneCallOfficer");
+		
 		String firstInterviewEmailSendFlag = request.getParameter("firstInterviewEmailSendFlag");
 		
 		String firstInterviewTime = request.getParameter("firstInterviewTime");
@@ -354,6 +359,7 @@ public class InterviewAction extends ActionSupport{
 		interview.setExpectedSalary(expectedSalary);
 		interview.setFirstPhoneCallTime(firstPhoneCallTime);
 		interview.setFirstPhoneCallRemark(firstPhoneCallRemark);
+		interview.setFirstPhoneCallOfficer(firstPhoneCallOfficer);
 		interview.setFirstInterviewEmailSendFlag(firstInterviewEmailSendFlag);
 		interview.setFirstInterviewTime(firstInterviewTime);
 		interview.setFirstInterviewTimePeriod(firstInterviewTimePeriod);
@@ -592,7 +598,10 @@ public class InterviewAction extends ActionSupport{
 		//电话约面试结束日期
 		String firstPhoneCallTimeEnd = request.getParameter("firstPhoneCallTimeEnd");
 		map.put("firstPhoneCallTimeEnd", firstPhoneCallTimeEnd);
-				
+		
+		String firstPhoneCallOfficer = request.getParameter("firstPhoneCallOfficer");
+		map.put("firstPhoneCallOfficer", firstPhoneCallOfficer);
+		
 		String firstInterviewTimePeriod = request.getParameter("firstInterviewTimePeriod");
 		map.put("firstInterviewTimePeriod", firstInterviewTimePeriod);
 		

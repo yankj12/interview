@@ -145,6 +145,7 @@ public class InterviewMongoDaoUtil {
 							|| "email".equals(key) 
 							|| "jobExperienceYear".equals(key)
 							|| "interviewPhase".equals(key)
+							|| "firstPhoneCallOfficer".equals(key)
 							|| "firstInterviewOfficer".equals(key)
 							|| "firstInterviewEmailSendFlag".equals(key)) {
 						bsons.add(Filters.eq(key, value.toString()));
@@ -244,6 +245,7 @@ public class InterviewMongoDaoUtil {
 							|| "email".equals(key) 
 							|| "jobExperienceYear".equals(key)
 							|| "interviewPhase".equals(key)
+							|| "firstPhoneCallOfficer".equals(key)
 							|| "firstInterviewOfficer".equals(key)
 							|| "firstInterviewEmailSendFlag".equals(key)) {
 						bsons.add(Filters.eq(key, value.toString()));

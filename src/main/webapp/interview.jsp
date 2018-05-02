@@ -46,8 +46,9 @@
 				<td>
 					<input name="firstPhoneCallTimeEnd" class="easyui-textbox" data-options="onChange:formatDateTimeStringOnChange"/>
 				</td>
-				<td></td>
+				<td>一面电话邀约人</td>
 				<td>
+					<input name="firstPhoneCallOfficer" class="easyui-textbox"/>
 				</td>
 				<td></td>
 				<td>
@@ -434,15 +435,6 @@
 									}],
 									onChange:updateInterviewEndFlag"/>
 						</td>
-						<td><label></label></td>
-						<td></td>
-					</tr>
-					
-					<tr>
-						<td><label>电话约面试时间</label></td>
-						<td>
-							<input id="firstPhoneCallTime_edit" name="firstPhoneCallTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
-						</td>
 						<td><label>一面邀请邮件</label></td>
 						<td>
 							<input id="firstInterviewEmailSendFlag_edit" name="firstInterviewEmailSendFlag" class="easyui-combobox" 
@@ -463,6 +455,17 @@
 										label: '--',
 										value: ''
 									}]"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td><label>电话约面试时间</label></td>
+						<td>
+							<input id="firstPhoneCallTime_edit" name="firstPhoneCallTime" class="easyui-datetimebox" data-options="formatter:myDateTimeFormatter,parser:myDateTimeParser"/>
+						</td>
+						<td><label>电话邀约人</label></td>
+						<td>
+							<input id="firstPhoneCallOfficer_edit" name="firstPhoneCallOfficer" class="easyui-textbox"/>
 						</td>
 					</tr>
 					<tr>

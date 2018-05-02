@@ -83,6 +83,11 @@ public class Interview implements Serializable{
 	private String firstPhoneCallTime;
 	
 	/**
+	 * 电话邀约者
+	 */
+	private String firstPhoneCallOfficer;
+	
+	/**
 	 * 电话约面试备注
 	 */
 	private String firstPhoneCallRemark;
@@ -376,6 +381,14 @@ public class Interview implements Serializable{
 
 	public void setExpectedSalary(String expectedSalary) {
 		this.expectedSalary = expectedSalary;
+	}
+
+	public String getFirstPhoneCallOfficer() {
+		return firstPhoneCallOfficer;
+	}
+
+	public void setFirstPhoneCallOfficer(String firstPhoneCallOfficer) {
+		this.firstPhoneCallOfficer = firstPhoneCallOfficer;
 	}
 	
 }

@@ -161,6 +161,8 @@ function editRecord(title){
 	        		
 	        		$('#firstPhoneCallRemark_edit').textbox('setValue', interview.firstPhoneCallRemark);
 	        		
+	        		$('#firstPhoneCallOfficer_edit').textbox('setValue', interview.firstPhoneCallOfficer);
+	        		
 	        		$('#firstInterviewEmailSendFlag_edit').combobox('setValue', interview.firstInterviewEmailSendFlag);
 	        		
 	        		$('#firstInterviewTime_edit').datetimebox('setValue', formatDateTimeString(interview.firstInterviewTime));
@@ -239,6 +241,7 @@ function saveRecord(){
 	var interviewPhase = $('#interviewPhase_edit').combobox('getValue');
 	var firstPhoneCallTime = $('#firstPhoneCallTime_edit').datetimebox('getValue');
 	var firstPhoneCallRemark = $('#firstPhoneCallRemark_edit').textbox('getValue');
+	var firstPhoneCallOfficer = $('#firstPhoneCallOfficer_edit').textbox('getValue');
 	var firstInterviewEmailSendFlag = $('#firstInterviewEmailSendFlag_edit').combobox('getValue');
 	var firstInterviewTime = $('#firstInterviewTime_edit').datetimebox('getValue');
 	var firstInterviewTimePeriod = transDateTimeToPerioid(firstInterviewTime);
@@ -274,6 +277,7 @@ function saveRecord(){
 	requestVo.expectedSalary = expectedSalary;
 	requestVo.firstPhoneCallTime = firstPhoneCallTime;
 	requestVo.firstPhoneCallRemark = firstPhoneCallRemark;
+	requestVo.firstPhoneCallOfficer = firstPhoneCallOfficer
 	requestVo.firstInterviewEmailSendFlag = firstInterviewEmailSendFlag;
 	requestVo.firstInterviewTime = firstInterviewTime;
 	requestVo.firstInterviewTimePeriod = firstInterviewTimePeriod;

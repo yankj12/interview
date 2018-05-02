@@ -81,6 +81,11 @@ public class InterviewVo implements Serializable{
 	private String firstPhoneCallRemark;
 	
 	/**
+	 * 电话邀约者
+	 */
+	private String firstPhoneCallOfficer;
+	
+	/**
 	 * 一面邀请邮件是否发送
 	 * 0 还未发送
 	 * 1发送失败
@@ -305,6 +310,14 @@ public class InterviewVo implements Serializable{
 
 	public void setFirstInterviewTimePeriod(String firstInterviewTimePeriod) {
 		this.firstInterviewTimePeriod = firstInterviewTimePeriod;
+	}
+
+	public String getFirstPhoneCallOfficer() {
+		return firstPhoneCallOfficer;
+	}
+
+	public void setFirstPhoneCallOfficer(String firstPhoneCallOfficer) {
+		this.firstPhoneCallOfficer = firstPhoneCallOfficer;
 	}
 	
 }

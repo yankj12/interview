@@ -47,8 +47,10 @@
 				<td>
 					<input name="firstPhoneCallTimeEnd" class="easyui-textbox" data-options="onChange:formatDateTimeStringOnChange"/>
 				</td>
-				<td></td>
+				<td>一面电话邀约人</td>
 				<td>
+					<input name="firstPhoneCallOfficer" class="easyui-textbox"/>
+				</td>
 				</td>
 				<td></td>
 				<td>
