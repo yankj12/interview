@@ -72,6 +72,9 @@
 		<property name="sendInterviewEmailService">
 			<ref local="sendInterviewEmailService" />
 		</property>
+		<property name="userAccessService">
+			<ref local="userAccessService" />
+		</property>
     </bean>
     
     <!-- service -->

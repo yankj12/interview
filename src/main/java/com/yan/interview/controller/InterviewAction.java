@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.yan.access.service.facade.UserAccessService;
+import com.yan.access.vo.ResponseVo;
 import com.yan.access.vo.UserMsgInfo;
 import com.yan.interview.dao.InterviewMongoDaoUtil;
 import com.yan.interview.model.Interview;
@@ -57,6 +60,8 @@ public class InterviewAction extends ActionSupport{
 	private UserMsgInfo userMsgInfo;
 	
 	private InterviewMongoDaoUtil interviewMongoDaoUtil;
+	
+	private UserAccessService userAccessService;
 	
 	/** 
 	 * 发送面试邮件
@@ -127,16 +132,44 @@ public class InterviewAction extends ActionSupport{
 		this.sendInterviewEmailService = sendInterviewEmailService;
 	}
 
+	public UserAccessService getUserAccessService() {
+		return userAccessService;
+	}
+
+	public void setUserAccessService(UserAccessService userAccessService) {
+		this.userAccessService = userAccessService;
+	}
+
 	public String interview(){
 		HttpServletRequest request = ServletActionContext.getRequest();
 		
-		HttpSession httpSession = request.getSession();
 		String sessID = request.getSession().getId();
-		//从session中获取userCode
-		if(httpSession != null){
-			if(httpSession.getAttribute(sessID) != null){
-				userMsgInfo = (UserMsgInfo)httpSession.getAttribute(sessID);
+		// find tickets from cookies
+		String ticket = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+            for (Cookie cookie : cookies) {
+            	String name = cookie.getName();
+            	if("ticket".equals(name)) {
+            		ticket = cookie.getValue();
+            		break;
+            	}
+            }
+        }
+		if(ticket == null || "".equals(ticket)) {
+			ticket = sessID;
+		}
+		
+		// 先检查下session中是否存在tickets
+		ResponseVo responseVo;
+		try {
+			responseVo = userAccessService.getSession(ticket);
+			if(responseVo != null && responseVo.isSuccess()){
+				userMsgInfo = responseVo.getUserMsgInfo();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userMsgInfo = new UserMsgInfo();
 		}
 		
 		return "success";
@@ -567,13 +600,33 @@ public class InterviewAction extends ActionSupport{
     public String interviewsGroupByfirstInterviewTimePeriod(){
 		HttpServletRequest request = ServletActionContext.getRequest();
 		
-		HttpSession httpSession = request.getSession();
 		String sessID = request.getSession().getId();
-		//从session中获取userCode
-		if(httpSession != null){
-			if(httpSession.getAttribute(sessID) != null){
-				userMsgInfo = (UserMsgInfo)httpSession.getAttribute(sessID);
+		// find tickets from cookies
+		String ticket = null;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+            for (Cookie cookie : cookies) {
+            	String name = cookie.getName();
+            	if("ticket".equals(name)) {
+            		ticket = cookie.getValue();
+            		break;
+            	}
+            }
+        }
+		if(ticket == null || "".equals(ticket)) {
+			ticket = sessID;
+		}
+		
+		// 先检查下session中是否存在tickets
+		ResponseVo responseVo;
+		try {
+			responseVo = userAccessService.getSession(ticket);
+			if(responseVo != null && responseVo.isSuccess()){
+				userMsgInfo = responseVo.getUserMsgInfo();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			userMsgInfo = new UserMsgInfo();
 		}
 		
 		return "success";
