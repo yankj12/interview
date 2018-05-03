@@ -22,3 +22,19 @@
 |---|---|---|---|---|
 |sso|单点系统|对多个系统提供公共的登录校验、登录会话管理、用户权限校验功能|目前采用的是Struts2+Spring+Mybatis框架，未来计划改造为SpringCloud微服务|[yankj12/sso branch/ssoweb](https://github.com/yankj12/sso)|
 |interview|面试管理系统|管理面试信息|目前采用的是Struts2+Spring+Mybatis框架，未来计划改造为动静分离+SpringCloud微服务|[yankj12/interview](https://github.com/yankj12/interview)|
+
+***
+
+## 功能设计
+
+### 多Tab页展示面试信息
+- 基本信息可以在一个tab页面
+- 一面信息放在一个tab页
+- 二面信息可以放在一个tab页
+
+这样创建的时候大部分操作在基本信息tab，一面结束后更新一面状态和二面状态，在两个tab页面操作。每次操作每个tab页面字段都不会太多，比较容易找到对应字段。
+
+
+
+
+
