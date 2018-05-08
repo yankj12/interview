@@ -82,6 +82,8 @@ function newRecord(title){
 	// 一面面试官赋默认值 当前登录用户
 	var loginUserName = $("#loginUserName_edit").val();
 	$('#firstInterviewOfficer_edit').textbox('setValue', loginUserName);
+	// 电话邀约人赋默认值 当前登录用户
+	$('#firstPhoneCallOfficer_edit').textbox('setValue', loginUserName);
 	
 	// 给“一面邀请邮件是否发送”字段赋默认值“还未发送”
 	$('#firstInterviewEmailSendFlag_edit').combobox('setValue', '0');

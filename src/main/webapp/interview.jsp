@@ -269,6 +269,11 @@
 	<a href="#" class="easyui-linkbutton" plain="true" onclick="endInterviews()">置为面试结束</a>
 	
 </div>
+
+	<!-- 将登陆人员名称放到 fm 的form外面，因为newRecord方法中会对form进行clear操作 -->
+	<input type="hidden" id="loginUserCode_edit" name="loginUserCode" value="${userMsgInfo.userCode }"/>
+	<input type="hidden" id="loginUserName_edit" name="loginUserName" value="${userMsgInfo.userCName }"/>
+							
 	<!-- 下面dlg是为了有新增用户界面 -->
 	<div id="dlg" class="easyui-dialog" style="width:800px;height:auto;padding:0px 0px"
 			closed="true" buttons="#dlg-buttons">
@@ -279,8 +284,6 @@
 					<tr>
 						<td><label>姓名</label></td>
 						<td>
-							<input type="hidden" id="loginUserCode_edit" name="loginUserCode" value="${userMsgInfo.userCode }"/>
-							<input type="hidden" id="loginUserName_edit" name="loginUserName" value="${userMsgInfo.userCName }"/>
 							
 							<input type="hidden" id="editType_edit" name="editType" value="new"/>
 							<input type="hidden" id="id_edit" name="id" value=""/>
