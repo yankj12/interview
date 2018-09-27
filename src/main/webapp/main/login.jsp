@@ -34,8 +34,9 @@
 	        </form>
 	        <div style="text-align:center;padding:5px 0">
 	            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">登陆</a>
-	            <!-- <a href="javascript:void(0)" class="easyui-linkbutton" onclick="registe()" style="width:80px">注册</a> -->
 	            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">重置</a>
+	            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="registe()" style="width:80px">注册</a>
+	            <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="modifyPassword()" style="width:80px">忘记密码</a>-->
 	        </div>
 	    </div>
 	</div>
@@ -79,7 +80,6 @@
 				</td>
 			</tr>
 			
-			
 			<tr>
 				<td><label>个人备注信息</label></td>
 				<td colspan="3">
@@ -121,15 +121,19 @@
        		var form = document.forms['form'];    //这个提交方式是同步提交的方式，会刷新页面
        		form.submit();
         }
+        
+        // 重置登陆框内容
         function clearForm(){
             $('#ff').form('clear');
             $('#errorMsg').text('');
         }
         
+        // 弹出注册用户的窗口
         function registe(){
         	$('#dlg').dialog('open').dialog('setTitle','注册用户');
         }
         
+        // 提交注册用户的信息
         function submitRegiste(){
         	//先判断登录名不能为空
 			var userCode = $('#user_userCode_edit').textbox('getValue');
@@ -223,6 +227,10 @@
 		       	}
 			});
         	
+        }
+        
+        function modifyPassword(){
+        
         }
         
     </script>
