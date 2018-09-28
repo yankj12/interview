@@ -1,6 +1,7 @@
 package com.yan.access.action;
 
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,17 +9,20 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.yan.access.dao.PassChangeRecordMongoDaoUtil;
 import com.yan.access.dao.UserMongoDaoUtil;
+import com.yan.access.model.PassChangeRecord;
 import com.yan.access.model.User;
 import com.yan.access.service.facade.UserAccessService;
 import com.yan.access.vo.ResponseVo;
 import com.yan.access.vo.UserMsgInfo;
+
+import javassist.expr.NewArray;
 
 public class LoginAction extends ActionSupport{
 
@@ -34,6 +38,8 @@ public class LoginAction extends ActionSupport{
 	private String errorMsg;
 	
 	private UserMongoDaoUtil userMongoDaoUtil;
+	
+	private PassChangeRecordMongoDaoUtil passChangeRecordMongoDaoUtil;
 	
 	private UserAccessService userAccessService;
 	
@@ -295,7 +301,7 @@ public class LoginAction extends ActionSupport{
 					}
 				}else{
 					success = false;
-					errorMsg = "用户名或面不能为空，请进行检查！";
+					errorMsg = "用户名或密码不能为空，请进行检查！";
 				}
 				
 			}else{
@@ -306,7 +312,129 @@ public class LoginAction extends ActionSupport{
 			success = false;
 			errorMsg = e.getLocalizedMessage();
 		}
-		success = true;
+		return "json";
+	}
+	
+	/**
+	 * 忘记密码的时候修改密码
+	 * @return
+	 */
+	public String modifyPassword(){
+		try {
+			HttpServletRequest request = ServletActionContext.getRequest();
+			
+			// 从cookie中获取配置
+			// _pdc
+			// 每次修改限制每个_pdc每天不能修改密码超过5次
+			// 每次修改向表PassChangeRecord中插入一条记录
+			String _pdc = null;
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+	            for (Cookie cookie : cookies) {
+	            	String name = cookie.getName();
+	            	if("_pdc".equals(name)) {
+	            		_pdc = cookie.getValue();
+	            		break;
+	            	}
+	            }
+	        }
+			if(_pdc == null || "".equals(_pdc)) {
+				// 缺少参数，重新请求
+				success = false;
+				errorMsg = "出现异常，请重新操作";
+				return "json";
+			}else{
+				// 查询下_pdc 今日修改密码次数是否超过5次，超过5次不允许修改密码
+				Map<String, Object> condition = new HashMap<String, Object>();
+				condition.put("pdc", _pdc);
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.add(Calendar.DATE, -1);
+				Date yesterday = calendar.getTime();
+				
+				Date now = new Date();
+				
+				condition.put("beginTime", yesterday);
+				condition.put("endTime", now);
+				
+				long passChangeCountToday = passChangeRecordMongoDaoUtil.countPassChangeRecordVoDocumentsByCondition(condition);
+				
+				if(passChangeCountToday >= 5){
+					// 提示今天修改密码次数已经达到5次，不允许再次修改
+					success = false;
+					errorMsg = "今天修改密码次数已经达到5次，不允许再次修改";
+					return "json";
+				}
+				
+			}
+			
+			if(user != null){
+				if(user.getUserCode() != null && !"".equals(user.getUserCode().trim())
+						&& user.getEmail() != null && !"".equals(user.getEmail().trim())
+						&& user.getPswd() != null && !"".equals(user.getPswd().trim())){
+					
+					// 查询下用户名和邮箱是否可以查询到对应用户记录
+					// 查询不到，提示错误信息
+					// 查询到了，再修改密码
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("userCode", user.getUserCode());
+					map.put("email", user.getEmail());
+					List<User> userTmps = userMongoDaoUtil.findUserDocumentsByCondition(map);
+					
+					User userTmp = null;
+					if(userTmps != null && userTmps.size() > 0){
+						userTmp = userTmps.get(0);
+					}
+					
+					if(userTmp != null){
+						String id = userTmp.getId();
+						
+						//将用户的密码进行MD5再进行保存
+						String passwordMD5 = DigestUtils.md5Hex(user.getPswd().trim());
+						
+						Map<String, Object> multiFieldMap = new HashMap<String, Object>();
+						multiFieldMap.put("pswd", passwordMD5);
+						multiFieldMap.put("updateTime", new Date());
+						
+						userMongoDaoUtil.updateUserMultiFieldsById(id, multiFieldMap);
+						
+						success = true;
+						errorMsg = "用户[" + userTmp.getUserCode() + "]密码修改成功";
+						
+					}else{
+						success = false;
+						errorMsg = "用户名和邮箱不匹配，不允许修改密码！";
+					}
+				}else{
+					success = false;
+					errorMsg = "用户名、邮箱或密码不能为空，请进行检查！";
+				}
+				
+			}else{
+				success = false;
+				errorMsg = "录入参数不足，请进行检查！";
+			}
+			
+			// 不管修改密码是否成功，只要尝试修改密码
+			// 都向Record表插入一条记录
+			PassChangeRecord passChangeRecord = new PassChangeRecord();
+			passChangeRecord.setEmail(user.getEmail());
+			passChangeRecord.setUserCode(user.getUserCode());
+			passChangeRecord.setPdc(_pdc);
+			passChangeRecord.setType("forgetPass");
+			// 将错误信息写入remark
+			passChangeRecord.setRemark(errorMsg);
+			
+			passChangeRecord.setInsertTime(new Date());
+			passChangeRecord.setUpdateTime(new Date());
+			
+			passChangeRecordMongoDaoUtil.insertPassChangeRecord(passChangeRecord);
+			
+		} catch (Exception e) {
+			success = false;
+			errorMsg = e.getLocalizedMessage();
+		}
 		return "json";
 	}
 	
@@ -372,6 +500,14 @@ public class LoginAction extends ActionSupport{
 
 	public void setUserAccessService(UserAccessService userAccessService) {
 		this.userAccessService = userAccessService;
+	}
+
+	public PassChangeRecordMongoDaoUtil getPassChangeRecordMongoDaoUtil() {
+		return passChangeRecordMongoDaoUtil;
+	}
+
+	public void setPassChangeRecordMongoDaoUtil(PassChangeRecordMongoDaoUtil passChangeRecordMongoDaoUtil) {
+		this.passChangeRecordMongoDaoUtil = passChangeRecordMongoDaoUtil;
 	}
 	
 }

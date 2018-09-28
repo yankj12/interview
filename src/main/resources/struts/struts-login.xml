@@ -35,8 +35,12 @@
 			method="checkUserUnique">
 		</action>
 		
-		<action name="registeUser" class="com.yan.access.action.LoginAction"
+		<action name="registeUser" class="loginAction"
 			method="registeUser">
+		</action>
+		
+		<action name="modifyPassword" class="loginAction"
+			method="modifyPassword">
 		</action>
 		
 	</package>

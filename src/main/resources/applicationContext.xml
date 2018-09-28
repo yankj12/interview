@@ -56,6 +56,9 @@
 		<property name="userAccessService">
 			<ref local="userAccessService" />
 		</property>
+		<property name="passChangeRecordMongoDaoUtil">
+			<ref local="passChangeRecordMongoDaoUtil" />
+		</property>
     </bean>
     
     <bean id="menuAction" class="com.yan.access.action.MenuAction">
@@ -79,6 +82,12 @@
     
     <!-- service -->
     <bean id="userMongoDaoUtil" class="com.yan.access.dao.UserMongoDaoUtil">
+    	<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+    </bean>
+    
+    <bean id="passChangeRecordMongoDaoUtil" class="com.yan.access.dao.PassChangeRecordMongoDaoUtil">
     	<property name="dataSource">
 			<ref local="dataSource" />
 		</property>

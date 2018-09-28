@@ -15,6 +15,8 @@
         }
     </style>
     <script type="text/javascript" src="${ctx }/main/js/md5.js"></script>
+    <script type="text/javascript" src="${ctx }/jquery/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    
 </head>
 <body>
 	<!-- 这个id为center的div是为了将登陆输入框居中显示 -->
@@ -34,15 +36,15 @@
 	        </form>
 	        <div style="text-align:center;padding:5px 0">
 	            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">登陆</a>
-	            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">重置</a>
+	            <!-- <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">重置</a>-->
 	            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="registe()" style="width:80px">注册</a>
-	            <!--<a href="javascript:void(0)" class="easyui-linkbutton" onclick="modifyPassword()" style="width:80px">忘记密码</a>-->
+	            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="modifyPassword()" style="width:80px">忘记密码</a>
 	        </div>
 	    </div>
 	</div>
 
 	<!-- 下面dlg是为了有注册用户界面 -->
-	<div id="dlg" class="easyui-dialog" style="width:700px;height:auto;padding:10px 20px"
+	<div id="dlg" class="easyui-dialog" style="width:550px;height:auto;padding:10px 20px"
 			closed="true" buttons="#dlg-buttons">
 		<form id="fm" method="post" novalidate>
 		<table cellpadding="5">
@@ -85,22 +87,91 @@
 					<input id="user_remark_edit" name="user.remark" class="easyui-textbox" style="width:100%"/>
 				</td>
 			</tr>
-		</table>	
+		</table>
 		</form>
 	</div>
 	<!-- 下面dlg-buttons是为了让新增用户页面有保存和取消按钮 -->
 	<div id="dlg-buttons">
-		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="submitRegiste()" style="width:90px">Save</a>
-		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="submitRegiste()" style="width:90px">确定</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+	</div>
+
+	<!-- 下面dlg1是修改密码界面 -->
+	<div id="dlg1" class="easyui-dialog" style="width:300px;height:auto;padding:10px 20px"
+			closed="true" buttons="#dlg-buttons1">
+		<form id="fm1" method="post" novalidate>
+		<table cellpadding="5">
+			<tr>
+				<td><label>账号</label></td>
+				<td colspan="3">
+					<input id="user_userCode_edit1" name="user.userCode" class="easyui-textbox" style="width:100%"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td><label>邮箱</label></td>
+				<td colspan="3">
+					<input id="user_email_edit1" name="user.email" class="easyui-textbox" style="width:100%"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td><label>请输入密码</label></td>
+				<td colspan="3">
+					<input type="hidden" id="user_pwd_edit" name="user.pswd" />
+					<input id="user_pwd1" class="easyui-passwordbox" prompt="请输入密码" iconWidth="28" style="width:100%;padding:10px" data-options="required:true">
+				</td>
+			</tr>
+			
+		</table>
+		</form>
+	</div>
+	<!-- 下面dlg-buttons是为了让修改密码页面有保存和取消按钮 -->
+	<div id="dlg-buttons1">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="submitModifyPassword()" style="width:90px">确定</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg1').dialog('close')" style="width:90px">取消</a>
 	</div>
 	
     <script>
+    	/**
+    	* 生成随机字符串
+    	* len 长度
+    	* radix 基数
+    	*/
+		function uuid(len, radix) {
+			var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+			var uuid = [], i;
+			radix = radix || chars.length;
+			
+			if (len) {
+				// Compact form
+				for (i = 0; i < len; i++) 
+					uuid[i] = chars[0 | Math.random()*radix];    
+			} else {
+				// rfc4122, version 4 form      
+				var r;       
+				// rfc4122 requires these characters      
+				uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';      
+				uuid[14] = '4';       
+				// Fill in random data.  At i==19 set the high bits of clock sequence as      
+				// per rfc4122, sec. 4.1.5      
+				for (i = 0; i < 36; i++) {        
+					if (!uuid[i]) {          
+						r = 0 | Math.random()*16;          
+						uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];        
+					}      
+				}    
+			}     
+			return uuid.join('');
+		}
+
+
         function submitForm(){
             var userCode = $('#userCode').textbox('getValue');
        		var pwd = $('#password').textbox('getValue');
        		
        		if(userCode == null || userCode == ''){
-       			$.messager.alert('提示', '用户名不能为空!');
+       			$.messager.alert('提示', '账号不能为空!');
        			return false;
        		}
        		
@@ -141,7 +212,7 @@
 			var userCode = $('#user_userCode_edit').textbox('getValue');
         	
         	if(userCode == null || userCode == ''){
-        		$.messager.alert('提示', '登录名不能为空!');
+        		$.messager.alert('提示', '账号不能为空!');
        			return false;
        		}
         	
@@ -149,7 +220,7 @@
 			var userName = $('#user_userName_edit').textbox('getValue');
         	
         	if(userName == null || userName == ''){
-        		$.messager.alert('提示', '用户名不能为空!');
+        		$.messager.alert('提示', '中文名不能为空!');
        			return false;
        		}
         	
@@ -231,8 +302,85 @@
         	
         }
         
+        // 弹出修改密码的窗口
         function modifyPassword(){
+        	
+        	// 弹出修改密码的窗口
+        	// 先清空注册用户表单中的旧数据
+         	$('#fm1').form('clear');
+         	// 弹出注册用户窗口
+        	$('#dlg1').dialog('open').dialog('setTitle','修改密码');
+        	
+        }
         
+        // 提交修改密码的请求
+        function submitModifyPassword(){
+        	//先判断登录名不能为空
+			var userCode = $('#user_userCode_edit1').textbox('getValue');
+        	
+        	if(userCode == null || userCode == ''){
+        		$.messager.alert('提示', '账号不能为空!');
+       			return false;
+       		}
+        	
+        	//判断邮箱不能为空
+        	var email = $('#user_email_edit1').textbox('getValue');
+        	
+        	if(email == null || email == ''){
+        		$.messager.alert('提示', '邮箱不能为空!');
+       			return false;
+       		}
+        	
+        	//校验密码和重复出入的密码是否为空
+        	var password = $('#user_pwd1').textbox('getValue');
+        	
+        	if(password == null || password == ''){
+        		$.messager.alert('提示', '密码不能为空!');
+       			return false;
+       		}
+       		password = hex_md5(password);
+        	
+        	// 判断cookie
+        	// 提交时
+        	// 读取cookie，key是_pdc值是时间戳。 如果cookie不存在则创建，存在不创建新的cookie
+        	var pdc = $.cookie("_pdc");
+        	if(pdc == null || pdc == ''){
+        		// 获取时间戳
+	        	var date = new Date();
+	       		var y = date.getFullYear();
+				var m = date.getMonth()+1;
+				var d = date.getDate();
+				var h = date.getHours();
+				var mi = date.getMinutes();
+				var s = date.getSeconds();
+				var datetime =  '' + y + (m<10?('0'+m):m) + (d<10?('0'+d):d) + (h<10?('0'+h):h) + (mi<10?('0'+mi):mi) + (s<10?('0'+s):s);
+        		// 生成随机字符串
+        		var randomstr = uuid(16, 16);
+        		pdc = datetime + randomstr;
+        		// 写入cookie
+        		$.cookie("_pdc", pdc ,{path:"/"});
+        	}
+        	
+        	$.ajax({
+		        type:"GET", 
+		        url: contextRootPath + "/login/modifyPassword.do?user.userCode=" + userCode + '&user.email=' + email + '&user.pswd=' + password,
+		        dataType:"json", 
+		        contentType: "text/html;charset=UTF-8", 
+		        success:function(result){
+		        	if (result.success){
+		        		$.messager.alert('提示',result.errorMsg);
+		        		$('#dlg1').dialog('close');
+		        		// 清空注册用户表单中的旧数据
+         				$('#fm1').form('clear');
+		        	}else{
+		        		$.messager.alert('提示',result.errorMsg);
+		        	}
+		        },
+		       	failure:function (result) {  
+		       		//(提示框标题，提示信息)
+		    		$.messager.alert('提示',result.errorMsg);
+		       	}
+			});
         }
         
     </script>

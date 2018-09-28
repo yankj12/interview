@@ -17,11 +17,11 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import com.yan.access.model.User;
+import com.yan.access.model.PassChangeRecord;
 import com.yan.common.mongodb.MongoDBConfig;
 import com.yan.common.util.SchameDocumentUtil;
 
-public class UserMongoDaoUtil {
+public class PassChangeRecordMongoDaoUtil {
 	
 	private MongoDBConfig dataSource;
 	
@@ -33,7 +33,7 @@ public class UserMongoDaoUtil {
 		this.dataSource = dataSource;
 	}
 
-	public String insertUser(User user){
+	public String insertPassChangeRecord(PassChangeRecord passChangeRecord){
 
 		//To connect to a single MongoDB instance:
 	    //You can explicitly specify the hostname and the port:
@@ -44,10 +44,10 @@ public class UserMongoDaoUtil {
 		MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 		
 		//Access a Collection
-		MongoCollection<Document> collection = database.getCollection("User");
+		MongoCollection<Document> collection = database.getCollection("PassChangeRecord");
 		
 		//Create a Document
-		Document doc = SchameDocumentUtil.schameToDocument(user, User.class);
+		Document doc = SchameDocumentUtil.schameToDocument(passChangeRecord, PassChangeRecord.class);
 
 		//Insert a Document
 		collection.insertOne(doc);
@@ -61,8 +61,8 @@ public class UserMongoDaoUtil {
 		return id;
 	}
 	
-	public List<User> findUserDocumentsByCondition(Map<String, Object> condition){
-		List<User> users = null;
+	public List<PassChangeRecord> findPassChangeRecordDocumentsByCondition(Map<String, Object> condition){
+		List<PassChangeRecord> passChangeRecords = null;
 		
 		if(condition != null && condition.size() > 0) {
 			
@@ -75,7 +75,7 @@ public class UserMongoDaoUtil {
 			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 			
 			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("User");
+			MongoCollection<Document> collection = database.getCollection("PassChangeRecord");
 			
 			List<Bson> bsons = new ArrayList<Bson>(0);
 			
@@ -97,6 +97,10 @@ public class UserMongoDaoUtil {
 						page = Integer.parseInt(value.toString());
 					}else if ("rows".equals(key)) {
 						rows = Integer.parseInt(value.toString());
+					}else if ("beginTime".equals(key)) {
+						bsons.add(Filters.gte("updateTime", value));
+					}else if ("endTime".equals(key)) {
+						bsons.add(Filters.lte("updateTime", value));
 					}else {
 						bsons.add(Filters.eq(key, value.toString()));
 					}
@@ -113,30 +117,30 @@ public class UserMongoDaoUtil {
 			//如果要在find中传入bson数组，那么bson数组必须不能为空
 			List<Document> docs = null;
 			if(bsons != null && bsons.size() > 0){
-				docs = collection.find(Filters.and(bsons)).limit(limit).skip(skip).sort(new Document("day", -1)).into(new ArrayList<Document>());
+				docs = collection.find(Filters.and(bsons)).limit(limit).skip(skip).sort(new Document("updateTime", -1)).into(new ArrayList<Document>());
 			}else{
-				docs = collection.find().limit(limit).skip(skip).sort(new Document("day", -1)).into(new ArrayList<Document>());
+				docs = collection.find().limit(limit).skip(skip).sort(new Document("updateTime", -1)).into(new ArrayList<Document>());
 			}
 			
 			if(docs != null){
-				users = new ArrayList<User>();
+				passChangeRecords = new ArrayList<PassChangeRecord>();
 				
 				for(Document doc : docs){
-					User user = new User();
+					PassChangeRecord passChangeRecord = new PassChangeRecord();
 					//将document转换为interview
 					//System.out.println(doc.get("_id"));
-					user = (User)SchameDocumentUtil.documentToSchame(doc, User.class);
+					passChangeRecord = (PassChangeRecord)SchameDocumentUtil.documentToSchame(doc, PassChangeRecord.class);
 					
-					users.add(user);
+					passChangeRecords.add(passChangeRecord);
 				}
 			}
 			mongoClient.close();
 		}
 		
-		return users;
+		return passChangeRecords;
 	}
 	
-	public Long countUserVoDocumentsByCondition(Map<String, Object> condition){
+	public Long countPassChangeRecordVoDocumentsByCondition(Map<String, Object> condition){
 		long count = 0L;
 		
 		if(condition != null && condition.size() > 0) {
@@ -150,7 +154,7 @@ public class UserMongoDaoUtil {
 			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 			
 			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("User");
+			MongoCollection<Document> collection = database.getCollection("PassChangeRecord");
 			
 			List<Bson> bsons = new ArrayList<Bson>(0);
 			
@@ -165,6 +169,10 @@ public class UserMongoDaoUtil {
 						bsons.add(Filters.eq("_id", new ObjectId(value.toString())));
 					}else if ("page".equals(key) || "rows".equals(key)) {
 						//这两个参数是分页参数，在分页查询数据时会用到，但是在查询总条数的时候并不会用到，但是也不能拼接到查询语句中
+					}else if ("beginTime".equals(key)) {
+						bsons.add(Filters.gte("updateTime", value));
+					}else if ("endTime".equals(key)) {
+						bsons.add(Filters.lte("updateTime", value));
 					}else {
 						bsons.add(Filters.eq(key, value.toString()));
 					}
@@ -184,7 +192,7 @@ public class UserMongoDaoUtil {
 		return count;
 	}
 	
-	public void updateUserMultiFieldsById(String id, Map<String, Object> map){
+	public void updatePassChangeRecordMultiFieldsById(String id, Map<String, Object> map){
 		
 		if(map != null && map.size() > 0) {
 			//To connect to a single MongoDB instance:
@@ -196,7 +204,7 @@ public class UserMongoDaoUtil {
 			MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
 			
 			//Access a Collection
-			MongoCollection<Document> collection = database.getCollection("User");
+			MongoCollection<Document> collection = database.getCollection("PassChangeRecord");
 			
 			//Create a Document
 			Document doc = new Document();
