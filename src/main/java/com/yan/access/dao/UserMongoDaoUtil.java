@@ -33,6 +33,34 @@ public class UserMongoDaoUtil {
 		this.dataSource = dataSource;
 	}
 
+	public String insertUser(User user){
+
+		//To connect to a single MongoDB instance:
+	    //You can explicitly specify the hostname and the port:
+		MongoCredential credential = MongoCredential.createCredential(dataSource.getUser(), dataSource.getDbUserDefined(), dataSource.getPassword().toCharArray());
+		MongoClient mongoClient = new MongoClient(new ServerAddress(dataSource.getIp(), dataSource.getPort()),
+		                                         Arrays.asList(credential));
+		//Access a Database
+		MongoDatabase database = mongoClient.getDatabase(dataSource.getDatabase());
+		
+		//Access a Collection
+		MongoCollection<Document> collection = database.getCollection("User");
+		
+		//Create a Document
+		Document doc = SchameDocumentUtil.schameToDocument(user, User.class);
+
+		//Insert a Document
+		collection.insertOne(doc);
+		
+		//System.out.println("id:" + doc.get("_id"));
+		String id = null;
+		if(doc.get("_id") != null){
+			id = doc.get("_id").toString();
+		}
+		mongoClient.close();
+		return id;
+	}
+	
 	public List<User> findUserDocumentsByCondition(Map<String, Object> condition){
 		List<User> users = null;
 		

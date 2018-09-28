@@ -44,15 +44,14 @@
 	<!-- 下面dlg是为了有注册用户界面 -->
 	<div id="dlg" class="easyui-dialog" style="width:700px;height:auto;padding:10px 20px"
 			closed="true" buttons="#dlg-buttons">
-		<div class="ftitle">清单项信息</div>
 		<form id="fm" method="post" novalidate>
 		<table cellpadding="5">
 			<tr>
-				<td><label>登录名</label></td>
+				<td><label>账号</label></td>
 				<td>
 					<input id="user_userCode_edit" name="user.userCode" class="easyui-textbox"/>
 				</td>
-				<td><label>用户名</label></td>
+				<td><label>中文名</label></td>
 				<td>
 					<input id="user_userName_edit" name="user.userName" class="easyui-textbox"/>
 				</td>
@@ -130,6 +129,9 @@
         
         // 弹出注册用户的窗口
         function registe(){
+         	// 先清空注册用户表单中的旧数据
+         	$('#fm').form('clear');
+         	// 弹出注册用户窗口
         	$('#dlg').dialog('open').dialog('setTitle','注册用户');
         }
         
@@ -186,7 +188,7 @@
         	
         	$.ajax({
 		        type:"GET", 
-		        url: contextRootPath + "/login/checkUserUnique?user.userCode=" + userCode + '&user.email=' + email,
+		        url: contextRootPath + "/login/checkUserUnique.do?user.userCode=" + userCode + '&user.email=' + email,
 		        dataType:"json", 
 		        contentType: "text/html;charset=UTF-8", 
 		        success:function(result){
@@ -194,7 +196,7 @@
 		        		
 		        		//提交
 		        		$('#fm').form('submit',{
-							url: contextRootPath + '/login/registeUser',
+							url: contextRootPath + '/login/registeUser.do',
 							onSubmit: function(){
 								return $(this).form('validate');
 							},

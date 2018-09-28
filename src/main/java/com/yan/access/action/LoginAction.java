@@ -1,7 +1,9 @@
 package com.yan.access.action;
 
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -228,28 +230,35 @@ public class LoginAction extends ActionSupport{
 		return "json";
 	}
 	
-//	/**
-//	 * 注册用户的方法
-//	 * 这个方法放在这里，是因为namespace为login的才能免登陆，其他的都要经过单点过滤器
-//	 * @return
-//	 */
-//	public String registeUser(){
-//		try {
-//			
-//			UserDaoService userDaoService = new UserDaoServiceImpl();
-//				
-//			if(user != null){
-//				if(user.getUserCode() != null && !"".equals(user.getUserCode().trim())
-//						&& user.getPswd() != null && !"".equals(user.getPswd().trim())){
-//					User userTmp = userDaoService.getUserByPK(user);
-//					if(userTmp == null){
-//						//将用户的密码进行MD5再进行保存
-//						String passwordMD5 = DigestUtils.md5Hex(user.getPswd().trim());
-//						user.setPswd(passwordMD5);
-//						
-//						//新增时，设置审批状态
-//						//如果新增的是admin，那么自动审批通过。
-//						//但是只有这么一个用户在注册的时候可以自动审批通过，其他的用户在注册的时候必须经过审批
+	/**
+	 * 注册用户的方法
+	 * 这个方法放在这里，是因为namespace为login的才能免登陆，其他的都要经过单点过滤器
+	 * @return
+	 */
+	public String registeUser(){
+		try {
+			
+			if(user != null){
+				if(user.getUserCode() != null && !"".equals(user.getUserCode().trim())
+						&& user.getPswd() != null && !"".equals(user.getPswd().trim())){
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("userCode", user.getUserCode());
+					List<User> userTmps = userMongoDaoUtil.findUserDocumentsByCondition(map);
+					
+					User userTmp = null;
+					if(userTmps != null && userTmps.size() > 0){
+						userTmp = userTmps.get(0);
+					}
+					
+					if(userTmp == null){
+						//将用户的密码进行MD5再进行保存
+						String passwordMD5 = DigestUtils.md5Hex(user.getPswd().trim());
+						user.setPswd(passwordMD5);
+						
+						//新增时，设置审批状态
+						//如果新增的是admin，那么自动审批通过。
+						//但是只有这么一个用户在注册的时候可以自动审批通过，其他的用户在注册的时候必须经过审批
 //						if("admin".equals(user.getUserCode().trim())){
 //							//如果是管理岗，自动审批通过
 //							user.setAuditStatus("2");    //自动审批通过
@@ -259,40 +268,47 @@ public class LoginAction extends ActionSupport{
 //							user.setAuditStatus("1");    //待审批
 //							user.setAuditOpinion("注册用户，进入待审批状态");
 //						}
-//						
-//						//新增时设置有效状态为有效
-//						user.setValidStatus("1");
-//						String userCode = userDaoService.insertUser(user);
-//						success = true;
-//						errorMsg = "用户已经生成！用户编码[" + userCode + "]";
-//						
-//						if("1".equals(user.getAuditStatus().trim())){
-//							errorMsg += "，用户处于待审批状态，请等待管理员审批，才能正常使用。";
-//						}else if("2".equals(user.getAuditStatus().trim())){
-//							errorMsg += "，用户审批通过，可以正常使用。";
-//						}
-//						
-//					}else{
-//						String userCode = userTmp.getUserCode();
-//						success = false;
-//						errorMsg = "用户已经存在！用户编码[" + userCode + "]，不允许重复新增！";
-//					}
-//				}else{
-//					success = false;
-//					errorMsg = "用户名或面不能为空，请进行检查！";
-//				}
-//				
-//			}else{
-//				success = false;
-//				errorMsg = "录入参数不足，请进行检查！";
-//			}
-//		} catch (Exception e) {
-//			success = false;
-//			errorMsg = e.getLocalizedMessage();
-//		}
-//		success = true;
-//		return "json";
-//	}
+						
+						// 现在不做审批，自动审批通过
+						user.setAuditStatus("2");    //自动审批通过
+						user.setAuditOpinion("注册admin用户，自动审批通过");
+						
+						//新增时设置有效状态为有效
+						user.setValidStatus("1");
+						user.setInsertTime(new Date());
+						user.setUpdateTime(new Date());
+						
+						String id = userMongoDaoUtil.insertUser(user);
+						success = true;
+						errorMsg = "用户已经生成！用户编码[" + user.getUserCode() + "]";
+						
+						if("1".equals(user.getAuditStatus().trim())){
+							errorMsg += "，用户处于待审批状态，请等待管理员审批，才能正常使用。";
+						}else if("2".equals(user.getAuditStatus().trim())){
+							errorMsg += "，用户审批通过，可以正常使用。";
+						}
+						
+					}else{
+						String userCode = userTmp.getUserCode();
+						success = false;
+						errorMsg = "用户已经存在！用户编码[" + userCode + "]，不允许重复新增！";
+					}
+				}else{
+					success = false;
+					errorMsg = "用户名或面不能为空，请进行检查！";
+				}
+				
+			}else{
+				success = false;
+				errorMsg = "录入参数不足，请进行检查！";
+			}
+		} catch (Exception e) {
+			success = false;
+			errorMsg = e.getLocalizedMessage();
+		}
+		success = true;
+		return "json";
+	}
 	
 	public String getUserCode() {
 		return userCode;

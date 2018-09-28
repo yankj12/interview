@@ -64,25 +64,26 @@ public class LoginFilter implements Filter{
         // 登陆页面无需过滤
         if(uri.indexOf("/login/") > -1) {
         	isInIgnoreList = true;
-        }
-        //判断一下是否是无需过滤的页面
-        for(int i = 0; i < ignoreKeyCount; i++){
-        	//
-            if(ignoreKeys[i].endsWith("/")){
-            	//以/结尾，认为是一个文件夹或者路径前缀，所以要判断是否包含
-            	if(!uri.toUpperCase().startsWith(ignoreKeys[i].toUpperCase())){
-            		continue;
-            	}
-            }else{
-            	//不是以/结尾，认为是特定的一个url，所以要判断url是否相等
-            	if(!ignoreKeys[i].equalsIgnoreCase(uri)){
-            		continue;
-            	}
-            }
-        	
-            //走到这一步说明uri是在忽略的列表中的
-            isInIgnoreList = true;
-            break;
+        }else{
+        	//判断一下是否是无需过滤的页面
+        	for(int i = 0; i < ignoreKeyCount; i++){
+        		//
+        		if(ignoreKeys[i].endsWith("/")){
+        			//以/结尾，认为是一个文件夹或者路径前缀，所以要判断是否包含
+        			if(!uri.toUpperCase().startsWith(ignoreKeys[i].toUpperCase())){
+        				continue;
+        			}
+        		}else{
+        			//不是以/结尾，认为是特定的一个url，所以要判断url是否相等
+        			if(!ignoreKeys[i].equalsIgnoreCase(uri)){
+        				continue;
+        			}
+        		}
+        		
+        		//走到这一步说明uri是在忽略的列表中的
+        		isInIgnoreList = true;
+        		break;
+        	}
         }
 		
 		if(isInIgnoreList){
