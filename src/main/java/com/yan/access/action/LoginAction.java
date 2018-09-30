@@ -323,6 +323,8 @@ public class LoginAction extends ActionSupport{
 		try {
 			HttpServletRequest request = ServletActionContext.getRequest();
 			
+			String userIp = request.getRemoteAddr();
+			
 			// 从cookie中获取配置
 			// _pdc
 			// 每次修改限制每个_pdc每天不能修改密码超过5次
@@ -422,6 +424,9 @@ public class LoginAction extends ActionSupport{
 			passChangeRecord.setEmail(user.getEmail());
 			passChangeRecord.setUserCode(user.getUserCode());
 			passChangeRecord.setPdc(_pdc);
+			
+			passChangeRecord.setUserIp(userIp);
+			
 			passChangeRecord.setType("forgetPass");
 			// 将错误信息写入remark
 			passChangeRecord.setRemark(errorMsg);

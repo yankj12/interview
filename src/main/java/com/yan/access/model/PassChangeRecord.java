@@ -19,6 +19,8 @@ public class PassChangeRecord implements Serializable{
 	// 记录吸怪密码时的email
 	private String email;
 	
+	private String userIp;
+	
 	private String remark;
 	
     private Date insertTime;
@@ -80,4 +82,13 @@ public class PassChangeRecord implements Serializable{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	public String getUserIp() {
+		return userIp;
+	}
+
+	public void setUserIp(String userIp) {
+		this.userIp = userIp;
+	}
+
 }
